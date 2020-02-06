@@ -21,7 +21,7 @@ class ReportController {
 
             if($affectedComment === false)
             {
-                throw new Exception('Action impossible');
+                throw new Exception('L\'action impossible');
             }
             else 
             {

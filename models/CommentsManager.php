@@ -15,6 +15,7 @@ class CommentsManager extends Manager {
         return $this->insertComment($this->commentTable, $postId, $author, $comment);
     }
 
+    // signale un commentaire
     public function reportOneComment($id) {
         return $this->reportComment($this->commentTable, $id);
     }

@@ -86,5 +86,4 @@ class Comment {
     public function report() {
         return $this->_report;
     }
-
 }

@@ -216,7 +216,7 @@ abstract class Manager {
         $this->getBdd();
         $var = [];
         $req = self::$_bdd->query(
-            "SELECT $table1.id, post_id, author, comment, report,
+            "SELECT $table1.id, post_id, author, comment, report, 
             DATE_FORMAT($table1.creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr
             FROM $table1 LEFT JOIN $table2 
             ON $table1.post_id=$table2.id

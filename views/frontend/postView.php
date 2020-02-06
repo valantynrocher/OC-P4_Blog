@@ -1,11 +1,11 @@
 
-	
 	<!-- slider -->
     <div class="chapter-header">
 		<div class="display-table  center-text">
 			<h1 class="title display-table-cell"><b><?= $post[0]->name() ?></b></h1>
 		</div>
 	</div>
+
 	<div class="main">
 		<!-- post-area -->
 		<section class="post-area section">
@@ -18,7 +18,7 @@
 						<!-- main-post -->
 						<div class="main-post">
 
-		 					<div class="blog-post-inner">
+							<div class="blog-post-inner">
 
 								<!-- post-info -->
 								<div class="post-info">
@@ -141,17 +141,16 @@
 										<p><?= $comment->comment()?></p>
 									</div>
 									<div class="comment-report">
-									<?php if ($comment->report() === 0): ?>
-										<div class="comment-report__link">
-											<a href="report&id=<?= $comment->id() ?>&postId=<?=$post[0]->id() ?>" onclick="return confirm('Le signalement de commentaire permet de faire remonter à l\'administrateur des commentaires dont le contenu semble irrespectueux, outrancier, diffamatoire, etc. Êtes-vous certain de vouloir signaler ce commentaire ?')"><span class="fas fa-exclamation"></span> Signaler ce commentaire</a>
-										</div>
-									<?php elseif ($comment->report() === 1): ?>
-										<div class="comment-report__link alert alert-danger" role="alert">
-											Ce commentaire a été signalé et sera modéré par l'administrateur de ce blog.
-										</div>
-									<?php endif ?>
-									</div>
-
+										<?php if ($comment->report() === 0): ?>
+											<div class="comment-report__link">
+												<a href="report&id=<?= $comment->id() ?>&postId=<?=$post[0]->id() ?>" onclick="return confirm('Le signalement de commentaire permet de faire remonter à l\'administrateur des commentaires dont le contenu semble irrespectueux, outrancier, diffamatoire, etc. Êtes-vous certain de vouloir signaler ce commentaire ?')"><span class="fas fa-exclamation"></span> Signaler ce commentaire</a>
+											</div>
+										<?php elseif ($comment->report() === 1): ?>
+											<div class="comment-report__link alert alert-danger" role="alert">
+												Ce commentaire a été signalé et sera modéré par l'administrateur de ce blog.
+											</div>
+										<?php endif ?>
+ 									</div>
 								</div>
 						</div><!-- comments-area -->
 
