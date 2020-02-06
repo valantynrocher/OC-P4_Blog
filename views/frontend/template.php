@@ -11,6 +11,7 @@
 
 		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 
+		<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
 
 		<!-- Stylesheets -->
 		<link href="public/css/bootstrap.css" rel="stylesheet">
