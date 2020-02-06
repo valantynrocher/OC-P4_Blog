@@ -7,6 +7,7 @@ class Comment {
     private $_author;
     private $_comment;
     private $_creation_date_fr;
+    private $_report;
 
     public function __construct(array $data) {
         $this->hydrate($data);
@@ -54,6 +55,13 @@ class Comment {
         $this->_creation_date_fr = $creation_date_fr;
     }
 
+    public function setReport($report) {
+        $report = (int) $report;
+        if ($report === 0 || $report === 1) {
+            $this->_report = $report;
+        }
+    }
+
     // getters
     public function id() {
         return $this->_id;
@@ -73,6 +81,10 @@ class Comment {
 
     public function creation_date_fr() {
         return $this->_creation_date_fr;
+    }
+
+    public function report() {
+        return $this->_report;
     }
 
 }
