@@ -451,6 +451,23 @@ POST COMMENT
 	font-size: 12px;
 }
 
+.comment-report__link a {
+	color: #ED254E;
+	text-decoration: underline;
+}
+
+.comment-report__link a:hover {
+	font-weight: bold;
+}
+
+.comment-report__link span {
+	padding: 8px 11.75px;
+	margin-right: 5px;
+	background-color: #ED254E;
+	color: #FFF;
+	border-radius: 50%;
+}
+
 .more-comment-btn{ display: block; margin-bottom: 30px; padding: 10px; text-align: center; 
 	box-shadow: 0px 0px 5px rgba(0,0,0,.1); border: 1px solid #fff; background: #fff; color: #555; }
 
