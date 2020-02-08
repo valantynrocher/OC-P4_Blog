@@ -4,7 +4,7 @@ require_once 'views/frontend/View.php';
 class HomeController {
     private $_postsManager;
     private $_categoryManager;
-    private $_postPerPage = 6;
+    private $_postPerPage = 5;
     private $_view;
 
     public function __construct() {
