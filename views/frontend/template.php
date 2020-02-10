@@ -120,7 +120,7 @@
 				</div>
 				<div class="row footer-bottom d-flex justify-content-between align-items-center">
 					<div class="col-lg-4 footer-text text-center">
-						<a href="#">Mentions légales</a>
+						<a href="/legals">Mentions légales</a>
 						 | 
 						<a href="#">RGPD</a>					
 					</div>
