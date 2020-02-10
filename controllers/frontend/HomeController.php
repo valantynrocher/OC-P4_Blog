@@ -1,23 +1,25 @@
 <?php
 require_once 'views/frontend/View.php';
 
-class HomeController {
-    private $_postsManager;
-    private $_categoryManager;
-    private $_postPerPage = 5;
-    private $_view;
+class HomeController
+{
+    private $postsManager;
+    private $categoryManager;
+    private $postPerPage = 5;
+    private $view;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) > 1) {
             throw new \Exception('Page introuvable', 1);
-        }
-        else {
+        } else {
             $this->posts();
         }
     }
 
-    private function posts() {
-        $this->_postsManager = new PostsManager();
+    private function posts()
+    {
+        $this->postsManager = new PostsManager();
 
         $page = $_GET['page'] ?? 1;
         // vérifier que le numéro de page est un entier
@@ -37,20 +39,20 @@ class HomeController {
             throw new \Exception('Numéro de page invalide');
         }
 
-        $count = $this->_postsManager->getPostsNumber();
-        $pages = ceil($count / $this->_postPerPage);
+        $count = $this->postsManager->getPostsNumber();
+        $pages = ceil($count / $this->postPerPage);
         if ($currentPage > $pages) {
             throw new \Exception('Cette page n\'existe pas');
         }
 
-        $offset = $this->_postPerPage * ($currentPage - 1);
+        $offset = $this->postPerPage * ($currentPage - 1);
 
-        $posts = $this->_postsManager->getPostsPages($this->_postPerPage, $offset);
+        $posts = $this->postsManager->getPostsPages($this->postPerPage, $offset);
 
-        $this->_categoryManager = new CategoryManager();
-        $categories = $this->_categoryManager->getCategories();
+        $this->categoryManager = new CategoryManager();
+        $categories = $this->categoryManager->getCategories();
 
-        $this->_view = new View('home');
-        $this->_view->generate(array('posts' => $posts, 'categories' => $categories, 'pages' => $pages, 'currentPage' => $currentPage));
+        $this->view = new View('home');
+        $this->view->generate(array('posts' => $posts, 'categories' => $categories, 'pages' => $pages, 'currentPage' => $currentPage));
     }
 }

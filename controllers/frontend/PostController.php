@@ -1,31 +1,37 @@
 <?php 
 require_once 'views/frontend/View.php';
 
-class PostController {
+class PostController
+{
 
-    private $_postsManager;
-    private $_commentsManager;
-    private $_view;
+    private $postsManager;
+    private $commentsManager;
+    private $categoryManager;
+    private $view;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) < 1) {
             throw new \Exception('Page introuvable');
-        }
-        else {
+        } else {
             $this->singlePost();
         }
     }
 
-    private function singlePost() {
+    private function singlePost()
+    {
         if (isset($_GET['id'])) {
-            $this->_postsManager = new PostsManager();
-            $post = $this->_postsManager->getPost($_GET['id']);
+            $this->postsManager = new PostsManager();
+            $post = $this->postsManager->getPost($_GET['id']);
 
-            $this->_commentsManager = new CommentsManager();
-            $comments = $this->_commentsManager->getComments($_GET['id']);
+            $this->commentsManager = new CommentsManager();
+            $comments = $this->commentsManager->getComments($_GET['id']);
 
-            $this->_view = new View('post');
-            $this->_view->generate(array('post' => $post, 'comments' => $comments));
+            $this->categoryManager = new CategoryManager();
+            $categories = $this->categoryManager->getCategories();
+
+            $this->view = new View('post');
+            $this->view->generate(array('post' => $post, 'comments' => $comments, 'categories' => $categories));
         }
     }
 }

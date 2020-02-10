@@ -72,8 +72,8 @@
                                             <tbody>
                                                 <?php foreach ($users as $user): ?>
                                                     <tr>
-                                                        <td><?= $user->first_name() ?></td>
-                                                        <td><?= $user->last_name() ?></td>
+                                                        <td><?= $user->firstName() ?></td>
+                                                        <td><?= $user->lastName() ?></td>
                                                         <td><?= $user->login() ?></td>
                                                         <td><?= $user->email() ?></td>
                                                         <td><?= $user->role() ?></td>

@@ -1,32 +1,35 @@
 <?php
 require_once 'views/frontend/View.php';
 
-class CategoryController {
+class CategoryController
+{
 
-    private $_postsManager;
-    private $_categoryManager;
-    private $_view;
+    private $postsManager;
+    private $categoryManager;
+    private $view;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) > 1) {
             throw new \Exception('Page introuvable', 1);
-        }
-        else {
+        } else {
             $this->postsCategory();
         }
     }
 
-    private function postsCategory() {
+    private function postsCategory()
+    {
         if (isset($_GET['cat_id'])) {
-            $this->_postsManager = new PostsManager();
-            $postsCategory = $this->_postsManager->getCategoryPosts($_GET['cat_id']);
+            $this->postsManager = new PostsManager();
+            $postsCategory = $this->postsManager->getCategoryPosts($_GET['cat_id']);
 
-            $this->_categoryManager = new CategoryManager();
-            $category = $this->_categoryManager->getCategory($_GET['cat_id']);
+            $this->categoryManager = new CategoryManager();
+            $category = $this->categoryManager->getCategory($_GET['cat_id']);
+            $categories = $this->categoryManager->getCategories();
 
 
-            $this->_view = new View('category');
-            $this->_view->generate(array('postsCategory' => $postsCategory, 'category' => $category));
+            $this->view = new View('category');
+            $this->view->generate(array('postsCategory' => $postsCategory, 'category' => $category, 'categories' => $categories));
         }
     }
 }

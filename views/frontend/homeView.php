@@ -48,7 +48,7 @@
 											<li>
 												<a>
 													<span class="lnr lnr-calendar-full"></span>
-													<?= $post->creation_date_fr() ?>
+													<?= $post->creationDateFr() ?>
 												</a>
 											</li>
 											<li>

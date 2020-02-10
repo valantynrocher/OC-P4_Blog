@@ -1,20 +1,22 @@
 <?php
 require_once 'views/frontend/View.php';
 
-class MailController {
+class MailController
+{
 
-    private $_view;
+    private $view;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) > 1) {
             throw new \Exception('Page introuvable', 1);
-        }
-        else {
+        } else {
             $this->email();
         }
     }
 
-    private function email() {
+    private function email()
+    {
         $to = 'valantyn.r@gmail.com';
         $name = $_POST["name"];
         $email= $_POST["email"];
@@ -33,15 +35,14 @@ class MailController {
             
                     </table>';
 
-        if (@mail($to, $email, $message, $headers))
-        {
+        if (@mail($to, $email, $message, $headers)) {
             $success = true;
             $feedback = 'Votre message a bien été envoyé.';
-        }else {
+        } else {
             $success = false;
             $feedback = 'Échec de l\'envoi.';
         }
-        $this->_view = new View('contact');
-        $this->_view->generate(array('success' => $success, 'feedback' => $feedback));
+        $this->view = new View('contact');
+        $this->view->generate(array('success' => $success, 'feedback' => $feedback));
     }
 }

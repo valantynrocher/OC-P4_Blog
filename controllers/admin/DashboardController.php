@@ -1,27 +1,28 @@
 <?php 
 require_once 'views/admin/View.php';
 
-class DashboardController {
+class DashboardController
+{
 
-    private $_postsManager;
-    private $_commentsManager;
-    private $_categoriesManager;
-    private $_usersManager;
-    private $_view;
+    private $postsManager;
+    private $commentsManager;
+    private $categoriesManager;
+    private $usersManager;
+    private $view;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) < 1) {
             throw new \Exception('Page introuvable');
-        }
-        else {
+        } else {
             $this->dashboard();
         }
     }
 
-    private function dashboard() {
-        
+    private function dashboard()
+    {
 
-        $this->_view = new View('dashboard');
-        $this->_view->generate(array());
+        $this->view = new View('dashboard');
+        $this->view->generate(array());
     }
 }

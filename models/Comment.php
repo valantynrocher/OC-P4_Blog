@@ -1,20 +1,23 @@
 <?php
 
-class Comment {
+class Comment
+{
 
-    private $_id;
-    private $_post_id;
-    private $_author;
-    private $_comment;
-    private $_creation_date_fr;
-    private $_report;
+    private $id;
+    private $post_id;
+    private $author;
+    private $comment;
+    private $creation_date_fr;
+    private $report;
 
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->hydrate($data);
     }
 
     // hydratation des données
-    public function hydrate(array $data) {
+    public function hydrate(array $data)
+    {
         foreach ($data as $key => $value) {
             $method = 'set' . ucfirst($key);
 
@@ -25,65 +28,77 @@ class Comment {
     }
 
     // setters
-    public function setId($id) {
+    public function setId($id)
+    {
         $id = (int) $id;
         if ($id > 0) {
-            $this->_id = $id;
+            $this->id = $id;
         }
     }
 
-    public function setPostid($post_id) {
+    public function setPostid($post_id)
+    {
         $post_id = (int) $post_id;
         if ($post_id > 0) {
-            $this->_post_id = $post_id;
+            $this->post_id = $post_id;
         }
     }
 
-    public function setAuthor($author) {
+    public function setAuthor($author)
+    {
         if (is_string($author)){
-            $this->_author = $author;
+            $this->author = $author;
         }
     }
 
-    public function setComment($comment) {
+    public function setComment($comment)
+    {
         if (is_string($comment)) {
-            $this->_comment = $comment;
+            $this->comment = $comment;
         }
     }
 
-    public function setCreation_date_fr($creation_date_fr) {
-        $this->_creation_date_fr = $creation_date_fr;
+    public function setCreation_date_fr($creation_date_fr)
+    {
+        $this->creation_date_fr = $creation_date_fr;
     }
 
-    public function setReport($report) {
+    public function setReport($report)
+    {
         $report = (int) $report;
         if ($report === 0 || $report === 1) {
-            $this->_report = $report;
+            $this->report = $report;
         }
     }
 
     // getters
-    public function id() {
-        return $this->_id;
+    public function id()
+    {
+        return $this->id;
     }
 
-    public function post_id() {
-        return $this->_post_id;
+    public function postId()
+    {
+        return $this->post_id;
     }
 
-    public function author() {
-        return $this->_author;
+    public function author()
+    {
+        return $this->author;
     }
 
-    public function comment() {
-        return $this->_comment;
+    public function comment()
+    {
+        return $this->comment;
     }
 
-    public function creation_date_fr() {
-        return $this->_creation_date_fr;
+    public function creationDateFr()
+    {
+        return $this->creation_date_fr;
     }
 
-    public function report() {
-        return $this->_report;
+    public function report()
+    {
+        return $this->report;
     }
 }

@@ -1,31 +1,31 @@
 <?php 
 require_once 'views/frontend/View.php';
 
-class ReportController {
+class ReportController
+{
 
-    private $_commentsManager;
+    private $commentsManager;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) < 1) {
             throw new \Exception('Page introuvable');
-        }
-        else {
+        } else {
             $this->newComment();
         }
     }
 
-    private function newComment() {
+    private function newComment()
+    {
         if (isset($_GET['id']) && isset($_GET['postId'])) {
-            $this->_commentsManager = new CommentsManager();
-            $affectedComment = $this->_commentsManager->reportOneComment($_GET['id']);
+            $this->commentsManager = new CommentsManager();
+            $affectedComment = $this->commentsManager->reportOneComment($_GET['id']);
 
-            if($affectedComment === false)
-            {
+            if ($affectedComment === false) {
                 throw new Exception('L\'action impossible');
-            }
-            else 
-            {
+            } else {
                 header('Location: post&id=' . $_GET['postId']);
+                exit();
             }
         }
     }

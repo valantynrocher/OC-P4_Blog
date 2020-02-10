@@ -1,17 +1,20 @@
 <?php
 
-class Category {
+class Category
+{
 
-    private $_id;
-    private $_name;
-    private $_image;
+    private $id;
+    private $name;
+    private $image;
 
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->hydrate($data);
     }
 
     // hydratation des données
-    public function hydrate(array $data) {
+    public function hydrate(array $data)
+    {
         foreach ($data as $key => $value) {
             $method = 'set' . ucfirst($key);
 
@@ -22,35 +25,41 @@ class Category {
     }
 
     // setters
-    public function setId($id) {
+    public function setId($id)
+    {
         $id = (int) $id;
         if ($id > 0) {
-            $this->_id = $id;
+            $this->id = $id;
         }
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         if (is_string($name)) {
-            $this->_name = $name;
+            $this->name = $name;
         }
     }
 
-    public function setImage($image) {
+    public function setImage($image)
+    {
         if (is_string($image)) {
-            $this->_image = $image;
+            $this->image = $image;
         }
     }
 
     // getters
-    public function id() {
-        return $this->_id;
+    public function id()
+    {
+        return $this->id;
     }
 
-    public function name() {
-        return $this->_name;
+    public function name()
+    {
+        return $this->name;
     }
 
-    public function image() {
-        return $this->_image;
+    public function image()
+    {
+        return $this->image;
     }
 }

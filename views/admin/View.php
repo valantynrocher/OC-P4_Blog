@@ -1,25 +1,29 @@
 <?php 
 
-class View {
+class View
+{
 
-    private $_file;
-    private $_t;
+    private $file;
+    private $t;
 
-    function __construct($page) {
-        $this->_file = 'views/admin/' . $page . 'View.php';
+    public function __construct($page)
+    {
+        $this->file = 'views/admin/' . $page . 'View.php';
     }
 
     // générer et envoyer la vue
-    public function generate($data) {
+    public function generate($data)
+    {
         // définir le contenu à envoyer
-        $content = $this->generateFile($this->_file, $data);
+        $content = $this->generateFile($this->file, $data);
 
         // template
-        $view = $this->generateFile('views/admin/template.php', array('t' => $this->_t, 'content' => $content));
+        $view = $this->generateFile('views/admin/template.php', array('t' => $this->t, 'content' => $content));
         echo $view;
     }
 
-    private function generateFile($file, $data) {
+    private function generateFile($file, $data)
+    {
         if(file_exists($file)) {
             extract($data);
 
@@ -29,8 +33,7 @@ class View {
             require $file;
 
             return ob_get_clean();
-        }
-        else {
+        } else {
             throw new \Exception('Le fichier ' . $file . ' est introuvable.', 1);
         }
     }

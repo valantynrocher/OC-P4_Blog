@@ -33,7 +33,7 @@
                                 <div class="media">
                                     <div class="media-body">
                                         <h5>Jean Forteroche</h5>
-                                        <p><?= $post[0]->creation_date_fr() ?></p>
+                                        <p><?= $post[0]->creationDateFr() ?></p>
                                     </div>
                                     <div class="d-flex">
                                         <img src="public/img/author/a1.png" alt="">
@@ -71,7 +71,7 @@
 												</div>-->
 												<div class="desc">
 													<h5><a href="#"><?= $comment->author()?></a></h5>
-													<p class="date"><?= $comment->creation_date_fr()?></p>
+													<p class="date"><?= $comment->creationDateFr()?></p>
 													<p class="comment">
 														<?= $comment->comment()?>
 													</p>
@@ -222,7 +222,7 @@
 
 									<div class="middle-area">
 										<a class="name" href="#"><b>Jean Forteroche</b></a>
-										<h6 class="date"><!-- on Sep 29, 2017 at 9:48 am --><?= $post[0]->creation_date_fr() ?></h6>
+										<h6 class="date"><!-- on Sep 29, 2017 at 9:48 am --><?= $post[0]->creationDateFr() ?></h6>
 									</div>
 
 								</div>
@@ -325,7 +325,7 @@
 
 									<div class="post-info">
 										<div class="middle-area">
-											<h6 class="date"><?= $comment->creation_date_fr()?></h6><br>
+											<h6 class="date"><?= $comment->creationDateFr()?></h6><br>
 											<b><?= $comment->author()?> a commenté :</b>
 										</div>
 									</div><!-- post-info -->

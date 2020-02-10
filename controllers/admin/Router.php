@@ -1,15 +1,18 @@
 <?php
 require_once 'views/admin/View.php';
 
-class Router {
+class Router
+{
     private $ctrl;
     private $view;
 
-    public function isConnected():bool {
+    public function isConnected():bool
+    {
         return !empty($_SESSION['connected']);
     }
 
-    public function routeReq() {
+    public function routeReq()
+    {
         try {
             // chargement auto des class models (managers)
             spl_autoload_register(function($class) {
@@ -23,9 +26,9 @@ class Router {
                 require_once('controllers/admin/LoginController.php');
                 $this->ctrl = new LoginController($url);
                 exit();
-            }
-            // L'utilisateur est connecté
-            else {
+            } else {
+                // L'utilisateur est connecté
+                
                 // détermine le controleur selon ce qui est passé dans l'url
                 if (isset($_GET['url'])) {
                     // décomposition de l'url et application d'un filtre
@@ -41,19 +44,15 @@ class Router {
                     if (file_exists($controllerFile)) {
                         require_once($controllerFile);
                         $this->ctrl = new $controllerClass($url);
-                    }
-                    else {
+                    } else {
                         throw new \Exception("Page introuvable", 1);
                     }
-                }
-                else {
+                } else {
                     require_once('controllers/admin/DashboardController.php');
                     $this->ctrl = new DashboardController($url);
                 }
             }
-
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $this->view = new View('error');
             $this->view->generate(array('error' => $errorMessage));

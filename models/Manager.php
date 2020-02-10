@@ -1,33 +1,37 @@
 <?php
 
-abstract class Manager {
+abstract class Manager
+{
 
-    private static $_bdd;
+    private static $bdd;
 
-    // connexion à la bdd
+    // =============================== CONNEXION BDD ===============================
 
-    private static function setBdd() {
-        self::$_bdd = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root');
+    private static function setBdd()
+    {
+        self::$bdd = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root');
 
         // on utilise les constantes de PDO pour gérer les erreurs
-        self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     }
 
     // fonction de connexion par défaut à la bdd
-    protected function getBdd() {
-        if (self::$_bdd == null) {
+    protected function getBdd()
+    {
+        if (self::$bdd == null) {
             self::setBdd();
             return self::setBdd();
         }
     }
 
-    // CATEGORY
+    // =============================== CATEGORY ===============================
 
     // récupération de toutes les catégories
-    protected function getAllCategories($table, $obj) {
+    protected function getAllCategories($table, $obj)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT id, name, image 
             FROM $table 
             ORDER BY id 
@@ -44,10 +48,11 @@ abstract class Manager {
     }
 
     // récupération d'une catégories
-    protected function getOneCategory($table, $obj, $catId) {
+    protected function getOneCategory($table, $obj, $catId)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "SELECT name 
             FROM $table
             WHERE id=?"
@@ -64,13 +69,14 @@ abstract class Manager {
     }
 
 
-    // POST
+    // =============================== POST ===============================
 
     // récupération de tous les articles
-    protected function getAllPosts($table1, $table2, $obj) {
+    protected function getAllPosts($table1, $table2, $obj)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT $table1.id, title, category_id, content,
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
             DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr,
@@ -92,10 +98,11 @@ abstract class Manager {
     }
     
     // récupération de tous les articles avec pagination
-    protected function getAllPostsPages($table1, $table2, $obj, $postPerPage, $offset) {
+    protected function getAllPostsPages($table1, $table2, $obj, $postPerPage, $offset)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT $table1.id, title, category_id, content,
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
             DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr,
@@ -119,10 +126,11 @@ abstract class Manager {
     }
 
     // articles d'une catégorie
-    protected function getPostsByCategory($table1, $table2, $obj, $catId) {
+    protected function getPostsByCategory($table1, $table2, $obj, $catId)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT $table1.id, title, category_id, content, 
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
             DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr
@@ -144,10 +152,11 @@ abstract class Manager {
     }
 
     // récupération d'un seul article
-    protected function getOnePost($table1, $table2, $obj, $id) {
+    protected function getOnePost($table1, $table2, $obj, $id)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "SELECT $table1.id, title, category_id, content, 
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
             DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr, $table2.name
@@ -168,9 +177,10 @@ abstract class Manager {
     }
 
     // comptage des articles
-    protected function countPost($table) {
+    protected function countPost($table)
+    {
         $this->getBdd();
-        $req = self::$_bdd->query("SELECT count(id) FROM $table");
+        $req = self::$bdd->query("SELECT count(id) FROM $table");
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -178,9 +188,10 @@ abstract class Manager {
     }
 
     // Mise à jour d'un article
-    protected function updatePost($table, $id, $title, $categoryId, $content) {
+    protected function updatePost($table, $id, $title, $categoryId, $content)
+    {
         $this->getBdd();
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "UPDATE $table
             SET title = :new_title, category_id = :new_catId, content = :new_content, update_date = NOW()
             WHERE id = $id"
@@ -195,9 +206,10 @@ abstract class Manager {
     }
 
     // suppression d'un article
-    protected function deletePost($table, $id) {
+    protected function deletePost($table, $id)
+    {
         $this->getBdd();
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "DELETE FROM $table
             WHERE id = ?"
         );
@@ -209,13 +221,14 @@ abstract class Manager {
         return $deletedPost;
     }
 
-    // COMMENT
+    // =============================== COMMENT ===============================
 
     // récupération des commentaires d'un article
-    protected function getCommentsByPost($table1, $table2, $obj, $id) {
+    protected function getCommentsByPost($table1, $table2, $obj, $id)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT $table1.id, post_id, author, comment, report, 
             DATE_FORMAT($table1.creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr
             FROM $table1 LEFT JOIN $table2 
@@ -234,9 +247,10 @@ abstract class Manager {
     }
 
     // insertion d'un commentaire
-    protected function insertComment($table, $postId, $author, $comment) {
+    protected function insertComment($table, $postId, $author, $comment)
+    {
         $this->getBdd();
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "INSERT INTO $table(post_id, author, comment, creation_date) 
             VALUES(?, ?, ?, NOW() )"
         );
@@ -251,9 +265,10 @@ abstract class Manager {
     }
 
     // signalement d'un commentaire
-    protected function reportComment($table, $id) {
+    protected function reportComment($table, $id)
+    {
         $this->getBdd();
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "UPDATE $table
             SET report = 1
             WHERE id = ?"
@@ -267,13 +282,14 @@ abstract class Manager {
     }
 
 
-    // USER
+    // =============================== USER ===============================
 
     // récupération de tous les utilisateurs
-    protected function getAllUsers($table, $obj) {
+    protected function getAllUsers($table, $obj)
+    {
         $this->getBdd();
         $var = [];
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT first_name, last_name, login, email, role 
             FROM $table 
             ORDER BY id 
@@ -290,9 +306,10 @@ abstract class Manager {
     }
 
     // récupération des administrateurs
-    protected function getAdminUsers($table, $obj) {
+    protected function getAdminUsers($table, $obj)
+    {
         $this->getBdd();
-        $req = self::$_bdd->query(
+        $req = self::$bdd->query(
             "SELECT first_name, last_name, login, password, email
             FROM $table
             WHERE role='admin'
@@ -309,9 +326,10 @@ abstract class Manager {
     }
 
     // insertion d'un nouvel utilisateur
-    protected function setNewUser($table, $firstName, $lastName, $login, $password, $email, $role) {
+    protected function setNewUser($table, $firstName, $lastName, $login, $password, $email, $role)
+    {
         $this->getBdd();
-        $req = self::$_bdd->prepare(
+        $req = self::$bdd->prepare(
             "INSERT INTO $table(first_name, last_name, login, password, email, role)
             VALUES (?, ?, ?, ?, ?, ?)");
         $affectedUser = $req->execute(array(

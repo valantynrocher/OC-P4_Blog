@@ -1,11 +1,13 @@
 <?php
 require_once 'views/frontend/View.php';
 
-class Router {
+class Router
+{
     private $ctrl;
     private $view;
 
-    public function routeReq() {
+    public function routeReq()
+    {
         try {
             // chargement auto des class models (managers)
             spl_autoload_register(function($class) {
@@ -31,17 +33,14 @@ class Router {
                 if (file_exists($controllerFile)) {
                     require_once($controllerFile);
                     $this->ctrl = new $controllerClass($url);
-                }
-                else {
+                } else {
                     throw new \Exception("Page introuvable", 1);
                 }
-            }
-            else {
+            } else {
                 require_once('controllers/frontend/HomeController.php');
                 $this->ctrl = new HomeController($url);
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             $this->view = new View('error');
             $this->view->generate(array('error' => $errorMessage));

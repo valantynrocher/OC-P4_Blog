@@ -1,23 +1,25 @@
 <?php 
 require_once 'views/admin/View.php';
 
-class CategoriesController {
+class CategoriesController
+{
 
-    private $_postsManager;
-    private $_commentsManager;
-    private $_view;
+    private $postsManager;
+    private $commentsManager;
+    private $view;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) < 1) {
             throw new \Exception('Page introuvable');
-        }
-        else {
+        } else {
             $this->singlePost();
         }
     }
 
-    private function singlePost() {
-        $this->_view = new View('categories');
-        $this->_view->generate(array());
+    private function singlePost()
+    {
+        $this->view = new View('categories');
+        $this->view->generate(array());
     }
 }

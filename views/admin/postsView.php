@@ -20,10 +20,10 @@
                                     </div>
                                     <div class="card-body ">
                                         <h3><?= $postToRead[0]->title()?></h3>
-                                        <?php if($postToRead[0]->update_date_fr() === null): ?>
-                                            <p>Article créé le <?= $postToRead[0]->creation_date_fr() ?></p>
+                                        <?php if($postToRead[0]->updateDateFr() === null): ?>
+                                            <p>Article créé le <?= $postToRead[0]->creationDateFr() ?></p>
                                         <?php else: ?>
-                                            <p>Article modifié le <?= $postToRead[0]->update_date_fr() ?></p>
+                                            <p>Article modifié le <?= $postToRead[0]->updateDateFr() ?></p>
                                         <?php endif ?>
                                         
                                         <p><?= $postToRead[0]->content()?></p>
@@ -94,10 +94,10 @@
                                                     <tr>
                                                         <td><?= $post->title() ?></td>
                                                         <td><?= $post->name() ?></td>
-                                                        <?php if($post->update_date_fr() === null): ?>
-                                                            <td><?= $post->creation_date_fr() ?></td>
+                                                        <?php if($post->updateDateFr() === null): ?>
+                                                            <td><?= $post->creationDateFr() ?></td>
                                                         <?php else: ?>
-                                                            <td><?= $post->update_date_fr() ?></td>
+                                                            <td><?= $post->updateDateFr() ?></td>
                                                         <?php endif ?>
                                                         <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=post&id=<?=$post->id()?>" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
                                                         <td class="action-cell"><a class="action-link" href="admin.php?url=posts&showPostId=<?=$post->id()?>"><i class="far fa-eye"></i></td>

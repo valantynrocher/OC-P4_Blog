@@ -1,12 +1,13 @@
 <?php 
 require_once 'views/admin/View.php';
 
-class DeletepostController {
+class DeletepostController
+{
 
-    private $_postsManager;
-    private $_view;
+    private $postsManager;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (isset($url) && count($url) < 1) {
             throw new \Exception('Page introuvable');
         }
@@ -15,18 +16,16 @@ class DeletepostController {
         }
     }
 
-    private function deletePost() {
+    private function deletePost()
+    {
         if (isset($_GET['id'])) {
-            $this->_postsManager = new PostsManager();
-            $deletedPost = $this->_postsManager->setDeletePost($_GET['id']);
+            $this->postsManager = new PostsManager();
+            $deletedPost = $this->postsManager->setDeletePost($_GET['id']);
             var_dump($deletedPost);
 
-            if($deletedPost === false)
-            {
+            if($deletedPost === false) {
                 throw new \Exception("Impossible de supprimer l\'article !");
-            }
-            else 
-            {
+            } else {
                 header('Location: admin.php?url=posts');
                 exit();
             }
