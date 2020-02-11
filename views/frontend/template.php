@@ -46,11 +46,15 @@
 					<nav id="nav-menu-container">
 						<ul class="nav-menu">
 							<li class="menu-active"><a href="/home">Accueil</a></li>
-							<li class="menu-has-children"><a href="">Chapitres</a>
-								<ul>
-									<li><a href="#">Chapitre #</a></li>
-								</ul>
-							</li>
+							<?php if (!empty($categories)): ?>
+								<li class="menu-has-children"><a href="">Chapitres</a>
+									<ul>
+										<?php foreach ($categories as $category): ?>
+											<li><a href="category&id=<?=$category->id()?>"><?= $category->name() ?></a></li>
+										<?php endforeach ?>
+									</ul>
+								</li>
+							<?php endif ?>
 							<li><a href="/about">Qui suis-je</a></li>
 							<li><a href="/contact">Contact</a></li>
 						</ul>
