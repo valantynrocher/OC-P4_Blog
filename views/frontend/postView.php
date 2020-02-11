@@ -43,8 +43,8 @@
                         </div>
                         <p><?= $post[0]->content() ?></p>
                         <div class="news_d_footer">
-                            <a href="#"><i class="lnr lnr lnr-heart"></i>Like(s)</a>
-                            <a><i class="lnr lnr lnr-bubble"></i><?= count($comments)?> Commentaire(s)</a>
+                            <a href="#"><i class="lnr lnr-heart"></i>Like(s)</a>
+                            <a><i class="lnr lnr-bubble"></i><?= count($comments)?> Commentaire(s)</a>
                             <div class="news_socail ml-auto">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -70,7 +70,7 @@
 													<img src="public/img/blog/c1.jpg" alt="">
 												</div>-->
 												<div class="desc">
-													<h5><a href="#"><?= $comment->author()?></a></h5>
+													<h5><?= $comment->author()?></h5>
 													<p class="date"><?= $comment->creationDateFr()?></p>
 													<p class="comment">
 														<?= $comment->comment()?>
@@ -79,7 +79,7 @@
 											</div>
 											<?php if ($comment->report() === 0): ?>
 												<div class="report-btn">
-													<a href="report&id=<?= $comment->id() ?>&postId=<?=$post[0]->id() ?>"
+													<a href="comment&action=report&id=<?= $comment->id() ?>&postId=<?=$post[0]->id() ?>"
 													onclick="return confirm('Le signalement de commentaire permet de faire remonter à l\'administrateur des commentaires dont le contenu semble irrespectueux, outrancier, diffamatoire, etc. Êtes-vous certain de vouloir signaler ce commentaire ?')"
 													class="genric-btn danger radius text-uppercase">
 														<i class="fas fa-exclamation-triangle"></i>
@@ -100,26 +100,18 @@
                     </div>
                     <div class="comment-form">
                         <h4>Poster un commentaire</h4>
-                        <form>
-                            <div class="form-group form-inline">
-                                <div class="form-group col-lg-6 col-md-6 name">
-                                    <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter Name'">
-                                </div>
-                                <div class="form-group col-lg-6 col-md-6 email">
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email address"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+                        <form action="comment&action=add&id=<?=$post[0]->id() ?>" method="POST">
+                            <div class="form-group ">
+                                <div class="form-group">
+                                    <input type="text" name="author" class="form-control" id="author" placeholder="Votre nom ou pseudo" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Votre nom ou pseudo'" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Subject'">
+                                <textarea class="form-control mb-10" name="comment" rows="5" name="message" placeholder="Votre message"
+                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre message'" required=""></textarea>
                             </div>
-                            <div class="form-group">
-                                <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege"
-                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
-                            </div>
-                            <a href="#" class="primary-btn submit_btn text-uppercase">Envoyer</a>
+                            <button type="submit" class="primary-btn submit_btn text-uppercase">Envoyer</button>
                         </form>
                     </div>
 				</div>
@@ -155,7 +147,7 @@
 						<h4 class="title">Les chapitres</h4>
 						<ul>
 							<?php foreach ($categories as $category): ?>
-							<li><a href="<?= 'category&cat_id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
+							<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
 									<p><?= $category->name() ?></p> <span>37</span>
 								</a>
 							</li>
@@ -190,174 +182,3 @@
 			</div>
 		</div>
 	</section>
-				
-
-	<!-- slider -->
-    <div class="chapter-header">
-		<div class="display-table  center-text">
-			<h1 class="title display-table-cell"><b><?= $post[0]->name() ?></b></h1>
-		</div>
-	</div>
-
-	<div class="main">
-		<!-- post-area -->
-		<section class="post-area section">
-			<div class="container">
-
-				<div class="row">
-
-					<div class="col-lg-8 col-md-12 no-right-padding">
-
-						<!-- main-post -->
-						<div class="main-post">
-
-							<div class="blog-post-inner">
-
-								<!-- post-info -->
-								<div class="post-info">
-
-									<div class="left-area">
-										<a class="avatar" href="#"><img src="public/images/jean-rochefort-avatar.jpg" alt="Profile Image"></a>
-									</div>
-
-									<div class="middle-area">
-										<a class="name" href="#"><b>Jean Forteroche</b></a>
-										<h6 class="date"><!-- on Sep 29, 2017 at 9:48 am --><?= $post[0]->creationDateFr() ?></h6>
-									</div>
-
-								</div>
-
-								<!-- post-title -->
-								<h3 class="title">
-									<a href="#"><b>
-									<?= $post[0]->title() ?></b>
-									</a>
-								</h3>
-
-								<!-- post-content -->
-								<p class="para">
-									<?= $post[0]->content() ?>
-								</p>
-
-							</div>
-
-							<!-- post-icons -->
-							<div class="post-icons-area">
-								<ul class="post-icons">
-									<li><a href="#"><i class="ion-heart"></i>57</a></li>
-									<li><a href="#"><i class="ion-chatbubble"></i>6</a></li>
-									<li><a href="#"><i class="ion-eye"></i>138</a></li>
-								</ul>
-
-								<ul class="icons">
-									<li>SHARE : </li>
-									<li><a href="#"><i class="ion-social-facebook"></i></a></li>
-									<li><a href="#"><i class="ion-social-twitter"></i></a></li>
-									<li><a href="#"><i class="ion-social-pinterest"></i></a></li>
-								</ul>
-							</div>
-							
-						</div>
-					</div><!-- col-lg-8 col-md-12 -->
-
-					<!-- sidebar -->
-					<div class="col-lg-4 col-md-12 no-left-padding">
-
-						<!-- sidebar info-area -->
-						<div class="single-post info-area">
-
-							<div class="sidebar-area about-area">
-								<h4 class="title"><b>A propos</b></h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-									ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-									Ut enim ad minim veniam</p>
-							</div>
-
-						</div>
-
-					</div>
-
-				</div><!-- row -->
-			</div><!-- container -->
-		</section>
-
-		<!-- comments-area -->
-		<section class="section comment-section">
-			<div class="container">
-				<h4><b>POSTER UN COMMENTAIRE</b></h4>
-				<div class="row">
-
-					<div class="col">
-						<div class="comment-form">
-							<form action="comment&id=<?=$_GET['id']?>" method="POST">
-								<div class="row">
-
-									<div class="col-sm-6">
-										<input type="text" aria-required="true" name="author" class="form-control"
-										placeholder="Votre nom" aria-invalid="true" required >
-									</div><!-- col-sm-6 -->
-
-									<div class="col-sm-12">
-										<textarea name="comment" rows="2" class="text-area-messge form-control"
-										placeholder="Votre commentaire" aria-required="true" aria-invalid="false"></textarea >
-									</div><!-- col-sm-12 -->
-									<div class="col-sm-12">
-										<button class="submit-btn" type="submit" id="form-submit"><b>POSTER</b></button>
-									</div><!-- col-sm-12 -->
-
-								</div><!-- row -->
-							</form>
-						</div><!-- comment-form -->
-
-						<?php if (empty($comments)): ?>
-							<div class="comments-area">
-								Il n'y a aucun commentaire pour cet article, soyez le premier !
-							</div>
-
-						<?php else: ?>
-
-						<h4><b><?= count($comments)?> COMMENTAIRES :</b></h4>
-
-						<?php foreach ($comments as $comment): ?>
-						<div class="comments-area">
-							
-								<div class="comment">
-
-									<div class="post-info">
-										<div class="middle-area">
-											<h6 class="date"><?= $comment->creationDateFr()?></h6><br>
-											<b><?= $comment->author()?> a commenté :</b>
-										</div>
-									</div><!-- post-info -->
-
-									<div class="comment-content">
-										<p><?= $comment->comment()?></p>
-									</div>
-									<div class="comment-report">
-										<?php if ($comment->report() === 0): ?>
-											<div class="comment-report__link">
-												<a href="report&id=<?= $comment->id() ?>&postId=<?=$post[0]->id() ?>" onclick="return confirm('Le signalement de commentaire permet de faire remonter à l\'administrateur des commentaires dont le contenu semble irrespectueux, outrancier, diffamatoire, etc. Êtes-vous certain de vouloir signaler ce commentaire ?')">
-												<span class="fas fa-exclamation"></span> Signaler ce commentaire</a>
-											</div>
-										<?php elseif ($comment->report() === 1): ?>
-											<div class="comment-report__link alert alert-danger" role="alert">
-												Ce commentaire a été signalé et sera modéré par l'administrateur de ce blog.
-											</div>
-										<?php endif ?>
- 									</div>
-								</div>
-						</div><!-- comments-area -->
-
-						<?php endforeach ?>
-
-						<!-- <a class="more-comment-btn" href="#"><b>VOIR PLUS DE COMMENTAIRES</a> -->
-
-						<?php endif ?>
-
-					</div><!-- col-lg-8 col-md-12 -->
-
-				</div><!-- row -->
-
-			</div><!-- container -->
-		</section>
-	</div>

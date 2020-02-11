@@ -134,7 +134,7 @@
 					<h4 class="title">Les chapitres</h4>
 					<ul>
 						<?php foreach ($categories as $category): ?>
-						<li><a href="<?= 'category&cat_id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
+						<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
 								<p><?= $category->name() ?></p> <span>37</span>
 							</a>
 						</li>

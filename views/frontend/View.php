@@ -1,25 +1,29 @@
 <?php 
 
-class View {
+class View
+{
 
-    private $_file;
-    private $_t;
+    private $file;
+    private $t;
 
-    function __construct($page) {
-        $this->_file = 'views/frontend/' . $page . 'View.php';
+    function __construct($page)
+    {
+        $this->file = 'views/frontend/' . $page . 'View.php';
     }
 
     // générer et envoyer la vue
-    public function generate($data) {
+    public function generate($data, $categories = '')
+    {
         // définir le contenu à envoyer
-        $content = $this->generateFile($this->_file, $data);
+        $content = $this->generateFile($this->file, $data);
 
         // template
-        $view = $this->generateFile('views/frontend/template.php', array('t' => $this->_t, 'content' => $content));
-        echo $view;
+        $layout = $this->generateFile('views/frontend/template.php', array('t' => $this->t, 'categories' => $categories, 'content' => $content));
+        echo $layout;
     }
 
-    private function generateFile($file, $data) {
+    private function generateFile($file, $data)
+    {
         if(file_exists($file)) {
             extract($data);
 

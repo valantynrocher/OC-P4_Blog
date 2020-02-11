@@ -28,7 +28,7 @@
 			Le Propriétaire est : Valentin Rocher<br>
 			Adresse postale du propriétaire : 2 impasse de la croix des Tailles 44115 Haute-Goulaine<br></p>
 			
-			<p>Le Créateur du site est : Valentin Rocher/strong><br>
+			<p>Le Créateur du site est : Valentin Rocher<br>
 			Le Responsable de la  publication est : Jean Forteroche<br>
 			Contacter le responsable de la publication : valantyn.r@gmail.com<br>
 			Le responsable de la publication est une personne physique<br></p>
