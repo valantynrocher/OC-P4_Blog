@@ -4,15 +4,12 @@ require_once 'views/frontend/View.php';
 class MailController
 {
 
+    private $categoryManager;
     private $view;
 
     public function __construct()
     {
-        if (isset($url) && count($url) > 1) {
-            throw new \Exception('Page introuvable', 1);
-        } else {
-            $this->email();
-        }
+        $this->email();
     }
 
     private function email()
@@ -42,7 +39,10 @@ class MailController
             $success = false;
             $feedback = 'Échec de l\'envoi.';
         }
+        $this->categoryManager = new CategoryManager();
+        $categories = $this->categoryManager->getCategories();
+
         $this->view = new View('contact');
-        $this->view->generate(array('success' => $success, 'feedback' => $feedback));
+        $this->view->generate(array('success' => $success, 'feedback' => $feedback), $categories);
     }
 }

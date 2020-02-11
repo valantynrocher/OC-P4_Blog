@@ -11,11 +11,7 @@ class PostController
 
     public function __construct()
     {
-        if (isset($url) && count($url) < 1) {
-            throw new \Exception('Page introuvable');
-        } else {
-            $this->singlePost();
-        }
+        $this->singlePost();
     }
 
     private function singlePost()
@@ -31,7 +27,7 @@ class PostController
             $categories = $this->categoryManager->getCategories();
 
             $this->view = new View('post');
-            $this->view->generate(array('post' => $post, 'comments' => $comments, 'categories' => $categories));
+            $this->view->generate(array('post' => $post, 'comments' => $comments, 'categories' => $categories), $categories);
         }
     }
 }

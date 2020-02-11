@@ -8,51 +8,44 @@ class HomeController
     private $postPerPage = 5;
     private $view;
 
-    public function __construct()
+    public function __construct($url)
     {
-        if (isset($url) && count($url) > 1) {
-            throw new \Exception('Page introuvable', 1);
-        } else {
-            $this->posts();
-        }
+            $this->home();
     }
 
-    private function posts()
+    private function home()
     {
-        $this->postsManager = new PostsManager();
-
+        // GESTION DE LA PAGINATION
         $page = $_GET['page'] ?? 1;
-        // vérifier que le numéro de page est un entier
+        // vérifie que le numéro de page est un entier
         if(!filter_var($page, FILTER_VALIDATE_INT)) {
             throw new \Exception('Numéro de page invalide');
         }
-
-        // faire en sorte que page=1 soit redirigé vers home
+        // redirection de page=1 vers home
         if ($page === '1') {
             header ('Location: home');
             http_response_code(301);
             exit();
         }
-
         $currentPage = (int)$page;
         if ($currentPage <= 0) {
             throw new \Exception('Numéro de page invalide');
         }
-
+        $this->postsManager = new PostsManager();
         $count = $this->postsManager->getPostsNumber();
         $pages = ceil($count / $this->postPerPage);
         if ($currentPage > $pages) {
             throw new \Exception('Cette page n\'existe pas');
         }
-
         $offset = $this->postPerPage * ($currentPage - 1);
-
         $posts = $this->postsManager->getPostsPages($this->postPerPage, $offset);
 
+        // RECCUPERATION DES CATEGORIES
         $this->categoryManager = new CategoryManager();
         $categories = $this->categoryManager->getCategories();
 
+        // APPEL DE LA VUE
         $this->view = new View('home');
-        $this->view->generate(array('posts' => $posts, 'categories' => $categories, 'pages' => $pages, 'currentPage' => $currentPage));
+        $this->view->generate(array('posts' => $posts, 'categories' => $categories, 'pages' => $pages, 'currentPage' => $currentPage), $categories);
     }
 }

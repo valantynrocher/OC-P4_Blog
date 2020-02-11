@@ -19,7 +19,7 @@ class Router
             // détermine le controleur selon ce qui est passé dans l'url
             if (isset($_GET['url'])) {
                 // décomposition de l'url et application d'un filtre
-                // ex : url=home accueil/articles => [acceuil, articles]
+                // ex : url=accueil/articles => [acceuil, articles]
                 $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE_URL)); // renvoie un array
 
                 $controller = ucfirst(strtolower($url[0]));
@@ -30,7 +30,7 @@ class Router
                 $controllerFile = 'controllers/frontend/'. $controllerClass . '.php';
 
                 // vérifie si le fichier existe
-                if (file_exists($controllerFile)) {
+                if (file_exists($controllerFile) && count($url) === 1) {
                     require_once($controllerFile);
                     $this->ctrl = new $controllerClass($url);
                 } else {

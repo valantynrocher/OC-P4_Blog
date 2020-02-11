@@ -10,26 +10,22 @@ class CategoryController
 
     public function __construct()
     {
-        if (isset($url) && count($url) > 1) {
-            throw new \Exception('Page introuvable', 1);
-        } else {
-            $this->postsCategory();
-        }
+        $this->postsCategory();
     }
 
     private function postsCategory()
     {
-        if (isset($_GET['cat_id'])) {
+        if (isset($_GET['id'])) {
             $this->postsManager = new PostsManager();
-            $postsCategory = $this->postsManager->getCategoryPosts($_GET['cat_id']);
+            $postsCategory = $this->postsManager->getCategoryPosts($_GET['id']);
 
             $this->categoryManager = new CategoryManager();
-            $category = $this->categoryManager->getCategory($_GET['cat_id']);
+            $category = $this->categoryManager->getCategory($_GET['id']);
             $categories = $this->categoryManager->getCategories();
 
 
             $this->view = new View('category');
-            $this->view->generate(array('postsCategory' => $postsCategory, 'category' => $category, 'categories' => $categories));
+            $this->view->generate(array('postsCategory' => $postsCategory, 'category' => $category, 'categories' => $categories), $categories);
         }
     }
 }

@@ -13,15 +13,21 @@ class CommentController
         } else if ($_GET['action'] === 'report') {
             $this->report($_GET['id'], $_GET['postId']);
         }
+        else {
+            throw new Exception('Action inconnue');
+        }
     }
 
     private function add($id)
     {
         if (isset($id)) {
-            $this->commentsManager = new CommentsManager();
-            $affectedComment = $this->commentsManager->addComment($id, $_POST['author'], $_POST['comment']);
+            $author = htmlspecialchars($_POST['author']);
+            $comment = htmlspecialchars($_POST['comment']);
 
-            if ($affectedLines === false) {
+            $this->commentsManager = new CommentsManager();
+            $affectedComment = $this->commentsManager->addComment($id, $author, $comment);
+
+            if ($affectedComment === false) {
                 throw new Exception('Impossible d\'ajouter le commentaire !');
             } else {
                 header('Location: post&id=' . $id);
