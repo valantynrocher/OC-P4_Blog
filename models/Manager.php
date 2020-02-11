@@ -343,4 +343,21 @@ abstract class Manager
         return $affectedUser;
         $req->closeCursor();
     }
+
+    // =============================== NEWSLETTER ===============================
+
+    // insertion d'un nouvel utilisateur
+    protected function setEmail($table, $email)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "INSERT INTO $table(email, suscribe_date)
+            VALUES (?, NOW()");
+        $affectedLine = $req->execute(array(
+            $email
+        ));
+        return $affectedLine;
+        $req->closeCursor();
+    }
+
 }
