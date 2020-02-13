@@ -41,7 +41,7 @@ class Router
                     $controllerFile = 'controllers/admin/'. $controllerClass . '.php';
 
                     // vérifie si le fichier existe
-                    if (file_exists($controllerFile)) {
+                    if (file_exists($controllerFile) && count($url) === 1) {
                         require_once($controllerFile);
                         $this->ctrl = new $controllerClass($url);
                     } else {

@@ -41,7 +41,7 @@
 										<h4 class="card-title">Modifier un article</h4>
                                     </div>
                                     <div class="card-body">
-                                        <form action="admin.php?url=updatepost&id=<?= $postToUpdate[0]->id()?>" method="POST">
+                                        <form action="admin.php?url=posts&action=update&id=<?= $postToUpdate[0]->id()?>" method="POST">
                                         <div class="form-row">
                                             <div class="form-group col-md-2">
                                                 <label for="postId">Id</label>
@@ -100,9 +100,9 @@
                                                             <td><?= $post->updateDateFr() ?></td>
                                                         <?php endif ?>
                                                         <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=post&id=<?=$post->id()?>" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
-                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=posts&showPostId=<?=$post->id()?>"><i class="far fa-eye"></i></td>
-                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=posts&editPostId=<?=$post->id()?>"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=deletepost&id=<?=$post->id()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer cet article ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=posts&action=read&id=<?=$post->id()?>"><i class="far fa-eye"></i></td>
+                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=posts&action=edit&id=<?=$post->id()?>"><i class="far fa-edit"></i></td>
+                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=posts&action=delete&id=<?=$post->id()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer cet article ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>
@@ -111,7 +111,4 @@
 								</div>
 							</div>
                         </div>
-
-                        
-                        
 					</div>
