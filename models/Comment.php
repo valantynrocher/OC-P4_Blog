@@ -9,6 +9,8 @@ class Comment
     private $comment;
     private $creation_date_fr;
     private $report;
+    private $moderate;
+    private $title;
 
     public function __construct(array $data)
     {
@@ -36,7 +38,7 @@ class Comment
         }
     }
 
-    public function setPostid($post_id)
+    public function setPost_id($post_id)
     {
         $post_id = (int) $post_id;
         if ($post_id > 0) {
@@ -71,13 +73,28 @@ class Comment
         }
     }
 
+    public function setModerate($moderate)
+    {
+        $moderate = (int) $moderate;
+        if ($moderate === 0 || $moderate === 1) {
+            $this->moderate = $moderate;
+        }
+    }
+
+    public function setTitle($title)
+    {
+        if (is_string($title)){
+            $this->title = $title;
+        }
+    }
+
     // getters
     public function id()
     {
         return $this->id;
     }
 
-    public function postId()
+    public function post_id()
     {
         return $this->post_id;
     }
@@ -100,5 +117,15 @@ class Comment
     public function report()
     {
         return $this->report;
+    }
+
+    public function moderate()
+    {
+        return $this->moderate;
+    }
+
+    public function title()
+    {
+        return $this->title;
     }
 }
