@@ -2258,7 +2258,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 .search-widget form.example button {
   float: left;
   width: 20%;
-  padding: 5px 4px 3px 15px;
+  padding: 5px 25px 3px 15px;
   background: transparent;
   color: white;
   font-size: 17px;
@@ -2460,7 +2460,8 @@ body.mobile-nav-active #mobile-nav-toggle {
       display: block; } }
   .main_blog_details .news_d_footer a {
     font-size: 14px;
-    color: #777777; }
+    color: #777777;
+    margin-right: 15px; }
     @media (max-width: 380px) {
       .main_blog_details .news_d_footer a .lnr-bubble {
         margin-left: 30px; } }

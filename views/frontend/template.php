@@ -59,6 +59,12 @@
 							<li><a href="/contact">Contact</a></li>
 						</ul>
 					</nav>
+					<div class="search-widget">
+						<form class="example" action="#">
+							<input type="text" placeholder="Rechercher un article" name="search2">
+							<button type="submit"><i class="fa fa-search"></i></button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</header>
