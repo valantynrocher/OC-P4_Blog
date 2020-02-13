@@ -130,9 +130,9 @@
 				</div>
 				<div class="row footer-bottom d-flex justify-content-between align-items-center">
 					<div class="col-lg-4 footer-text text-center">
-						<a href="/legals">Mentions légales</a>
+						<a href="admin.php" target="_blank">Espace d'administration</a>
 						 | 
-						<a href="#">RGPD</a>					
+						 <a href="/legals">Mentions légales</a>					
 					</div>
 					<p class="col-lg-8 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						<a href="http://valantyn.fr" target=_blank>Valentin Rocher</a>
