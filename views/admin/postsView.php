@@ -6,13 +6,13 @@
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href=#><span class="nc-icon nc-simple-add"></span></a>
+                                    <a href="admin.php?url=posts&action=create"><span class="nc-icon nc-simple-add"></span></a>
 								</div>
 							</div>
                         </div>
                         
-                        <?php if(!empty($postToRead)): ?>
                         <!-- show a post to be reading -->
+                        <?php if(!empty($postToRead)): ?>
                             <div class="row">
                                 <div class="col">
                                     <div class="card">
@@ -34,8 +34,8 @@
                             </div>
                         <?php endif ?>
 
+                        <!-- show form to modify a post -->
                         <?php if(!empty($postToUpdate)): ?>
-                            <!-- show form to modify a post -->
                             <div class="row">
                                 <div class="col">
                                     <div class="card">
@@ -55,7 +55,7 @@
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="postCategory">Catégorie</label>
-                                                    <select name="categoryId" class="form-control" id="exampleFormControlSelect1" required>
+                                                    <select name="categoryId" class="form-control" id="postCategory" required>
                                                         <?php foreach ($categories as $category): ?>
                                                             <option value="<?= $category->id()?>" <?php if ($postToUpdate[0]->name() === $category->name()): echo 'selected' ?><?php endif ?> > <?= $category->name()?> </option>
                                                         <?php endforeach ?>

@@ -48,4 +48,10 @@ class PostsManager extends Manager
     {
         return $this->deletePost($this->postTable, $id);
     }
+
+    // ajout d'un nouvel article
+    public function setNewPost($title, $categoryId, $content)
+    {
+        return $this->insertPost($this->postTable, $title, $categoryId, $content);
+    }
 }

@@ -17,6 +17,12 @@ class PostsController
             case 'list':
                 $this->listPosts();
                 break;
+            case 'create':
+                $this->createPost();
+                break;
+            case 'insert':
+                $this->insertPost($_POST['title'], $_POST['categoryId'], $_POST['content']);
+                break;
             case 'read':
                 $this->readPost($_GET['id']);
                 break;
@@ -45,6 +51,32 @@ class PostsController
 
         $this->view = new View('posts');
         $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories));       
+    }
+
+    private function createPost()
+    {
+        $this->categoryManager = new CategoryManager();
+        $this->categories = $this->categoryManager->getCategories();
+                    
+        $this->view = new View('createPost');
+        $this->view->generate(array('categories' => $this->categories));
+    }
+
+    private function insertPost($title, $categoryId, $content)
+    {
+        if (isset($title) && isset($categoryId) && isset($content)) {
+            $this->postsManager = new PostsManager();
+            $newPost = $this->postsManager->setNewPost($title, $categoryId, $content);
+    
+            if($newPost === false) {
+                throw new \Exception("Impossible d'ajouter l\'article !");
+            } else {
+                header('Location: admin.php?url=posts&action=list');
+                exit();
+            }
+        } else {
+            throw new \Exception("Impossible d'ajouter l\'article !");
+        }
     }
 
     private function readPost($id)

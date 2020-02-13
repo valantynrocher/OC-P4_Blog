@@ -193,6 +193,24 @@ abstract class Manager
 
     //***************** Rq back side *****************/
 
+    // Insertion d'un nouvel article
+    protected function insertPost($table, $title, $categoryId, $content)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "INSERT INTO $table(title, category_id, content, creation_date) 
+            VALUES(?, ?, ?, NOW())"
+        );
+        $affectedPost = $req->execute(array(
+            $title,
+            $categoryId,
+            $content
+        ));
+
+        return $affectedPost;
+        $req->closeCursor();
+    }
+
     // Mise à jour d'un article
     protected function updatePost($table, $id, $title, $categoryId, $content)
     {
@@ -438,7 +456,7 @@ abstract class Manager
 
     // =============================== NEWSLETTER ===============================
 
-    // insertion d'un nouvel utilisateur
+    // insertion d'un nouvel abonné
     protected function setEmail($table, $email)
     {
         $this->getBdd();
