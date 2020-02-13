@@ -59,7 +59,7 @@
 							</a>
 						</li>
 						<li>
-							<a class="nav-link" href="admin.php?url=posts">
+							<a class="nav-link" href="admin.php?url=posts&action=list">
 								<i class="nc-icon nc-single-copy-04"></i>
 								<p>Articles</p>
 							</a>
@@ -111,7 +111,14 @@
 							<!-- <?php if($_SESSION['connected']): ?> -->
 							<ul class="navbar-nav ml-auto">
 								<li class="nav-item">
+									<a class="nav-link" href="index.php" target="_blank">
+										<i class="far fa-eye"></i>
+										<span class="no-icon">Voir le site</span>
+									</a>
+								</li>
+								<li class="nav-item">
 									<a class="nav-link" href="#">
+										<i class="fas fa-user-circle"></i>
 										<span class="no-icon">Mon profil</span>
 									</a>
 								</li>
