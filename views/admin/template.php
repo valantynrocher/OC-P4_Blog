@@ -52,31 +52,31 @@
 					</div>
 					<!-- <?php if($_SESSION['connected']): ?> -->
 					<ul class="nav">
-						<li class="nav-item active">
+						<li class="nav-item <?php if ($_GET['url'] === 'dashboard') echo 'active' ?>">
 							<a class="nav-link" href="admin.php?url=dashboard">
 								<i class="nc-icon nc-tv-2"></i>
 								<p>Tableau de bord</p>
 							</a>
 						</li>
-						<li>
+						<li class="nav-item <?php if ($_GET['url'] === 'posts') echo 'active' ?>">
 							<a class="nav-link" href="admin.php?url=posts&action=list">
 								<i class="nc-icon nc-single-copy-04"></i>
 								<p>Articles</p>
 							</a>
 						</li>
-						<li>
-							<a class="nav-link" href="admin.php?url=comments">
+						<li class="nav-item <?php if ($_GET['url'] === 'comments') echo 'active' ?>">
+							<a class="nav-link" href="admin.php?url=comments&action=list">
 								<i class="nc-icon nc-chat-round"></i>
 								<p>Commentaires</p>
 							</a>
 						</li>
-						<li>
+						<li class="nav-item <?php if ($_GET['url'] === 'categories') echo 'active' ?>">
 							<a class="nav-link" href="admin.php?url=categories">
 								<i class="nc-icon nc-bullet-list-67"></i>
 								<p>Catégories</p>
 							</a>
 						</li>
-						<li>
+						<li class="nav-item <?php if ($_GET['url'] === 'users') echo 'active' ?>">
 							<a class="nav-link" href="admin.php?url=users">
 								<i class="nc-icon nc-single-02"></i>
 								<p>Utilisateurs</p>

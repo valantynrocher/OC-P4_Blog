@@ -2,7 +2,7 @@
                         
                         <div class="content-header">
                             <div class="content-header__title">
-                                <h1>Gérer les articles</h1>
+                                <h1>Gestion des articles</h1>
                             </div>
 							<div class="content-header__button">
 								<div class="card">
@@ -12,76 +12,79 @@
                         </div>
                         
                         <?php if(!empty($postToRead)): ?>
-                        <div class="row">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header ">
-										<h4 class="card-title">Consulter un article</h4>
+                        <!-- show a post to be reading -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Consulter un article</h4>
+                                        </div>
+                                        <div class="card-body ">
+                                            <h3><?= $postToRead[0]->title()?></h3>
+                                            <?php if($postToRead[0]->updateDateFr() === null): ?>
+                                                <p>Article créé le <?= $postToRead[0]->creationDateFr() ?></p>
+                                            <?php else: ?>
+                                                <p>Article modifié le <?= $postToRead[0]->updateDateFr() ?></p>
+                                            <?php endif ?>
+                                            
+                                            <p><?= $postToRead[0]->content()?></p>
+                                        </div>
                                     </div>
-                                    <div class="card-body ">
-                                        <h3><?= $postToRead[0]->title()?></h3>
-                                        <?php if($postToRead[0]->updateDateFr() === null): ?>
-                                            <p>Article créé le <?= $postToRead[0]->creationDateFr() ?></p>
-                                        <?php else: ?>
-                                            <p>Article modifié le <?= $postToRead[0]->updateDateFr() ?></p>
-                                        <?php endif ?>
-                                        
-                                        <p><?= $postToRead[0]->content()?></p>
-									</div>
                                 </div>
                             </div>
-                        </div>
                         <?php endif ?>
 
                         <?php if(!empty($postToUpdate)): ?>
-                        <div class="row">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header ">
-										<h4 class="card-title">Modifier un article</h4>
+                            <!-- show form to modify a post -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header ">
+                                            <h4 class="card-title">Modifier un article</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <form action="admin.php?url=posts&action=update&id=<?= $postToUpdate[0]->id()?>" method="POST">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label for="postId">Id</label>
+                                                    <input class="form-control" name="id" type="text" placeholder="<?= $postToUpdate[0]->id()?>" id="postId" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="postTitle">Titre</label>
+                                                    <input type="text" class="form-control" name="title" id="postTitle" value="<?= $postToUpdate[0]->title()?>" required>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="postCategory">Catégorie</label>
+                                                    <select name="categoryId" class="form-control" id="exampleFormControlSelect1" required>
+                                                        <?php foreach ($categories as $category): ?>
+                                                            <option value="<?= $category->id()?>" <?php if ($postToUpdate[0]->name() === $category->name()): echo 'selected' ?><?php endif ?> > <?= $category->name()?> </option>
+                                                        <?php endforeach ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col">
+                                                    <label for="postContent">Contenu de l'article</label>
+                                                    <textarea class="form-control" name="content" id="postContent" rows="19" required><?= $postToUpdate[0]->content()?></textarea>
+                                                </div>
+                                            </div>
+                                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <form action="admin.php?url=posts&action=update&id=<?= $postToUpdate[0]->id()?>" method="POST">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-2">
-                                                <label for="postId">Id</label>
-                                                <input class="form-control" name="id" type="text" placeholder="<?= $postToUpdate[0]->id()?>" id="postId" readonly>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="postTitle">Titre</label>
-                                                <input type="text" class="form-control" name="title" id="postTitle" value="<?= $postToUpdate[0]->title()?>" required>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="postCategory">Catégorie</label>
-                                                <select name="categoryId" class="form-control" id="exampleFormControlSelect1" required>
-                                                    <?php foreach ($categories as $category): ?>
-                                                        <option value="<?= $category->id()?>" <?php if ($postToUpdate[0]->name() === $category->name()): echo 'selected' ?><?php endif ?> > <?= $category->name()?> </option>
-                                                    <?php endforeach ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col">
-                                                <label for="postContent">Contenu de l'article</label>
-                                                <textarea class="form-control" name="content" id="postContent" rows="19" required><?= $postToUpdate[0]->content()?></textarea>
-                                            </div>
-                                        </div>
-                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                        </form>
-									</div>
                                 </div>
                             </div>
-                        </div>
                         <?php endif ?>
                         
+                        <!-- table with posts list -->
                         <div class="row">
 							<div class="col">
 								<div class="card strpied-tabled-with-hover">
 									<div class="card-header">
-										<h4 class="card-title">Liste des articles</h4>
+										<h4 class="card-title">Mes articles</h4>
 									</div>
 									<div class="card-body table-full-width table-responsive">
-                                        <table class="table table-hover table-striped">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Titre</th>
