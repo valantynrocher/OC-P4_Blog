@@ -35,6 +35,7 @@ class LoginController
                 $this->view->generate(array('error' => $error));
             }
         } else {
+            $_SESSION['connected'] = 0;
             $error = null;
             $this->view = new View('login');
             $this->view->generate(array('error' => $error));
