@@ -5,16 +5,36 @@
  */
 class CategoryManager extends Manager
 {
+    private $categoryTable = 'category';
+    private $categoryObject = 'Category';
     
-    // récupère toutes les catégories dans la bdd
     public function getCategories()
     {
-        return $this->getAllCategories('category', 'Category');
+        return $this->getAllCategories($this->categoryTable, $this->categoryObject);
     }
 
-    // récupère une catégorie avec son id
     public function getCategory($catId)
     {
-        return $this->getOneCategory('category', 'Category', $catId);
+        return $this->getOneCategory($this->categoryTable, $this->categoryObject, $catId);
+    }
+
+    public function getCategoriesNumber()
+    {
+        return $this->countCategories($this->categoryTable);
+    }
+
+    public function setNewCategory($name, $image)
+    {
+        return $this->insertCategory($this->categoryTable, $name, $image);
+    }
+
+    public function setUpdateCategory($id, $name, $image)
+    {
+        return $this->updateCategory($this->categoryTable, $id, $name, $image);
+    }
+
+    public function setDeleteCategory($id)
+    {
+        return $this->deleteCategory($this->categoryTable, $id);
     }
 }

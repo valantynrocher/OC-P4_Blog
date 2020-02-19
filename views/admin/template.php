@@ -71,7 +71,7 @@
 							</a>
 						</li>
 						<li class="nav-item <?php if ($_GET['url'] === 'categories') echo 'active' ?>">
-							<a class="nav-link" href="admin.php?url=categories">
+							<a class="nav-link" href="admin.php?url=categories&action=list">
 								<i class="nc-icon nc-bullet-list-67"></i>
 								<p>Catégories</p>
 							</a>
@@ -96,7 +96,9 @@
 							<p>
 								Bonjour
 								<?php if($_SESSION['connected']): ?>
-								<a href="#"><?=$_SESSION['userName']?></a>
+									<a href="#"><?=$_SESSION['userName']?></a>
+								<?php else: ?>
+									
 								<?php endif ?>
 								!
 							</p>

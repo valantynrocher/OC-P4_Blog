@@ -53,7 +53,7 @@ abstract class Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT name 
+            "SELECT id, name, image
             FROM $table
             WHERE id=?"
         );
@@ -66,6 +66,64 @@ abstract class Manager
         }
         return $var;
         $req->closeCursor();
+    }
+
+    // comptage des catégories
+    protected function countCategories($table)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(id) FROM $table");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
+    // Insertion d'une nouvelle catégorie
+    protected function insertCategory($table, $name, $image)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "INSERT INTO $table(name, image) 
+            VALUES(?, ?)"
+        );
+        $affectedCategory = $req->execute(array(
+            $name,
+            $image
+        ));
+
+        return $affectedCategory;
+        $req->closeCursor();
+    }
+
+    protected function updateCategory($table, $id, $name, $image)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "UPDATE $table
+            SET name = :new_name, image = :new_image
+            WHERE id = $id"
+        );
+        $affectedPost = $req->execute(array(
+            'new_name' => $name,
+            'new_image' => $image
+        ));
+
+        return $affectedCategory;
+    }
+
+    protected function deleteCategory($table, $id)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "DELETE FROM $table
+            WHERE id = ?"
+        );
+        $deletedCategory = $req->execute(array(
+            $id
+        ));
+
+        return $deletedCategory;
     }
 
 
@@ -181,11 +239,24 @@ abstract class Manager
     }
 
     // comptage des articles
-    protected function countPost($table)
+    protected function countPosts($table)
     {
         $this->getBdd();
         $req = self::$bdd->query("SELECT count(id) FROM $table");
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
+    // comptage des articles par catégorie
+    protected function countPostsByCategory($table, $category_id)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare("SELECT count(id) FROM $table WHERE category_id = ?");
+        $count = (int)$req->execute(array(
+            $category_id
+        ));
 
         return $count;
         $req->closeCursor();
