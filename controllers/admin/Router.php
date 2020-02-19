@@ -53,9 +53,9 @@ class Router
                 }
             }
         } catch (\Exception $e) {
-            $errorMessage = $e->getMessage();
             $this->view = new View('error');
-            $this->view->generate(array('error' => $errorMessage));
+            $errorMessage = $e->getMessage();
+            $this->view->generate(array('errorMessage' => $errorMessage));
         }
     }
 }
