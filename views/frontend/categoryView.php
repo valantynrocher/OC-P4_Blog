@@ -1,4 +1,3 @@
-	<!-- Start banner Area -->
 	<section class="banner-area relative">
 		<div class="overlay overlay-bg"></div>
 		<div class="container box_1170">
@@ -17,9 +16,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- End banner Area -->
 
-	<!-- Start main body Area -->
 	<div class="main-body section-gap">
 		<div class="container box_1170">
 			<div class="row">
@@ -82,69 +79,60 @@
 					<!-- Start Post Area -->
 				</div>
 
-			<!-- Start Sidebar -->
-			<div class="col-lg-4 sidebar">
-				<div class="single-widget search-widget">
-					<form class="example" action="#" style="margin:auto;max-width:300px">
-						<input type="text" placeholder="Search Posts" name="search2">
-						<button type="submit"><i class="fa fa-search"></i></button>
-					</form>
-				</div>
-
-				<div class="single-widget protfolio-widget">
-					<img class="img-fluid" src="public/img/jean-forterouche-about.jpg" alt="">
-					<a href="#">
-						<h4>Jean Forteroche</h4>
-					</a>
-					<div class="desigmation">
-						<p>Écrivain aventurier</p>
+				<div class="col-lg-4 sidebar">
+					
+					<div class="single-widget protfolio-widget">
+						<img class="img-fluid" src="public/img/jean-forterouche-about.jpg" alt="">
+						<a href="#">
+							<h4>Jean Forteroche</h4>
+						</a>
+						<div class="desigmation">
+							<p>Écrivain aventurier</p>
+						</div>
+						<p>
+							about...
+						</p>
+						<ul>
+							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+						</ul>
 					</div>
-					<p>
-						about...
-					</p>
-					<ul>
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-					</ul>
-				</div>
 
-				<div class="single-widget category-widget">
-					<h4 class="title">Les chapitres</h4>
-					<ul>
-						<?php foreach ($categories as $category): ?>
-						<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
-								<p><?= $category->name() ?></p> <span>37</span>
-							</a>
-						</li>
-						<?php endforeach ?>
-					</ul>
-				</div>
+					<div class="single-widget category-widget">
+						<h4 class="title">Les chapitres</h4>
+						<ul>
+							<?php foreach ($categories as $category): ?>
+							<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
+									<p><?= $category->name() ?></p>
+								</a>
+							</li>
+							<?php endforeach ?>
+						</ul>
+					</div>
 
-				<div class="single-widget newsletter-widget">
-					<h4 class="title">Newsletter</h4>
-					<div id="mc_embed_signup">
-						<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-						method="get" class="">
-							<div class="form-group" style="width: 100%">
-								<input name="EMAIL" placeholder="Votre e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail '"
-								required="" type="email">
-								<div style="position: absolute; left: -5000px;">
-									<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+					<div class="single-widget newsletter-widget">
+						<h4 class="title">Newsletter</h4>
+						<div id="mc_embed_signup">
+							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+							method="get" class="">
+								<div class="form-group" style="width: 100%">
+									<input name="EMAIL" placeholder="Votre e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail '"
+									required="" type="email">
+									<div style="position: absolute; left: -5000px;">
+										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+									</div>
+
+									<button class="primary-btn text-uppercase">
+										Je m'abonne
+										<span class="lnr lnr-arrow-right"></span>
+									</button>
 								</div>
-
-								<button class="primary-btn text-uppercase">
-									Je m'abonne
-									<span class="lnr lnr-arrow-right"></span>
-								</button>
-							</div>
-							<div class="info"></div>
-						</form>
+								<div class="info"></div>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- End Sidebar -->
 			</div>
 		</div>
 	</div>
-	<!-- Start main body Area -->

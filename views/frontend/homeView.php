@@ -1,4 +1,3 @@
-<!-- Start banner Area -->
 <section class="banner-area">
 	<div class="container box_1170">
 		<div class="row fullscreen d-flex align-items-center justify-content-center">
@@ -12,9 +11,7 @@
 		</div>
 	</div>
 </section>
-<!-- End banner Area -->
 
-<!-- Start main body Area -->
 <div class="main-body section-gap mt--30">
 	<div class="container box_1170">
 		<div class="row">
@@ -103,14 +100,7 @@
 				<!-- End  Post Area -->
 			</div>
 
-			<!-- Start Sidebar -->
 			<div class="col-lg-4 sidebar">
-				<div class="single-widget search-widget">
-					<form class="example" action="#" style="margin:auto;max-width:300px">
-						<input type="text" placeholder="Search Posts" name="search2">
-						<button type="submit"><i class="fa fa-search"></i></button>
-					</form>
-				</div>
 
 				<div class="single-widget protfolio-widget">
 					<img class="img-fluid" src="public/img/jean-forterouche-about.jpg" alt="">
@@ -135,7 +125,7 @@
 					<ul>
 						<?php foreach ($categories as $category): ?>
 						<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
-								<p><?= $category->name() ?></p> <span>37</span>
+								<p><?= $category->name() ?></p>
 							</a>
 						</li>
 						<?php endforeach ?>
@@ -165,8 +155,6 @@
 				</div>
 
 			</div>
-			<!-- End Sidebar -->
 		</div>
 	</div>
 </div>
-<!-- End main body Area -->

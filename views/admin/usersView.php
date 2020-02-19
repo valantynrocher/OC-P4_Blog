@@ -56,7 +56,7 @@
 							<div class="col">
 								<div class="card ">
 									<div class="card-header ">
-										<h4 class="card-title">Liste des articles</h4>
+										<h4 class="card-title">Liste des utilisateurs</h4>
 									</div>
 									<div class="card-body ">
                                         <table class="table table-striped">

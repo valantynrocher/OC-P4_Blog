@@ -15,13 +15,17 @@ class HomeController
 
     private function home()
     {
-        // GESTION DE LA PAGINATION
+        // CREATE MANAGERS
+        $this->postsManager = new PostsManager();
+        $this->categoryManager = new CategoryManager();
+
+        // GET PAGINATION
         $page = $_GET['page'] ?? 1;
-        // vérifie que le numéro de page est un entier
+        // check if page number is an integer
         if(!filter_var($page, FILTER_VALIDATE_INT)) {
             throw new \Exception('Numéro de page invalide');
         }
-        // redirection de page=1 vers home
+        // redirection from page=1 to home
         if ($page === '1') {
             header ('Location: home');
             http_response_code(301);
@@ -31,7 +35,7 @@ class HomeController
         if ($currentPage <= 0) {
             throw new \Exception('Numéro de page invalide');
         }
-        $this->postsManager = new PostsManager();
+        
         $count = $this->postsManager->getPostsNumber();
         $pages = ceil($count / $this->postPerPage);
         if ($currentPage > $pages) {
@@ -40,11 +44,10 @@ class HomeController
         $offset = $this->postPerPage * ($currentPage - 1);
         $posts = $this->postsManager->getPostsPages($this->postPerPage, $offset);
 
-        // RECCUPERATION DES CATEGORIES
-        $this->categoryManager = new CategoryManager();
+        // GET CATEGORIES
         $categories = $this->categoryManager->getCategories();
 
-        // APPEL DE LA VUE
+        // CALL THE VIEW
         $this->view = new View('home');
         $this->view->generate(array('posts' => $posts, 'categories' => $categories, 'pages' => $pages, 'currentPage' => $currentPage), $categories);
     }

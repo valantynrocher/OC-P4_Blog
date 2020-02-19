@@ -11,7 +11,6 @@
 							</div>
                         </div>
                         
-                        <!-- show a post to be reading -->
                         <?php if(!empty($postToRead)): ?>
                             <div class="row">
                                 <div class="col">
@@ -34,7 +33,6 @@
                             </div>
                         <?php endif ?>
 
-                        <!-- show form to modify a post -->
                         <?php if(!empty($postToUpdate)): ?>
                             <div class="row">
                                 <div class="col">
@@ -76,7 +74,6 @@
                             </div>
                         <?php endif ?>
                         
-                        <!-- table with posts list -->
                         <div class="row">
 							<div class="col">
 								<div class="card strpied-tabled-with-hover">
@@ -87,6 +84,7 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
+                                                    <th scope="col">Id</th>
                                                     <th scope="col">Titre</th>
                                                     <th scope="col">Catégorie</th>
                                                     <th scope="col">Dernière modification</th>
@@ -95,6 +93,7 @@
                                             <tbody>
                                                 <?php foreach ($posts as $post): ?>
                                                     <tr>
+                                                        <td><?= $post->id() ?></td>
                                                         <td><?= $post->title() ?></td>
                                                         <td><?= $post->name() ?></td>
                                                         <?php if($post->updateDateFr() === null): ?>
