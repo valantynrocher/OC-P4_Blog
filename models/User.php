@@ -2,14 +2,14 @@
 
 class User
 {
-
-    private $id;
-    private $first_name;
-    private $last_name;
-    private $login;
-    private $password;
-    private $email;
-    private $role;
+    // from user table
+    private $user_id;
+    private $user_first_name;
+    private $user_last_name;
+    private $user_login;
+    private $user_password;
+    private $user_email;
+    private $user_role;
 
     public function __construct(array $data)
     {
@@ -29,90 +29,90 @@ class User
     }
 
     // setters
-    public function setId($id)
+    public function setUser_id($user_id)
     {
-        $id = (int) $id;
-        if ($id > 0) {
-            $this->id = $id;
+        $user_id = (int) $user_id;
+        if ($user_id > 0) {
+            $this->user_id = $user_id;
         }
     }
 
-    public function setFirst_name($first_name)
+    public function setUser_first_name($user_first_name)
     {
-        if (is_string($first_name)) {
-            $this->first_name = $first_name;
+        if (is_string($user_first_name)) {
+            $this->user_first_name = $user_first_name;
         }
     }
 
-    public function setLast_name($last_name)
+    public function setUser_last_name($user_last_name)
     {
-        if (is_string($last_name)) {
-            $this->last_name = $last_name;
+        if (is_string($user_last_name)) {
+            $this->user_last_name = $user_last_name;
         }
     }
 
-    public function setLogin($login)
+    public function setUser_login($user_login)
     {
-        if (is_string($login)) {
-            $this->login = $login;
+        if (is_string($user_login)) {
+            $this->user_login = $user_login;
         }
     }
 
-    public function setPassword($password)
+    public function setUser_password($user_password)
     {
-        if (is_string($password)) {
-            $this->password = $password;
+        if (is_string($user_password)) {
+            $this->user_password = $user_password;
         }
     }
 
-    public function setEmail($email)
+    public function setUser_email($user_email)
     {
-        if (is_string($email)) {
-            $this->email = $email;
+        if (is_string($user_email)) {
+            $this->user_email = $user_email;
         }
     }
 
-    public function setRole($role)
+    public function setUser_role($user_role)
     {
-        if (is_string($role)) {
-            $this->role = $role;
+        if (is_string($user_role)) {
+            $this->user_role = $user_role;
         }
     }
 
 
     // getters
-    public function id()
+    public function userId()
     {
-        return $this->id;
+        return $this->user_id;
     }
 
-    public function firstName()
+    public function userFirstName()
     {
-        return $this->first_name;
+        return $this->user_first_name;
     }
 
-    public function lastName()
+    public function userLastName()
     {
-        return $this->last_name;
+        return $this->user_last_name;
     }
 
-    public function login()
+    public function userLogin()
     {
-        return $this->login;
+        return $this->user_login;
     }
 
-    public function password()
+    public function userPassword()
     {
-        return $this->password;
+        return $this->user_password;
     }
 
-    public function email()
+    public function userEmail()
     {
-        return $this->email;
+        return $this->user_email;
     }
 
-    public function role()
+    public function userRole()
     {
-        return $this->role;
+        return $this->user_role;
     }
 }

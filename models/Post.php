@@ -2,15 +2,16 @@
 
 class Post
 {
-
-    private $id;
-    private $title;
+    // from post table
+    private $post_id;
+    private $post_title;
     private $category_id;
-    private $content;
-    private $creation_date_fr;
-    private $update_date_fr;
-    private $status;
-    private $chapter;
+    private $post_content;
+    private $post_creation_date_fr;
+    private $post_update_date_fr;
+    private $post_status;
+    // from category table
+    private $category_title;
 
     public function __construct(array $data)
     {
@@ -30,22 +31,22 @@ class Post
     }
 
     // setters
-    public function setId($id)
+    public function setPost_id($post_id)
     {
-        $id = (int) $id;
-        if ($id > 0) {
-            $this->id = $id;
+        $post_id = (int) $post_id;
+        if ($post_id > 0) {
+            $this->post_id = $post_id;
         }
     }
 
-    public function setTitle($title)
+    public function setPost_title($post_title)
     {
-        if (is_string($title)) {
-            $this->title = $title;
+        if (is_string($post_title)) {
+            $this->post_title = $post_title;
         }
     }
 
-    public function setCategoryId($category_id)
+    public function setCategorypost_id($category_id)
     {
         $category_id = (int) $category_id;
         if ($category_id > 0) {
@@ -53,75 +54,75 @@ class Post
         }
     }
 
-    public function setContent($content)
+    public function setPost_content($post_content)
     {
-        if (is_string($content)) {
-            $this->content = $content;
+        if (is_string($post_content)) {
+            $this->post_content = $post_content;
         }
     }
 
-    public function setCreation_date_fr($creation_date_fr)
+    public function setPost_creation_date_fr($post_creation_date_fr)
     {
-        $this->creation_date_fr = $creation_date_fr;
+        $this->post_creation_date_fr = $post_creation_date_fr;
     }
 
-    public function setUpdate_date_fr($update_date_fr)
+    public function setPost_update_date_fr($post_update_date_fr)
     {
-        $this->update_date_fr = $update_date_fr;
+        $this->post_update_date_fr = $post_update_date_fr;
     }
 
-    public function setStatus($status) {
-        if (is_string($status)) {
-            if ($status === 'progress' || $status === 'public' || $status === 'trash')
-            $this->status = $status;
+    public function setPost_status($post_status) {
+        if (is_string($post_status)) {
+            if ($post_status === 'progress' || $post_status === 'public' || $post_status === 'trash')
+            $this->post_status = $post_status;
         }
     }
 
-    public function setChapter($chapter)
+    public function setCategory_title($category_title)
     {
-        if (is_string($chapter)) {
-            $this->chapter = $chapter;
+        if (is_string($category_title)) {
+            $this->category_title = $category_title;
         }
     }
 
     // getters
-    public function id()
+    public function postId()
     {
-        return $this->id;
+        return $this->post_id;
     }
 
-    public function title()
+    public function postTitle()
     {
-        return $this->title;
+        return $this->post_title;
     }
 
-    public function categoryId()
+    public function categorypost_id()
     {
         return $this->category_id;
     }
 
-    public function content()
+    public function postContent()
     {
-        return $this->content;
+        return $this->post_content;
     }
 
-    public function creationDateFr()
+    public function postCreationDateFr()
     {
-        return $this->creation_date_fr;
+        return $this->post_creation_date_fr;
     }
 
-    public function updateDateFr()
+    public function postUpdateDateFr()
     {
-        return $this->update_date_fr;
+        return $this->post_update_date_fr;
     }
 
-    public function status()
+    public function postStatus()
     {
-        return $this->status;
+        return $this->post_status;
     }
 
-    public function chapter()
+    public function categoryTitle()
     {
-        return $this->chapter;
+        return $this->category_title;
     }
 }

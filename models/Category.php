@@ -2,10 +2,10 @@
 
 class Category
 {
-
-    private $id;
-    private $chapter;
-    private $image;
+    // from category table
+    private $category_id;
+    private $category_title;
+    private $category_image;
 
     public function __construct(array $data)
     {
@@ -25,41 +25,41 @@ class Category
     }
 
     // setters
-    public function setId($id)
+    public function setCategory_id($category_id)
     {
-        $id = (int) $id;
-        if ($id > 0) {
-            $this->id = $id;
+        $category_id = (int) $category_id;
+        if ($category_id > 0) {
+            $this->category_id = $category_id;
         }
     }
 
-    public function setChapter($chapter)
+    public function setCategory_title($category_title)
     {
-        if (is_string($chapter)) {
-            $this->chapter = $chapter;
+        if (is_string($category_title)) {
+            $this->category_title = $category_title;
         }
     }
 
-    public function setImage($image)
+    public function setCategory_image($category_image)
     {
-        if (is_string($image)) {
-            $this->image = $image;
+        if (is_string($category_image)) {
+            $this->category_image = $category_image;
         }
     }
 
     // getters
-    public function id()
+    public function categoryId()
     {
-        return $this->id;
+        return $this->category_id;
     }
 
-    public function chapter()
+    public function categoryTitle()
     {
-        return $this->chapter;
+        return $this->category_title;
     }
 
-    public function image()
+    public function categoryImage()
     {
-        return $this->image;
+        return $this->category_image;
     }
 }

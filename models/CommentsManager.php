@@ -3,48 +3,183 @@
 class CommentsManager extends Manager
 {
 
-    private $commentTable = 'comment';
     private $commentObject = 'Comment';
+
+    /* =================================================================================================================================
+        REQUESTS SETTERS
+    ================================================================================================================================= */
+
+    //***************** Rq front side *****************/
+
+    protected function selectCommentsByPost($commentTable, $postTable, $obj, $postId)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content, 
+            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            comment_status
+            FROM $commentTable LEFT JOIN $postTable 
+            ON $commentTable.post_id = $postTable.comment_id
+            WHERE $postTable.comment_id = $postId
+            ORDER BY $commentTable.comment_id DESC"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function insertNewComment($commentTable, $postId, $commentAuthor, $commentContent)
+    // By default, new comments are in "waiting" status
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "INSERT INTO $commentTable(post_id, comment_author, comment_content, comment_creation_date) 
+            VALUES(?, ?, ?, NOW() )"
+        );
+        $affectedComment = $req->execute(array(
+            $postId,
+            $commentAuthor,
+            $commentContent
+        ));
+
+        return $affectedComment;
+        $req->closeCursor();
+    }
+
+    protected function updateToReportComment($commentTable, $commentId)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "UPDATE $commentTable
+            SET comment_status = 1
+            WHERE id = ?"
+        );
+        $affectedComment = $req->execute(array(
+            $commentId
+        ));
+
+        return $affectedComment;
+        $req->closeCursor();
+    }
+
+    //***************** Rq back side *****************/
+
+    protected function selectReportedComments($commentTable, $postTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT $commentTable.comment_id, post_id, comment_author, comment_content,
+            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            $postTable.post_title
+            FROM $commentTable 
+            LEFT JOIN $postTable 
+            ON $commentTable.post_id = $postTable.comment_id
+            WHERE comment_status = 1
+            ORDER BY $commentTable.comment_id 
+            DESC"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function selectModeratedComments($commentTable, $postTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT $commentTable.comment_id, post_id, comment_author, comment_content,
+            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            $postTable.post_title
+            FROM $commentTable 
+            LEFT JOIN $postTable 
+            ON $commentTable.post_id = $postTable.comment_id
+            WHERE comment_status = 3
+            ORDER BY $commentTable.comment_id 
+            DESC"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function updateToModerateComment($commentTable, $commentId)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "UPDATE $commentTable
+            SET comment_status = 3
+            WHERE comment_id = ?"
+        );
+        $affectedComment = $req->execute(array(
+            $commentId
+        ));
+
+        return $affectedComment;
+        $req->closeCursor();
+    }
+
+    protected function deleteCommentDeleted($commentTable, $commentId)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "DELETE FROM $commentTable
+            WHERE id = ?"
+        );
+        $deletedComment = $req->execute(array(
+            $commentId
+        ));
+
+        return $deletedComment;
+    }
+
+    /* =================================================================================================================================
+        REQUESTS GETTERS
+    ================================================================================================================================= */
     
-    // récupère tous les articles dans la bdd
-    public function getComments($id)
+    public function getCommentsByPost($postId)
     {
-        return $this->getCommentsByPost($this->commentTable, 'post', $this->commentObject, $id);
+        return $this->selectCommentsByPost($this->commentTable, $this->postTable, $this->commentObject, $postId);
     }
 
-    // ajoute un article dans la bdd
-    public function addComment($postId, $author, $comment)
+    public function setNewComment($postId, $commentAuthor, $commentContent)
     {
-        return $this->insertComment($this->commentTable, $postId, $author, $comment);
+        return $this->insertNewComment($this->commentTable, $postId, $commentAuthor, $commentContent);
     }
 
-    // signale un commentaire
-    public function reportOneComment($id)
+    public function setReportComment($commentId)
     {
-        return $this->reportComment($this->commentTable, $id);
+        return $this->updateToReportComment($this->commentTable, $commentId);
     }
 
-    // récupération des commentaires signalés et à modérer
-    public function listReportComments()
+    public function getReportedComments()
     {
-        return $this->getReportComments($this->commentTable, 'post', $this->commentObject);
+        return $this->selectReportedComments($this->commentTable, $this->postTable, $this->commentObject);
     }
 
-    // récupération des commentaires valides et/ou modérés
-    public function listModerateComments()
+    public function getModeratedComments()
     {
-        return $this->getModerateComments($this->commentTable, 'post', $this->commentObject);
+        return $this->selectModeratedComments($this->commentTable, $this->postTable, $this->commentObject);
     }
 
-    // modération d'un commentaire qui a été signalé
-    public function  moderateOneComment($id)
+    public function setModerateComment($commentId)
     {
-        return $this->setModerateComment($this->commentTable, $id);
+        return $this->updateToModerateComment($this->commentTable, $commentId);
     }
 
-    // suppression d'un commentaire
-    public function deleteOneComment($id)
+    public function setCommentDeleted($commentId)
     {
-        return $this->deleteComment($this->commentTable, $id);
+        return $this->deleteCommentDeleted($this->commentTable, $commentId);
     }
 }

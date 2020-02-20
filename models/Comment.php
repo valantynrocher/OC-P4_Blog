@@ -2,15 +2,15 @@
 
 class Comment
 {
-
-    private $id;
+    // from comment table
+    private $comment_id;
     private $post_id;
-    private $author;
-    private $comment;
-    private $creation_date_fr;
-    private $report;
-    private $moderate;
-    private $title;
+    private $comment_author;
+    private $comment_content;
+    private $comment_creation_date_fr;
+    private $comment_status;
+    // from post table
+    private $post_title;
 
     public function __construct(array $data)
     {
@@ -30,11 +30,11 @@ class Comment
     }
 
     // setters
-    public function setId($id)
+    public function setComment_id($comment_id)
     {
-        $id = (int) $id;
-        if ($id > 0) {
-            $this->id = $id;
+        $comment_id = (int) $comment_id;
+        if ($comment_id > 0) {
+            $this->comment_id = $comment_id;
         }
     }
 
@@ -46,52 +46,43 @@ class Comment
         }
     }
 
-    public function setAuthor($author)
+    public function setComment_author($comment_author)
     {
-        if (is_string($author)){
-            $this->author = $author;
+        if (is_string($comment_author)){
+            $this->comment_author = $comment_author;
         }
     }
 
-    public function setComment($comment)
+    public function setComment_content($comment_content)
     {
-        if (is_string($comment)) {
-            $this->comment = $comment;
+        if (is_string($comment_content)) {
+            $this->comment_content = $comment_content;
         }
     }
 
-    public function setCreation_date_fr($creation_date_fr)
+    public function setComment_creation_date_fr($comment_creation_date_fr)
     {
-        $this->creation_date_fr = $creation_date_fr;
+        $this->comment_creation_date_fr = $comment_creation_date_fr;
     }
 
-    public function setReport($report)
-    {
-        $report = (int) $report;
-        if ($report === 0 || $report === 1) {
-            $this->report = $report;
+    public function setComment_status($comment_status) {
+        if (is_string($comment_status)) {
+            if ($comment_status === 'progress' || $comment_status === 'public' || $comment_status === 'trash')
+            $this->comment_status = $comment_status;
         }
     }
 
-    public function setModerate($moderate)
+    public function setPost_title($post_title)
     {
-        $moderate = (int) $moderate;
-        if ($moderate === 0 || $moderate === 1) {
-            $this->moderate = $moderate;
-        }
-    }
-
-    public function setTitle($title)
-    {
-        if (is_string($title)){
-            $this->title = $title;
+        if (is_string($post_title)){
+            $this->post_title = $post_title;
         }
     }
 
     // getters
-    public function id()
+    public function commentId()
     {
-        return $this->id;
+        return $this->comment_id;
     }
 
     public function post_id()
@@ -99,33 +90,28 @@ class Comment
         return $this->post_id;
     }
 
-    public function author()
+    public function commentAuthor()
     {
-        return $this->author;
+        return $this->comment_author;
     }
 
-    public function comment()
+    public function commentContent()
     {
-        return $this->comment;
+        return $this->comment_content;
     }
 
-    public function creationDateFr()
+    public function commentCreationDateFr()
     {
-        return $this->creation_date_fr;
+        return $this->comment_creation_date_fr;
     }
 
-    public function report()
+    public function commentStatus()
     {
-        return $this->report;
+        return $this->comment_status;
     }
 
-    public function moderate()
+    public function postTitle()
     {
-        return $this->moderate;
-    }
-
-    public function title()
-    {
-        return $this->title;
+        return $this->post_title;
     }
 }

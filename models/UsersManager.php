@@ -2,22 +2,83 @@
 
 class UsersManager extends Manager
 {
+    private $userObject = 'User';
+
+
+    /* =================================================================================================================================
+        REQUESTS SETTERS
+    ================================================================================================================================= */
     
-    // récupère tous les administrateurs
-    public function getAdmins()
+    protected function selectAllUsers($userTable, $obj)
     {
-        return $this->getAdminUsers('user', 'User');
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT user_first_name, user_last_name, user_login, user_email, user_role 
+            FROM $userTable 
+            ORDER BY user_id 
+            ASC"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
     }
 
-    // récupère tous les utilisateurs
-    public function allUsers()
+    protected function selectAdminUsers($userTable, $obj)
+    // temporary select only one for dev time
     {
-        return $this->getAllUsers('user', 'User');
+        $this->getBdd();
+        $req = self::$bdd->query(
+            "SELECT user_first_name, user_last_name, user_login, user_password, user_email
+            FROM $userTable
+            WHERE user_role = 'admin'
+            LIMIT 0, 1"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
     }
 
-    // créé un nouvel utilisateur
-    public function addUser($firstName, $lastName, $login, $password, $email, $role)
+    protected function insertNewUser($userTable, $userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
     {
-        return $this->setNewUser('user', $firstName, $lastName, $login, $password, $email, $role);
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "INSERT INTO $userTable(user_first_name, user_last_name, user_login, user_password, user_email, user_role)
+            VALUES (?, ?, ?, ?, ?, ?)");
+        $affectedUser = $req->execute(array(
+            $userFirstName,
+            $userLastName,
+            $userLogin,
+            $userPassword,
+            $userEmail,
+            $userRole
+        ));
+        return $affectedUser;
+        $req->closeCursor();
+    }
+
+    /* =================================================================================================================================
+        REQUESTS GETTERS
+    ================================================================================================================================= */
+    
+    public function getAllUsers()
+    {
+        return $this->selectAllUsers($this->userTable, $this->userObject);
+    }
+    
+    public function getAdminUsers()
+    {
+        return $this->selectAdminUsers($this->userTable, $this->userObject);
+    }
+
+    public function setNewUser($userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
+    {
+        return $this->insertNewUser($this->userTable, $userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole);
     }
 }
