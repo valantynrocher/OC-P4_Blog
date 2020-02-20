@@ -112,10 +112,10 @@ class PostsManager extends Manager
         $req->closeCursor();
     }
 
-    protected function countPublicPostsNumber($table)
+    protected function countPublicPostsNumber($postTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(post_id) FROM $table WHERE post_status = 2");
+        $req = self::$bdd->query("SELECT count(post_id) FROM $postTable WHERE post_status = 2");
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -124,11 +124,11 @@ class PostsManager extends Manager
 
     // Requests for BACK side
 
-    protected function insertNewPost($table, $postTitle, $categoryId, $postContent)
+    protected function insertNewPost($postTable, $postTitle, $categoryId, $postContent)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
-            "INSERT INTO $table(post_title, $postTable.category_id, post_content, post_creation_date) 
+            "INSERT INTO $postTable(post_title, $postTable.category_id, post_content, post_creation_date) 
             VALUES(?, ?, ?, NOW())"
         );
         $affectedPost = $req->execute(array(
@@ -141,11 +141,11 @@ class PostsManager extends Manager
         $req->closeCursor();
     }
 
-    protected function updateChangedPost($table, $postId, $postTitle, $categoryId, $postContent)
+    protected function updateChangedPost($postTable, $postId, $postTitle, $categoryId, $postContent)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
-            "UPDATE $table
+            "UPDATE $postTable
             SET post_title = :new_post_title, $postTable.category_id = :new_category_id, post_content = :new_post_content, post_update_date = NOW()
             WHERE post_id = $postId"
         );
@@ -158,11 +158,11 @@ class PostsManager extends Manager
         return $affectedPost;
     }
 
-    protected function deletePostDeleted($table, $postId)
+    protected function deletePostDeleted($postTable, $postId)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
-            "DELETE FROM $table
+            "DELETE FROM $postTable
             WHERE post_id = ?"
         );
         $deletedPost = $req->execute(array(

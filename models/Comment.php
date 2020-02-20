@@ -67,7 +67,7 @@ class Comment
 
     public function setComment_status($comment_status) {
         if (is_string($comment_status)) {
-            if ($comment_status === 'progress' || $comment_status === 'public' || $comment_status === 'trash')
+            if ($comment_status === 'report' || $comment_status === 'waiting' || $comment_status === 'public')
             $this->comment_status = $comment_status;
         }
     }

@@ -11,23 +11,25 @@ class PostController
 
     public function __construct()
     {
-        $this->singlePost($_GET['postId']);
+        if (isset($_GET['postId'])) {
+            $this->singlePost($_GET['postId']);
+        } else {
+            throw new Exception('Des données n\'ont pas pu être récupérées');
+        }
     }
 
     private function singlePost($postId)
     {
-        if (isset($postId)) {
-            $this->postsManager = new PostsManager();
-            $post = $this->postsManager->getOnePost($postId);
+        $this->postsManager = new PostsManager();
+        $post = $this->postsManager->getOnePost($postId);
 
-            $this->commentsManager = new CommentsManager();
-            $comments = $this->commentsManager->getCommentsByPost($postId);
+        $this->commentsManager = new CommentsManager();
+        $comments = $this->commentsManager->getCommentsByPost($postId);
 
-            $this->categoryManager = new CategoryManager();
-            $categories = $this->categoryManager->getAllCategories();
+        $this->categoryManager = new CategoryManager();
+        $categories = $this->categoryManager->getAllCategories();
 
-            $this->view = new View('post');
-            $this->view->generate(array('post' => $post, 'comments' => $comments, 'categories' => $categories), $categories);
-        }
+        $this->view = new View('post');
+        $this->view->generate(array('post' => $post, 'comments' => $comments, 'categories' => $categories), $categories);
     }
 }

@@ -20,16 +20,32 @@ class CategoriesController
                 $this->createCategory();
                 break;
             case 'insert':
-                $this->insertCategory($_POST['categoryTitle'], $_POST['categoryImage']);
+                if (isset($_POST['categoryTitle']) && isset($_POST['categoryImage'])) {
+                    $this->insertCategory($_POST['categoryTitle'], $_POST['categoryImage']);
+                } else {
+                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                }
                 break;
             case 'edit':
-                $this->editCategory($_GET['categoryId']);
+                if (isset($_GET['categoryId'])) {
+                    $this->editCategory($_GET['categoryId']);
+                } else {
+                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                }
                 break;
             case 'update':
-                $this->updateCategory($_GET['categoryId'], $_POST['categoryTitle'], $_POST['categoryImage']);
+                if (isset($_GET['categoryId']) && isset($_POST['categoryTitle']) && isset($_POST['categoryImage'])) {
+                    $this->updateCategory($_GET['categoryId'], $_POST['categoryTitle'], $_POST['categoryImage']);
+                } else {
+                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                }
                 break;
             case 'delete':
-                $this->deleteCategory($_GET['categoryId']);
+                if (isset($_GET['categoryId'])) {
+                    $this->deleteCategory($_GET['categoryId']);
+                } else {
+                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                }
                 break;
             default:
                 throw new Exception('Action impossible');
@@ -53,60 +69,50 @@ class CategoriesController
 
     private function insertCategory($categoryTitle, $categoryImage)
     {
-        if (isset($categoryTitle) && isset($categoryImage)) {
-            $this->categoryManager = new CategoryManager();
-            $newCategory = $this->categoryManager->setNewCategorysetNewCategory($categoryTitle, $categoryImage);
+        $this->categoryManager = new CategoryManager();
+        $newCategory = $this->categoryManager->setNewCategorysetNewCategory($categoryTitle, $categoryImage);
     
-            if($newCategory === false) {
-                throw new \Exception("Impossible d'ajouter la catégorie !");
-            } else {
-                header('Location: admin.php?url=categories&action=list');
-                exit();
-            }
-        } else {
+        if($newCategory === false) {
             throw new \Exception("Impossible d'ajouter la catégorie !");
+        } else {
+            header('Location: admin.php?url=categories&action=list');
+            exit();
         }
     }
 
     private function editCategory($categoryId)
     {
-        if (isset($categoryId)) {
-            $this->categoryManager = new CategoryManager();
-            $categoryToUpdate = $this->categoryManager->getOneCategory($categoryId);
-            $this->categories = $this->categoryManager->getAllCategories();
+        $this->categoryManager = new CategoryManager();
+        $categoryToUpdate = $this->categoryManager->getOneCategory($categoryId);
+        $this->categories = $this->categoryManager->getAllCategories();
 
-            $this->view = new View('categories');
-            $this->view->generate(array('categories' => $this->categories, 'categoryToUpdate' => $categoryToUpdate));
-        }
+        $this->view = new View('categories');
+        $this->view->generate(array('categories' => $this->categories, 'categoryToUpdate' => $categoryToUpdate));
     }
 
     private function updateCategory($categoryId, $categoryTitle, $categoryImage)
     {
-        if (isset($categoryId) && isset($categoryTitle) && isset($image)) {
-            $this->categoryManager = new CategoryManager();
-            $affectedCategory = $this->categoryManager->setChangedCategory($categoryId, $categoryTitle, $categoryImage);
+        $this->categoryManager = new CategoryManager();
+        $affectedCategory = $this->categoryManager->setChangedCategory($categoryId, $categoryTitle, $categoryImage);
 
-            if($affectedCategory === false) {
-                throw new Exception("Impossible de mettre à jour la catégorie !");
-            } else  {
-                header('Location: admin.php?url=categories&action=list');
-                exit();
-            }
+        if($affectedCategory === false) {
+            throw new Exception("Impossible de mettre à jour la catégorie !");
+        } else  {
+            header('Location: admin.php?url=categories&action=list');
+            exit();
         }
     }
 
     private function deleteCategory($categoryId)
     {
-        if (isset($categoryId)) {
-            $this->categoryManager = new CategoryManager();
-            $deletedCategory = $this->categoryManager->setCategoryDeleted($categoryId);
+        $this->categoryManager = new CategoryManager();
+        $deletedCategory = $this->categoryManager->setCategoryDeleted($categoryId);
 
-            if($deletedCategory === false) {
-                throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est rattaché à cette catégorie puis recommencez.");
-            } else {
-                header('Location: admin.php?url=categories&action=list');
-                exit();
-            }
+        if($deletedCategory === false) {
+            throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est rattaché à cette catégorie puis recommencez.");
+        } else {
+            header('Location: admin.php?url=categories&action=list');
+            exit();
         }
     }
 }

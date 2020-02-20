@@ -10,21 +10,23 @@ class CategoryController
 
     public function __construct()
     {
-        $this->postsCategory($_GET['categoryId']);
+        if (isset($_GET['categoryId'])) {
+            $this->postsCategory($_GET['categoryId']);
+        } else {
+            throw new Exception('Des données n\'ont pas pu être récupérées');
+        }
     }
 
     private function postsCategory($categoryId)
     {
-        if (isset($categoryId)) {
-            $this->postsManager = new PostsManager();
-            $postsByCategory = $this->postsManager->getPublicPostsByCategory($categoryId);
+        $this->postsManager = new PostsManager();
+        $postsByCategory = $this->postsManager->getPublicPostsByCategory($categoryId);
 
-            $this->categoryManager = new CategoryManager();
-            $category = $this->categoryManager->getOneCategory($categoryId);
-            $categories = $this->categoryManager->getAllCategories();
+        $this->categoryManager = new CategoryManager();
+        $category = $this->categoryManager->getOneCategory($categoryId);
+        $categories = $this->categoryManager->getAllCategories();
 
-            $this->view = new View('category');
-            $this->view->generate(array('postsByCategory' => $postsByCategory, 'category' => $category, 'categories' => $categories), $categories);
-        }
+        $this->view = new View('category');
+        $this->view->generate(array('postsByCategory' => $postsByCategory, 'category' => $category, 'categories' => $categories), $categories);
     }
 }

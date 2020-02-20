@@ -19,10 +19,10 @@
                                 <form action="admin.php?url=users" method="POST">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <input class="form-control" type="text" name="first_name" placeholder="Prénom" required>
+                                            <input class="form-control" type="text" name="firstName" placeholder="Prénom" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <input class="form-control" type="text" name="last_name" placeholder="Nom" required>
+                                            <input class="form-control" type="text" name="lastName" placeholder="Nom" required>
                                         </div>
                                     </div>  
                                     <div class="form-row">
@@ -40,9 +40,8 @@
                                         <div class="form-group col-md-6">
                                             <label for="inputState">Rôle</label>
                                             <select name="role" class="form-control">
-                                                <option selected>Choisissez</option>
                                                 <option value="admin">Admin</option>
-                                                <option value="reader">Lecteur</option>
+                                                <option value="reader" selected>Lecteur</option>
                                             </select>
                                         </div>
                                     </div>
@@ -72,11 +71,11 @@
                                             <tbody>
                                                 <?php foreach ($users as $user): ?>
                                                     <tr>
-                                                        <td><?= $user->firstName() ?></td>
-                                                        <td><?= $user->lastName() ?></td>
-                                                        <td><?= $user->login() ?></td>
-                                                        <td><?= $user->email() ?></td>
-                                                        <td><?= $user->role() ?></td>
+                                                        <td><?= $user->userFirstName() ?></td>
+                                                        <td><?= $user->userLastName() ?></td>
+                                                        <td><?= $user->userLogin() ?></td>
+                                                        <td><?= $user->userEmail() ?></td>
+                                                        <td><?= $user->userRole() ?></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>

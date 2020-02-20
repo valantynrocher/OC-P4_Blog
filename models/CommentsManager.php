@@ -18,11 +18,12 @@ class CommentsManager extends Manager
         $req = self::$bdd->query(
             "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content, 
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status
+            comment_status, $postTable.post_title
             FROM $commentTable LEFT JOIN $postTable 
             ON $commentTable.post_id = $postTable.post_id
-            WHERE $commentTable.comment_id = $postId
-            ORDER BY $commentTable.comment_id DESC"
+            WHERE $commentTable.post_id = $postId
+            ORDER BY $commentTable.comment_id
+            DESC"
         );
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -55,8 +56,8 @@ class CommentsManager extends Manager
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $commentTable
-            SET comment_status = 1
-            WHERE id = ?"
+            SET comment_status=1
+            WHERE comment_id = ?"
         );
         $affectedComment = $req->execute(array(
             $commentId
@@ -73,13 +74,13 @@ class CommentsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->query(
-            "SELECT $commentTable.comment_id, post_id, comment_author, comment_content,
+            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            $postTable.post_title
+            comment_status, $postTable.post_title
             FROM $commentTable 
             LEFT JOIN $postTable 
-            ON $commentTable.post_id = $postTable.comment_id
-            WHERE comment_status = 1
+            ON $commentTable.comment_id = $postTable.post_id
+            WHERE comment_status = 'report'
             ORDER BY $commentTable.comment_id 
             DESC"
         );
@@ -96,13 +97,13 @@ class CommentsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->query(
-            "SELECT $commentTable.comment_id, post_id, comment_author, comment_content,
+            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            $postTable.post_title
+            comment_status, $postTable.post_title
             FROM $commentTable 
             LEFT JOIN $postTable 
-            ON $commentTable.post_id = $postTable.comment_id
-            WHERE comment_status = 3
+            ON $commentTable.comment_id = $postTable.post_id
+            WHERE comment_status = 'public'
             ORDER BY $commentTable.comment_id 
             DESC"
         );

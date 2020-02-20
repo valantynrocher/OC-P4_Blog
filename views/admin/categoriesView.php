@@ -19,15 +19,15 @@
                                             <h4 class="card-title">Modifier une catégorie</h4>
                                         </div>
                                         <div class="card-body">
-                                            <form action="admin.php?url=categories&action=update&id=<?= $categoryToUpdate[0]->id() ?>" method="POST">
+                                            <form action="admin.php?url=categories&action=update&categoryId=<?= $categoryToUpdate[0]->categoryId() ?>" method="POST">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
-                                                        <label for="categoryName">Nom</label>
-                                                        <input type="text" class="form-control" name="name" id="categoryName" value="<?= $categoryToUpdate[0]->chapter() ?>" required>
+                                                        <label for="categoryTitle">Titre</label>
+                                                        <input type="text" class="form-control" name="categoryTitle" id="categoryTitle" value="<?= $categoryToUpdate[0]->categoryTitle() ?>" required>
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="categoryImage">Image</label>
-                                                        <input type="text" class="form-control" name="image" id="categoryImage" value="<?= $categoryToUpdate[0]->image() ?>" required>
+                                                        <input type="text" class="form-control" name="categoryImage" id="categoryImage" value="<?= $categoryToUpdate[0]->categoryImage() ?>" required>
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -55,11 +55,11 @@
                                             <tbody>
                                                 <?php foreach ($categories as $category): ?>
                                                     <tr>
-                                                        <td><?= $category->id() ?></td>
-                                                        <td><?= $category->chapter() ?></td>
-                                                        <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=category&id=<?=$category->id()?>" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
-                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=categories&action=edit&id=<?=$category->id()?>"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=categories&action=delete&id=<?=$category->id()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer cet article ? Cette action est définitive. Si cette catégorie contient des articles, vous devez d\'abord supprimer ces articles.')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <td><?= $category->categoryId() ?></td>
+                                                        <td><?= $category->categoryTitle() ?></td>
+                                                        <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=category&categoryId=<?=$category->categoryId()?>" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=categories&action=edit&categoryId=<?=$category->categoryId()?>"><i class="far fa-edit"></i></td>
+                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=categories&action=delete&categoryId=<?=$category->categoryId()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer cet article ? Cette action est définitive. Si cette catégorie contient des articles, vous devez d\'abord supprimer ces articles.')"><i class="far fa-trash-alt"></i></a></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>

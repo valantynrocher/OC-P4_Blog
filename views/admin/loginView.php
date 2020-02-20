@@ -11,10 +11,10 @@
 					</div>
 				<?php endif ?>
 				<div class="form-group">
-					<input class="form-control" type="text" name="login" placeholder="Votre login">
+					<input class="form-control" type="text" name="userLogin" placeholder="Votre login">
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="password" name="password" placeholder="Votre mot de passe">
+					<input class="form-control" type="password" name="userPassword" placeholder="Votre mot de passe">
 				</div>
 				<button type="submit" class="btn btn-primary">Se connecter</button>
 			</form>

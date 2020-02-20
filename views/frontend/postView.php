@@ -96,7 +96,7 @@
                     </div>
                     <div class="comment-form">
                         <h4>Poster un commentaire</h4>
-                        <form action="comment&action=add&postId=<?=$post[0]->postId() ?>" method="POST">
+                        <form action="comment&action=publish&postId=<?=$post[0]->postId() ?>" method="POST">
                             <div class="form-group ">
                                 <div class="form-group">
                                     <input type="text" name="author" class="form-control" id="author" placeholder="Votre nom ou pseudo" onfocus="this.placeholder = ''"

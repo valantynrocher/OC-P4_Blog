@@ -27,7 +27,7 @@ class PostsController
                 $this->readPost($_GET['postId']);
                 break;
             case 'edit':
-                $this->editPost($_GET['id']);
+                $this->editPost($_GET['postId']);
                 break;
             case 'update':
                 $this->updatePost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent']);

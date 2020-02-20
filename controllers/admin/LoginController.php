@@ -13,7 +13,7 @@ class LoginController
             throw new \Exception('Page introuvable');
         }
         else {
-            $this->login($_POST['userLogin'], $_POST['userPassword']);
+            $this->login();
         }
     }
 
@@ -22,9 +22,9 @@ class LoginController
         $this->usersManager = new UsersManager();
         $admins = $this->usersManager->getAdminUsers();
         
-        if (!empty($userLogin) && !empty($userPassword)) {
+        if (!empty($_POST['userLogin']) && !empty($_POST['userPassword'])) {
 
-            if(password_verify($userPassword, $admins[0]->password())) {
+            if(password_verify($_POST['userPassword'], $admins[0]->userPassword())) {
                 $_SESSION['connected'] = 1;
                 $_SESSION['userName'] = $admins[0]->userFirstName();
                 header('Location: admin.php?url=dashboard');

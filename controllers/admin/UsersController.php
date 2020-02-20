@@ -9,15 +9,14 @@ class UsersController
 
     public function __construct()
     {
-        $this->users($_POST['first_name'], $_POST['last_name'], $_POST['login'], $_POST['password'], $_POST['email'], $_POST['role']);
+        $this->users();
     }
 
-    private function users($userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
+    private function users()
     {
-        
         if (isset($userLogin) && isset($userPassword)) {
             $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
-            $affectedUser = $this->usersManager->setNewUser($userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, $userRole);
+            $affectedUser = $this->usersManager->setNewUser($_POST['firstName'], $_POST['lastName'], $_POST['login'], $_POST['password'], $_POST['email'], $_POST['role']);
             
 
             if ($affectedUser === false) {
