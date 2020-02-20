@@ -15,7 +15,7 @@ class ContactController
     private function contact()
     {
         $this->categoryManager = new CategoryManager();
-        $categories = $this->categoryManager->getCategories();
+        $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('contact');
         $this->view->generate(array(), $categories);

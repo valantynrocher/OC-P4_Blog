@@ -20,26 +20,26 @@ class CategoriesController
                 $this->createCategory();
                 break;
             case 'insert':
-                $this->insertCategory($_POST['name'], $_POST['image']);
+                $this->insertCategory($_POST['categoryTitle'], $_POST['categoryImage']);
                 break;
             case 'edit':
-                $this->editCategory($_GET['id']);
+                $this->editCategory($_GET['categoryId']);
                 break;
             case 'update':
-                $this->updateCategory($_GET['id'], $_POST['name'], $_POST['image']);
+                $this->updateCategory($_GET['categoryId'], $_POST['categoryTitle'], $_POST['categoryImage']);
                 break;
             case 'delete':
-                $this->deleteCategory($_GET['id']);
+                $this->deleteCategory($_GET['categoryId']);
                 break;
             default:
-                throw new Exception('Action inconnue');
+                throw new Exception('Action impossible');
         }
     }
 
     private function listCategories()
     {
         $this->categoryManager = new CategoryManager();
-        $this->categories = $this->categoryManager->getCategories();
+        $this->categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('categories');
         $this->view->generate(array('categories' => $this->categories));
@@ -51,11 +51,11 @@ class CategoriesController
         $this->view->generate(array());
     }
 
-    private function insertCategory($name, $image)
+    private function insertCategory($categoryTitle, $categoryImage)
     {
-        if (isset($name) && isset($image)) {
+        if (isset($categoryTitle) && isset($categoryImage)) {
             $this->categoryManager = new CategoryManager();
-            $newCategory = $this->categoryManager->setNewCategory($name, $image);
+            $newCategory = $this->categoryManager->setNewCategorysetNewCategory($categoryTitle, $categoryImage);
     
             if($newCategory === false) {
                 throw new \Exception("Impossible d'ajouter la catégorie !");
@@ -68,23 +68,23 @@ class CategoriesController
         }
     }
 
-    private function editCategory($id)
+    private function editCategory($categoryId)
     {
-        if (isset($id)) {
+        if (isset($categoryId)) {
             $this->categoryManager = new CategoryManager();
-            $categoryToUpdate = $this->categoryManager->getCategory($id);
-            $this->categories = $this->categoryManager->getCategories();
+            $categoryToUpdate = $this->categoryManager->getOneCategory($categoryId);
+            $this->categories = $this->categoryManager->getAllCategories();
 
             $this->view = new View('categories');
             $this->view->generate(array('categories' => $this->categories, 'categoryToUpdate' => $categoryToUpdate));
         }
     }
 
-    private function updateCategory($id, $name, $image)
+    private function updateCategory($categoryId, $categoryTitle, $categoryImage)
     {
-        if (isset($id) && isset($name) && isset($image)) {
+        if (isset($categoryId) && isset($categoryTitle) && isset($image)) {
             $this->categoryManager = new CategoryManager();
-            $affectedCategory = $this->categoryManager->setUpdateCategory($id, $name, $image);
+            $affectedCategory = $this->categoryManager->setChangedCategory($categoryId, $categoryTitle, $categoryImage);
 
             if($affectedCategory === false) {
                 throw new Exception("Impossible de mettre à jour la catégorie !");
@@ -95,11 +95,11 @@ class CategoriesController
         }
     }
 
-    private function deleteCategory($id)
+    private function deleteCategory($categoryId)
     {
-        if (isset($id)) {
+        if (isset($categoryId)) {
             $this->categoryManager = new CategoryManager();
-            $deletedCategory = $this->categoryManager->setDeleteCategory($id);
+            $deletedCategory = $this->categoryManager->setCategoryDeleted($categoryId);
 
             if($deletedCategory === false) {
                 throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est rattaché à cette catégorie puis recommencez.");

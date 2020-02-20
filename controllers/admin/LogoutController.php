@@ -6,11 +6,7 @@ class LogoutController
 
     public function __construct()
     {
-        if (isset($url) && count($url) < 1) {
-            throw new \Exception('Page introuvable');
-        } else {
-            $this->logout();
-        }
+        $this->logout();
     }
 
     private function logout()

@@ -11,20 +11,20 @@ class PostController
 
     public function __construct()
     {
-        $this->singlePost();
+        $this->singlePost(isset($_GET['postId']));
     }
 
-    private function singlePost()
+    private function singlePost($postId)
     {
-        if (isset($_GET['id'])) {
+        if (isset($postId)) {
             $this->postsManager = new PostsManager();
-            $post = $this->postsManager->getPost($_GET['id']);
+            $post = $this->postsManager->getOnePost($postId);
 
             $this->commentsManager = new CommentsManager();
-            $comments = $this->commentsManager->getComments($_GET['id']);
+            $comments = $this->commentsManager->getCommentsByPost($postId);
 
             $this->categoryManager = new CategoryManager();
-            $categories = $this->categoryManager->getCategories();
+            $categories = $this->categoryManager->getAllCategories();
 
             $this->view = new View('post');
             $this->view->generate(array('post' => $post, 'comments' => $comments, 'categories' => $categories), $categories);

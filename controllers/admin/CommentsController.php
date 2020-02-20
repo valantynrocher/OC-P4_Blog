@@ -17,10 +17,10 @@ class CommentsController
                 $this->listComments();
                 break;
             case 'moderate':
-                $this->moderateComment($_GET['id']);
+                $this->moderateComment($_GET['commentId']);
                 break;
             case 'delete':
-                $this->deleteComment($_GET['id']);
+                $this->deleteComment($_GET['commentId']);
                 break;
             default:
                 throw new Exception('Action inconnue');
@@ -30,18 +30,18 @@ class CommentsController
     private function listComments()
     {
         $this->commentsManager = new CommentsManager();
-        $reportComments = $this->commentsManager->listReportComments();
-        $moderateComments = $this->commentsManager->listModerateComments();
+        $reportComments = $this->commentsManager->getReportedComments();
+        $moderateComments = $this->commentsManager->getModeratedComments();
 
         $this->view = new View('comments');
         $this->view->generate(array('reportComments' => $reportComments, 'moderateComments' => $moderateComments));
     }
 
-    private function moderateComment($id)
+    private function moderateComment($commentId)
     {
-        if (isset($id)) {
+        if (isset($commentId)) {
             $this->commentsManager = new CommentsManager();
-            $moderatePost = $this->commentsManager->moderateOneComment($id);
+            $moderatePost = $this->commentsManager->setModerateComment($commentId);
 
             if($moderatePost === false) {
                 throw new \Exception("Impossible de modérer le commentaire !");
@@ -52,11 +52,11 @@ class CommentsController
         }
     }
 
-    private function deleteComment($id)
+    private function deleteComment($commentId)
     {
-        if (isset($id)) {
+        if (isset($commentId)) {
             $this->commentsManager = new CommentsManager();
-            $deletedComment = $this->commentsManager->deleteOneComment($id);
+            $deletedComment = $this->commentsManager->setCommentDeleted($commentId);
 
             if($deletedComment === false) {
                 throw new \Exception("Impossible de supprimer le commentaire !");

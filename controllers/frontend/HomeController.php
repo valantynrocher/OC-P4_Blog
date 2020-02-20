@@ -8,9 +8,9 @@ class HomeController
     private $postPerPage = 5;
     private $view;
 
-    public function __construct($url)
+    public function __construct()
     {
-            $this->home();
+        $this->home();
     }
 
     private function home()
@@ -21,31 +21,34 @@ class HomeController
 
         // GET PAGINATION
         $page = $_GET['page'] ?? 1;
-        // check if page number is an integer
         if(!filter_var($page, FILTER_VALIDATE_INT)) {
             throw new \Exception('Numéro de page invalide');
         }
-        // redirection from page=1 to home
+
         if ($page === '1') {
             header ('Location: home');
             http_response_code(301);
             exit();
         }
+
         $currentPage = (int)$page;
+
         if ($currentPage <= 0) {
             throw new \Exception('Numéro de page invalide');
         }
         
-        $count = $this->postsManager->getPostsNumber();
+        $count = $this->postsManager->getPublicPostsNumber();
         $pages = ceil($count / $this->postPerPage);
+
         if ($currentPage > $pages) {
             throw new \Exception('Cette page n\'existe pas');
         }
+
         $offset = $this->postPerPage * ($currentPage - 1);
-        $posts = $this->postsManager->getPostsPages($this->postPerPage, $offset);
+        $posts = $this->postsManager->getPublicPostsPagination($this->postPerPage, $offset);
 
         // GET CATEGORIES
-        $categories = $this->categoryManager->getCategories();
+        $categories = $this->categoryManager->getAllCategories();
 
         // CALL THE VIEW
         $this->view = new View('home');

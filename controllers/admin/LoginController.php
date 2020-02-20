@@ -13,20 +13,20 @@ class LoginController
             throw new \Exception('Page introuvable');
         }
         else {
-            $this->login();
+            $this->login($_POST['userLogin'], $_POST['userPassword']);
         }
     }
 
     private function login()
     {
         $this->usersManager = new UsersManager();
-        $admins = $this->usersManager->getAdmins();
+        $admins = $this->usersManager->getAdminUsers();
         
-        if (!empty($_POST['login']) && !empty($_POST['password'])) {
+        if (!empty($userLogin) && !empty($userPassword)) {
 
-            if(password_verify($_POST['password'], $admins[0]->password())) {
+            if(password_verify($userPassword, $admins[0]->password())) {
                 $_SESSION['connected'] = 1;
-                $_SESSION['userName'] = $admins[0]->firstName();
+                $_SESSION['userName'] = $admins[0]->userFirstName();
                 header('Location: admin.php?url=dashboard');
                 exit();
             } else {

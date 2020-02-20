@@ -15,7 +15,7 @@ class LegalsController
     private function legals()
     {
         $this->categoryManager = new CategoryManager();
-        $categories = $this->categoryManager->getCategories();
+        $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('legals');
         $this->view->generate(array(), $categories);

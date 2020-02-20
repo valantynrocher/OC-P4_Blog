@@ -9,43 +9,43 @@ class CommentController
     public function __construct()
     {
         if ($_GET['action'] === 'add') {
-            $this->add($_GET['id']);
+            $this->publish($_GET['postId'], $_POST['author'], $_POST['comment']);
         } else if ($_GET['action'] === 'report') {
-            $this->report($_GET['id'], $_GET['postId']);
+            $this->report($_GET['commentId'], $_GET['postId']);
         }
         else {
-            throw new Exception('Action inconnue');
+            throw new Exception('Action impossible');
         }
     }
 
-    private function add($id)
+    private function publish($postId, $commentAuthor, $commentContent)
     {
-        if (isset($id)) {
-            $author = htmlspecialchars($_POST['author']);
-            $comment = htmlspecialchars($_POST['comment']);
+        if (isset($postId) && isset($commentAuthor) && isset($commentContent)) {
+            $author = htmlspecialchars($commentAuthor);
+            $comment = htmlspecialchars($commentContent);
 
             $this->commentsManager = new CommentsManager();
-            $affectedComment = $this->commentsManager->addComment($id, $author, $comment);
+            $affectedComment = $this->commentsManager->setNewComment($postId, $commentAuthor, $commentContent);
 
             if ($affectedComment === false) {
                 throw new Exception('Impossible d\'ajouter le commentaire !');
             } else {
-                header('Location: post&id=' . $id);
+                header('Location: post&id=' . $postId);
                 exit();
             }
         }
     }
 
-    private function report($id, $postId)
+    private function report($commentId, $postId)
     {
         if (isset($id) && isset($postId)) {
             $this->commentsManager = new CommentsManager();
-            $affectedComment = $this->commentsManager->reportOneComment($id);
+            $affectedComment = $this->commentsManager->setReportComment($commentId);
 
             if ($affectedComment === false) {
                 throw new Exception('L\'action impossible');
             } else {
-                header('Location: post&id=' . $postId);
+                header('Location: post&postId=' . $postId);
                 exit();
             }
         }

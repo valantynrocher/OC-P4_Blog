@@ -21,19 +21,19 @@ class PostsController
                 $this->createPost();
                 break;
             case 'insert':
-                $this->insertPost($_POST['title'], $_POST['categoryId'], $_POST['content']);
+                $this->insertPost($_POST['postTitle'], $_POST['categoryId'], $_POST['postContent']);
                 break;
             case 'read':
-                $this->readPost($_GET['id']);
+                $this->readPost($_GET['postId']);
                 break;
             case 'edit':
                 $this->editPost($_GET['id']);
                 break;
             case 'update':
-                $this->updatePost($_GET['id'], $_POST['title'], $_POST['categoryId'], $_POST['content']);
+                $this->updatePost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent']);
                 break;
             case 'delete':
-                $this->deletePost($_GET['id']);
+                $this->deletePost($_GET['postId']);
                 break;
             default:
                 throw new Exception('Action inconnue');
@@ -44,10 +44,10 @@ class PostsController
     private function listPosts()
     {
         $this->postsManager = new PostsManager();
-        $this->posts = $this->postsManager->getPosts();
+        $this->posts = $this->postsManager->getAllPosts();
 
         $this->categoryManager = new CategoryManager();
-        $this->categories = $this->categoryManager->getCategories();
+        $this->categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('posts');
         $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories));       
@@ -56,17 +56,17 @@ class PostsController
     private function createPost()
     {
         $this->categoryManager = new CategoryManager();
-        $this->categories = $this->categoryManager->getCategories();
+        $this->categories = $this->categoryManager->getAllCategories();
                     
         $this->view = new View('createPost');
         $this->view->generate(array('categories' => $this->categories));
     }
 
-    private function insertPost($title, $categoryId, $content)
+    private function insertPost($postTitle, $categoryId, $postContent)
     {
-        if (isset($title) && isset($categoryId) && isset($content)) {
+        if (isset($postTitle) && isset($categoryId) && isset($postContent)) {
             $this->postsManager = new PostsManager();
-            $newPost = $this->postsManager->setNewPost($title, $categoryId, $content);
+            $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent);
     
             if($newPost === false) {
                 throw new \Exception("Impossible d'ajouter l\'article !");
@@ -79,43 +79,43 @@ class PostsController
         }
     }
 
-    private function readPost($id)
+    private function readPost($postId)
     {
-        if (isset($id)) {
+        if (isset($postId)) {
             $this->postsManager = new PostsManager();
-            $this->posts = $this->postsManager->getPosts();
+            $this->posts = $this->postsManager->getAllPosts();
 
             $this->categoryManager = new CategoryManager();
-            $this->categories = $this->categoryManager->getCategories();
+            $this->categories = $this->categoryManager->getAllCategories();
 
-            $postToRead = $this->postsManager->getPost($id);
+            $postToRead = $this->postsManager->getOnePost($postId);
 
             $this->view = new View('posts');
             $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories, 'postToRead' => $postToRead));
         }
     }
 
-    private function editPost($id)
+    private function editPost($postId)
     {
-        if (isset($id)) {
+        if (isset($postId)) {
             $this->postsManager = new PostsManager();
-            $this->posts = $this->postsManager->getPosts();
+            $this->posts = $this->postsManager->getAllPosts();
 
             $this->categoryManager = new CategoryManager();
-            $this->categories = $this->categoryManager->getCategories();
+            $this->categories = $this->categoryManager->getAllCategories();
             
-            $postToUpdate = $this->postsManager->getPost($id);
+            $postToUpdate = $this->postsManager->getOnePost($postId);
 
             $this->view = new View('posts');
             $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories, 'postToUpdate' => $postToUpdate));
         }
     }
 
-    private function updatePost($id, $title, $categoryId, $content) 
+    private function updatePost($postId, $postTitle, $categoryId, $postContent) 
     {
-        if (isset($id) && isset($title) && isset($categoryId) && isset($content)) {
+        if (isset($postId) && isset($postTitle) && isset($categoryId) && isset($postContent)) {
             $this->postsManager = new PostsManager();
-            $affectedPost = $this->postsManager->setUpdatePost($id, $title, $categoryId, $content);
+            $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent);
 
             if($affectedPost === false) {
                 throw new Exception("Impossible de mettre à jour l\'article !");
@@ -126,11 +126,11 @@ class PostsController
         }
     }
 
-    private function deletePost($id)
+    private function deletePost($postId)
     {
-        if (isset($id)) {
+        if (isset($postId)) {
             $this->postsManager = new PostsManager();
-            $deletedPost = $this->postsManager->setDeletePost($id);
+            $deletedPost = $this->postsManager->setPostDeleted($postId);
 
             if($deletedPost === false) {
                 throw new \Exception("Impossible de supprimer l\'article !");
