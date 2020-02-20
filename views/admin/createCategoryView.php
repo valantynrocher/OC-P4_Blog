@@ -21,8 +21,8 @@
                                         <form action="admin.php?url=categories&action=insert" method="POST">
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="categoryName">Nom</label>
-                                                    <input type="text" class="form-control" name="name" id="categoryName" placeholder="Nom de la catégorie" required>
+                                                    <label for="categoryChapter">Nom</label>
+                                                    <input type="text" class="form-control" name="chapter" id="categoryChapter" placeholder="Nom de la catégorie" required>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="categoryImage">Image</label>

@@ -55,7 +55,7 @@
                                                     <label for="postCategory">Catégorie</label>
                                                     <select name="categoryId" class="form-control" id="postCategory" required>
                                                         <?php foreach ($categories as $category): ?>
-                                                            <option value="<?= $category->id()?>" <?php if ($postToUpdate[0]->name() === $category->name()): echo 'selected' ?><?php endif ?> > <?= $category->name()?> </option>
+                                                            <option value="<?= $category->id()?>" <?php if ($postToUpdate[0]->chapter() === $category->chapter()): echo 'selected' ?><?php endif ?> > <?= $category->chapter()?> </option>
                                                         <?php endforeach ?>
                                                     </select>
                                                 </div>
@@ -95,7 +95,7 @@
                                                     <tr>
                                                         <td><?= $post->id() ?></td>
                                                         <td><?= $post->title() ?></td>
-                                                        <td><?= $post->name() ?></td>
+                                                        <td><?= $post->chapter() ?></td>
                                                         <?php if($post->updateDateFr() === null): ?>
                                                             <td><?= $post->creationDateFr() ?></td>
                                                         <?php else: ?>

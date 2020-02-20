@@ -4,14 +4,14 @@
 			<div class="row d-flex align-items-center justify-content-center">
 				<div class="about-content col-lg-12">
 					<h1 class="text-white">
-						<?= $post[0]->name() ?>
+						<?= $post[0]->chapter() ?>
 					</h1>
 					<p class="text-white link-nav">
 						<a href="/home">Accueil</a>
 						<span class="lnr lnr-arrow-right"></span>
 						<a href="#">Chapitres</a>
 						<span class="lnr lnr-arrow-right"></span>
-						<a href="#"><?= $post[0]->name() ?></a>
+						<a href="#"><?= $post[0]->chapter() ?></a>
 					</p>
 				</div>
 			</div>
@@ -138,7 +138,7 @@
 						<ul>
 							<?php foreach ($categories as $category): ?>
 							<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
-									<p><?= $category->name() ?></p>
+									<p><?= $category->chapter() ?></p>
 								</a>
 							</li>
 							<?php endforeach ?>

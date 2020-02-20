@@ -23,14 +23,14 @@ class CategoryManager extends Manager
         return $this->countCategories($this->categoryTable);
     }
 
-    public function setNewCategory($name, $image)
+    public function setNewCategory($chapter, $image)
     {
-        return $this->insertCategory($this->categoryTable, $name, $image);
+        return $this->insertCategory($this->categoryTable, $chapter, $image);
     }
 
-    public function setUpdateCategory($id, $name, $image)
+    public function setUpdateCategory($id, $chapter, $image)
     {
-        return $this->updateCategory($this->categoryTable, $id, $name, $image);
+        return $this->updateCategory($this->categoryTable, $id, $chapter, $image);
     }
 
     public function setDeleteCategory($id)

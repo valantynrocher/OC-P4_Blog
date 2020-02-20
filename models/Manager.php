@@ -32,7 +32,7 @@ abstract class Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->query(
-            "SELECT id, name, image 
+            "SELECT id, chapter, image 
             FROM $table 
             ORDER BY id 
             ASC"
@@ -53,7 +53,7 @@ abstract class Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT id, name, image
+            "SELECT id, chapter, image
             FROM $table
             WHERE id=?"
         );
@@ -80,15 +80,15 @@ abstract class Manager
     }
 
     // Insertion d'une nouvelle catégorie
-    protected function insertCategory($table, $name, $image)
+    protected function insertCategory($table, $chapter, $image)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
-            "INSERT INTO $table(name, image) 
+            "INSERT INTO $table(chapter, image) 
             VALUES(?, ?)"
         );
         $affectedCategory = $req->execute(array(
-            $name,
+            $chapter,
             $image
         ));
 
@@ -96,16 +96,16 @@ abstract class Manager
         $req->closeCursor();
     }
 
-    protected function updateCategory($table, $id, $name, $image)
+    protected function updateCategory($table, $id, $chapter, $image)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $table
-            SET name = :new_name, image = :new_image
+            SET chapter = :new_chapter, image = :new_image
             WHERE id = $id"
         );
         $affectedPost = $req->execute(array(
-            'new_name' => $name,
+            'new_chapter' => $chapter,
             'new_image' => $image
         ));
 
@@ -140,7 +140,7 @@ abstract class Manager
             "SELECT $table1.id, title, category_id, content,
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
             DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr,
-            $table2.name
+            $table2.chapter
             FROM $table1 
             LEFT JOIN $table2 
             ON $table1.category_id = $table2.id 
@@ -165,7 +165,7 @@ abstract class Manager
         $req = self::$bdd->prepare(
             "SELECT $table1.id, title, category_id, content, 
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
-            DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr, $table2.name
+            DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr, $table2.chapter
             FROM $table1
             LEFT JOIN $table2 ON $table1.category_id=$table2.id
             WHERE $table1.id = ?"
@@ -193,7 +193,7 @@ abstract class Manager
             "SELECT $table1.id, title, category_id, content,
             DATE_FORMAT(creation_date, 'le %d/%m/%Y à %Hh%i') AS creation_date_fr,
             DATE_FORMAT(update_date, 'le %d/%m/%Y à %Hh%i') AS update_date_fr,
-            $table2.name
+            $table2.chapter
             FROM $table1 
             LEFT JOIN $table2 
             ON $table1.category_id = $table2.id 

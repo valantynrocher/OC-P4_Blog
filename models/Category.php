@@ -4,7 +4,7 @@ class Category
 {
 
     private $id;
-    private $name;
+    private $chapter;
     private $image;
 
     public function __construct(array $data)
@@ -33,10 +33,10 @@ class Category
         }
     }
 
-    public function setName($name)
+    public function setChapter($chapter)
     {
-        if (is_string($name)) {
-            $this->name = $name;
+        if (is_string($chapter)) {
+            $this->chapter = $chapter;
         }
     }
 
@@ -53,9 +53,9 @@ class Category
         return $this->id;
     }
 
-    public function name()
+    public function chapter()
     {
-        return $this->name;
+        return $this->chapter;
     }
 
     public function image()

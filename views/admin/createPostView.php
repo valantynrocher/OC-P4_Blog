@@ -30,7 +30,7 @@
                                                     <label for="postCategory">Catégorie</label>
                                                     <select name="categoryId" class="form-control" id="postCategory" required>
                                                         <?php foreach ($categories as $category): ?>
-                                                            <option value="<?= $category->id()?>"> <?= $category->name()?> </option>
+                                                            <option value="<?= $category->id()?>"> <?= $category->chapter()?> </option>
                                                         <?php endforeach ?>
                                                     </select>
                                                 </div>

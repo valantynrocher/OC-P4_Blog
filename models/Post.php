@@ -9,7 +9,8 @@ class Post
     private $content;
     private $creation_date_fr;
     private $update_date_fr;
-    private $name;
+    private $status;
+    private $chapter;
 
     public function __construct(array $data)
     {
@@ -59,13 +60,6 @@ class Post
         }
     }
 
-    public function setName($name)
-    {
-        if (is_string($name)) {
-            $this->name = $name;
-        }
-    }
-
     public function setCreation_date_fr($creation_date_fr)
     {
         $this->creation_date_fr = $creation_date_fr;
@@ -74,6 +68,20 @@ class Post
     public function setUpdate_date_fr($update_date_fr)
     {
         $this->update_date_fr = $update_date_fr;
+    }
+
+    public function setStatus($status) {
+        if (is_string($status)) {
+            if ($status === 'progress' || $status === 'public' || $status === 'trash')
+            $this->status = $status;
+        }
+    }
+
+    public function setChapter($chapter)
+    {
+        if (is_string($chapter)) {
+            $this->chapter = $chapter;
+        }
     }
 
     // getters
@@ -107,8 +115,13 @@ class Post
         return $this->update_date_fr;
     }
 
-    public function name()
+    public function status()
     {
-        return $this->name;
+        return $this->status;
+    }
+
+    public function chapter()
+    {
+        return $this->chapter;
     }
 }

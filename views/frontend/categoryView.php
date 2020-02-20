@@ -4,14 +4,14 @@
 			<div class="row d-flex align-items-center justify-content-center">
 				<div class="about-content col-lg-12">
 					<h1 class="text-white">
-						<?= $category[0]->name() ?>
+						<?= $category[0]->chapter() ?>
 					</h1>
 					<p class="text-white link-nav">
 						<a href="/home">Accueil</a>
 						<span class="lnr lnr-arrow-right"></span>
 						<a href="#">Chapitres</a>
 						<span class="lnr lnr-arrow-right"></span>
-						<a href="#"><?= $category[0]->name() ?></a></p>
+						<a href="#"><?= $category[0]->chapter() ?></a></p>
 				</div>
 			</div>
 		</div>
@@ -104,7 +104,7 @@
 						<ul>
 							<?php foreach ($categories as $category): ?>
 							<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
-									<p><?= $category->name() ?></p>
+									<p><?= $category->chapter() ?></p>
 								</a>
 							</li>
 							<?php endforeach ?>
@@ -117,10 +117,10 @@
 							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
 							method="get" class="">
 								<div class="form-group" style="width: 100%">
-									<input name="EMAIL" placeholder="Votre e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail '"
+									<input chapter()="EMAIL" placeholder="Votre e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail '"
 									required="" type="email">
 									<div style="position: absolute; left: -5000px;">
-										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+										<input chapter()="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
 									</div>
 
 									<button class="primary-btn text-uppercase">
