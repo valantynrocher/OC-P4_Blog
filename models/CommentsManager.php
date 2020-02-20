@@ -20,8 +20,8 @@ class CommentsManager extends Manager
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
             comment_status
             FROM $commentTable LEFT JOIN $postTable 
-            ON $commentTable.post_id = $postTable.comment_id
-            WHERE $postTable.comment_id = $postId
+            ON $commentTable.post_id = $postTable.post_id
+            WHERE $commentTable.comment_id = $postId
             ORDER BY $commentTable.comment_id DESC"
         );
 

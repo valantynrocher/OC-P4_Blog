@@ -42,7 +42,9 @@ class PostsManager extends Manager
         $req = self::$bdd->prepare(
             "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content, 
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
-            DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr, $categoryTable.category_title
+            DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
+            post_status,
+            $categoryTable.category_title
             FROM $postTable
             LEFT JOIN $categoryTable ON $postTable.category_id = $categoryTable.category_id
             WHERE $postTable.post_id = ?"

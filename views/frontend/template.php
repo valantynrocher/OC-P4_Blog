@@ -50,7 +50,7 @@
 								<li class="menu-has-children"><a href="">Chapitres</a>
 									<ul>
 										<?php foreach ($categories as $category): ?>
-											<li><a href="category&id=<?=$category->id()?>"><?= $category->chapter() ?></a></li>
+											<li><a href="category&categoryId=<?=$category->categoryId()?>"><?= $category->categoryTitle() ?></a></li>
 										<?php endforeach ?>
 									</ul>
 								</li>

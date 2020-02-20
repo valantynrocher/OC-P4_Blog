@@ -15,7 +15,7 @@ class AboutController
     private function about()
     {
         $this->categoryManager = new CategoryManager();
-        $categories = $this->categoryManager->getCategories();
+        $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('about');
         $this->view->generate(array(), $categories);

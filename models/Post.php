@@ -46,7 +46,7 @@ class Post
         }
     }
 
-    public function setCategorypost_id($category_id)
+    public function setCategory_id($category_id)
     {
         $category_id = (int) $category_id;
         if ($category_id > 0) {
@@ -96,7 +96,7 @@ class Post
         return $this->post_title;
     }
 
-    public function categorypost_id()
+    public function categoryId()
     {
         return $this->category_id;
     }

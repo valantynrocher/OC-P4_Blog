@@ -4,14 +4,14 @@
 			<div class="row d-flex align-items-center justify-content-center">
 				<div class="about-content col-lg-12">
 					<h1 class="text-white">
-						<?= $post[0]->chapter() ?>
+						<?= $post[0]->categoryTitle() ?>
 					</h1>
 					<p class="text-white link-nav">
 						<a href="/home">Accueil</a>
 						<span class="lnr lnr-arrow-right"></span>
 						<a href="#">Chapitres</a>
 						<span class="lnr lnr-arrow-right"></span>
-						<a href="#"><?= $post[0]->chapter() ?></a>
+						<a href="<?= 'category&categoryId=' . $post[0]->categoryId() ?>"><?= $post[0]->categoryTitle() ?></a>
 					</p>
 				</div>
 			</div>
@@ -23,14 +23,13 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="main_blog_details">
-                        <img class="img-fluid" src="public/img/blog/p1.jpg" alt="">
-                        <h4><?= $post[0]->title() ?></h4>
+                        <h4><?= $post[0]->postTitle() ?></h4>
                         <div class="user_details">
                             <div class="float-right">
                                 <div class="media">
                                     <div class="media-body">
                                         <h5>Jean Forteroche</h5>
-                                        <p><?= $post[0]->creationDateFr() ?></p>
+                                        <p><?= $post[0]->postCreationDateFr() ?></p>
                                     </div>
                                     <div class="d-flex">
                                         <img src="public/img/author/a1.png" alt="">
@@ -38,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p><?= $post[0]->content() ?></p>
+                        <p><?= $post[0]->postContent() ?></p>
                         <div class="news_d_footer">
                             <a href="#"><i class="lnr lnr-heart"></i>Like(s)</a>
                             <a><i class="lnr lnr-bubble"></i><?= count($comments)?> Commentaire(s)</a>
@@ -67,16 +66,16 @@
 													<img src="public/img/blog/c1.jpg" alt="">
 												</div>-->
 												<div class="desc">
-													<h5><?= $comment->author()?></h5>
-													<p class="date"><?= $comment->creationDateFr()?></p>
+													<h5><?= $comment->commentAuthor()?></h5>
+													<p class="date"><?= $comment->commentCreationDateFr()?></p>
 													<p class="comment">
-														<?= $comment->comment()?>
+														<?= $comment->commentContent()?>
 													</p>
 												</div>
 											</div>
-											<?php if ($comment->report() === 0): ?>
+											<?php if ($comment->commentStatus() === 'waiting' || $comment->commentStatus() === 'public'): ?>
 												<div class="report-btn">
-													<a href="comment&action=report&id=<?= $comment->id() ?>&postId=<?=$post[0]->id() ?>"
+													<a href="comment&action=report&commentId=<?= $comment->commentId() ?>&postId=<?=$post[0]->postId() ?>"
 													onclick="return confirm('Le signalement de commentaire permet de faire remonter à l\'administrateur des commentaires dont le contenu semble irrespectueux, outrancier, diffamatoire, etc. Êtes-vous certain de vouloir signaler ce commentaire ?')"
 													class="genric-btn danger radius text-uppercase">
 														<i class="fas fa-exclamation-triangle"></i>
@@ -84,7 +83,7 @@
 												</div>
 											<?php endif ?>
 										</div>
-										<?php if ($comment->report() === 1): ?>
+										<?php if ($comment->commentStatus() === 'report'): ?>
 											<div class="report-alert genric-alert danger">
 												Ce commentaire a été signalé et sera modéré par l'administrateur de ce blog.										
 											</div>
@@ -97,7 +96,7 @@
                     </div>
                     <div class="comment-form">
                         <h4>Poster un commentaire</h4>
-                        <form action="comment&action=add&id=<?=$post[0]->id() ?>" method="POST">
+                        <form action="comment&action=add&postId=<?=$post[0]->postId() ?>" method="POST">
                             <div class="form-group ">
                                 <div class="form-group">
                                     <input type="text" name="author" class="form-control" id="author" placeholder="Votre nom ou pseudo" onfocus="this.placeholder = ''"
@@ -137,8 +136,9 @@
 						<h4 class="title">Les chapitres</h4>
 						<ul>
 							<?php foreach ($categories as $category): ?>
-							<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
-									<p><?= $category->chapter() ?></p>
+							<li>
+								<a href="<?= 'category&categoryId=' . $category->categoryId() ?>" class="justify-content-between align-items-center d-flex">
+									<p><?= $category->categoryTitle() ?></p>
 								</a>
 							</li>
 							<?php endforeach ?>

@@ -11,7 +11,7 @@ class PostController
 
     public function __construct()
     {
-        $this->singlePost(isset($_GET['postId']));
+        $this->singlePost($_GET['postId']);
     }
 
     private function singlePost($postId)

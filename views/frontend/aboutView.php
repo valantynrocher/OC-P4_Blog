@@ -15,8 +15,8 @@
 				</div>
 			</div>
 		</div>
-	</section>
-	<!-- End banner Area -->
+		</section>
+		<!-- End banner Area -->
 
 	<!-- Start about-page Area -->
 	<section class="sample-text-area">

@@ -25,10 +25,10 @@
 							<img class="post-img img-fluid" src="public/img/posts/p1.jpg" alt="">
 						</figure>
 						<h3>
-							<a href="<?= 'post&id=' . $post->id() ?>"><?= $post->title() ?></a>
+							<a href="<?= 'post&postId=' . $post->postId() ?>"><?= $post->postTitle() ?></a>
 						</h3>
-						<p><?= substr($post->content(), 0, 150) . '...' ?></p>
-						<a href="<?= 'post&id=' . $post->id() ?>" class="primary-btn text-uppercase mt-15">lire la suite</a>
+						<p><?= substr($post->postContent(), 0, 150) . '...' ?></p>
+						<a href="<?= 'post&postId=' . $post->postId() ?>" class="primary-btn text-uppercase mt-15">lire la suite</a>
 						<div class="post-box">
 							<div class="d-flex">
 								<div>
@@ -45,13 +45,13 @@
 											<li>
 												<a>
 													<span class="lnr lnr-calendar-full"></span>
-													<?= $post->creationDateFr() ?>
+													<?= $post->postCreationDateFr() ?>
 												</a>
 											</li>
 											<li>
 												<a>
 													<span class="lnr lnr-coffee-cup"></span>
-													<?= $post->chapter() ?>
+													<?= $post->categoryTitle() ?>
 												</a>
 											</li>
 											<li>
@@ -124,8 +124,8 @@
 					<h4 class="title">Les chapitres</h4>
 					<ul>
 						<?php foreach ($categories as $category): ?>
-						<li><a href="<?= 'category&id=' . $category->id() ?>" class="justify-content-between align-items-center d-flex">
-								<p><?= $category->chapter() ?></p>
+						<li><a href="<?= 'category&categoryId=' . $category->categoryId() ?>" class="justify-content-between align-items-center d-flex">
+								<p><?= $category->categoryTitle() ?></p>
 							</a>
 						</li>
 						<?php endforeach ?>
