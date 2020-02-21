@@ -21,7 +21,7 @@ class PostsController
                 $this->createPost();
                 break;
             case 'insert':
-                $this->insertPost($_POST['postTitle'], $_POST['categoryId'], $_POST['postContent']);
+                $this->insertPost($_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
                 break;
             case 'read':
                 $this->readPost($_GET['postId']);
@@ -30,7 +30,10 @@ class PostsController
                 $this->editPost($_GET['postId']);
                 break;
             case 'update':
-                $this->updatePost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent']);
+                $this->updatePost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
+                break;
+            case 'trash':
+                $this->trashPost($_GET['postId']);
                 break;
             case 'delete':
                 $this->deletePost($_GET['postId']);
@@ -49,7 +52,7 @@ class PostsController
         $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
 
-        $this->view = new View('posts');
+        $this->view = new View('posts/listPosts');
         $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories));       
     }
 
@@ -58,15 +61,15 @@ class PostsController
         $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
                     
-        $this->view = new View('createPost');
+        $this->view = new View('posts/createPost');
         $this->view->generate(array('categories' => $this->categories));
     }
 
-    private function insertPost($postTitle, $categoryId, $postContent)
+    private function insertPost($postTitle, $categoryId, $postContent, $postStatus)
     {
         if (isset($postTitle) && isset($categoryId) && isset($postContent)) {
             $this->postsManager = new PostsManager();
-            $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent);
+            $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent, $postStatus);
     
             if($newPost === false) {
                 throw new \Exception("Impossible d'ajouter l\'article !");
@@ -90,7 +93,7 @@ class PostsController
 
             $postToRead = $this->postsManager->getOnePost($postId);
 
-            $this->view = new View('posts');
+            $this->view = new View('posts/readPost');
             $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories, 'postToRead' => $postToRead));
         }
     }
@@ -106,20 +109,35 @@ class PostsController
             
             $postToUpdate = $this->postsManager->getOnePost($postId);
 
-            $this->view = new View('posts');
+            $this->view = new View('posts/editPost');
             $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories, 'postToUpdate' => $postToUpdate));
         }
     }
 
-    private function updatePost($postId, $postTitle, $categoryId, $postContent) 
+    private function updatePost($postId, $postTitle, $categoryId, $postContent, $postStatus) 
     {
         if (isset($postId) && isset($postTitle) && isset($categoryId) && isset($postContent)) {
             $this->postsManager = new PostsManager();
-            $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent);
+            $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent, $postStatus);
 
             if($affectedPost === false) {
                 throw new Exception("Impossible de mettre à jour l\'article !");
             } else  {
+                header('Location: admin.php?url=posts&action=list');
+                exit();
+            }
+        }
+    }
+
+    private function trashPost($postId)
+    {
+        if (isset($postId)) {
+            $this->postsManager = new PostsManager();
+            $trashedPost = $this->postsManager->setTrashedPost($postId);
+
+            if($trashedPost === false) {
+                throw new \Exception("Impossible de mettre l\'article à la corbeille !");
+            } else {
                 header('Location: admin.php?url=posts&action=list');
                 exit();
             }

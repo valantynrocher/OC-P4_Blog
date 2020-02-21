@@ -2,7 +2,13 @@
                         
                         <div class="content-header">
                             <div class="content-header__title">
-                                <h1>Ajouter un article</h1>
+                                <h1>Mes articles</h1>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="admin.php?url=posts&action=list">Articles</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Nouveau</li>
+                                    </ol>
+                                </nav>
                             </div>
 							<div class="content-header__button">
 								<div class="card">
@@ -26,12 +32,20 @@
                                                     <label for="postTitle">Titre</label>
                                                     <input type="text" class="form-control" name="title" id="postTitle" placeholder="Titre de l'article" required>
                                                 </div>
-                                                <div class="form-group col-md-4">
+                                                <div class="form-group col-md-3">
                                                     <label for="postCategory">Catégorie</label>
                                                     <select name="categoryId" class="form-control" id="postCategory" required>
                                                         <?php foreach ($categories as $category): ?>
-                                                            <option value="<?= $category->id()?>"> <?= $category->chapter()?> </option>
+                                                            <option value="<?= $category->categoryId()?>"> <?= $category->categoryTitle()?> </option>
                                                         <?php endforeach ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <label for="postStatus">État</label>
+                                                    <select name="postStatus" class="form-control" id="postStatus" required>
+                                                        <option value="progress" selected>Brouillon</option>
+                                                        <option value="public">Publié</option>
+                                                        <option value="trash">Corbeille</option>
                                                     </select>
                                                 </div>
                                             </div>

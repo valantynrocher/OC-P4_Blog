@@ -21,7 +21,10 @@ class PostController
     private function singlePost($postId)
     {
         $this->postsManager = new PostsManager();
-        $post = $this->postsManager->getOnePost($postId);
+        $post = $this->postsManager->getOnePublicPost($postId);
+        if (empty($post)) {
+            throw new \Exception("Cet article n'est pas public");
+        }
 
         $this->commentsManager = new CommentsManager();
         $comments = $this->commentsManager->getCommentsByPost($postId);
