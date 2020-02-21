@@ -71,25 +71,25 @@ textarea.form-control {
 }
 
 .action-link--check {
-    border: 1px solid #A6CB12;
-    color: #A6CB12;
+    border: 1px solid #28a745;
+    color: #28a745;
 }
 
 .action-link--check:hover {
-    background-color: #A6CB12;;
+    background-color: #28a745;;
 }
 
 .action-link--delete {
-    border: 1px solid #ED254E;
-    color: #ED254E;
+    border: 1px solid #dc3545;
+    color: #dc3545;
 }
 
 .action-link--delete:hover {
-    background-color: #ED254E;;
+    background-color: #dc3545;;
 }
 
 .report-comments tbody {
-    color: #ED254E;
+    color: #dc3545;
 }
 
 /* ==============================

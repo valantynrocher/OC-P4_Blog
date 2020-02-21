@@ -56,7 +56,7 @@ class CommentsManager extends Manager
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $commentTable
-            SET comment_status=1
+            SET comment_status = 'report'
             WHERE comment_id = ?"
         );
         $affectedComment = $req->execute(array(
@@ -81,6 +81,29 @@ class CommentsManager extends Manager
             LEFT JOIN $postTable 
             ON $commentTable.comment_id = $postTable.post_id
             WHERE comment_status = 'report'
+            ORDER BY $commentTable.comment_id 
+            DESC"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function selectWaitingComments($commentTable, $postTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
+            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            comment_status, $postTable.post_title
+            FROM $commentTable 
+            LEFT JOIN $postTable 
+            ON $commentTable.comment_id = $postTable.post_id
+            WHERE comment_status = 'waiting'
             ORDER BY $commentTable.comment_id 
             DESC"
         );
@@ -120,7 +143,7 @@ class CommentsManager extends Manager
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $commentTable
-            SET comment_status = 3
+            SET comment_status = 'public'
             WHERE comment_id = ?"
         );
         $affectedComment = $req->execute(array(
@@ -167,6 +190,11 @@ class CommentsManager extends Manager
     public function getReportedComments()
     {
         return $this->selectReportedComments($this->commentTable, $this->postTable, $this->commentObject);
+    }
+
+    public function getWaitingComments()
+    {
+        return $this->selectWaitingComments($this->commentTable, $this->postTable, $this->commentObject);
     }
 
     public function getModeratedComments()

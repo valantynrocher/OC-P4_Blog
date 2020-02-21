@@ -17,10 +17,18 @@ class CommentsController
                 $this->listComments();
                 break;
             case 'moderate':
-                $this->moderateComment($_GET['commentId']);
+                if (isset($_GET['commentId'])) {
+                    $this->moderateComment($_GET['commentId']);
+                } else {
+                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                }
                 break;
             case 'delete':
-                $this->deleteComment($_GET['commentId']);
+                if (isset($_GET['commentId'])) {
+                    $this->deleteComment($_GET['commentId']);
+                } else {
+                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                }
                 break;
             default:
                 throw new Exception('Action inconnue');
@@ -31,39 +39,36 @@ class CommentsController
     {
         $this->commentsManager = new CommentsManager();
         $reportComments = $this->commentsManager->getReportedComments();
+        $waitingComments = $this->commentsManager->getWaitingComments();
         $moderateComments = $this->commentsManager->getModeratedComments();
 
         $this->view = new View('comments');
-        $this->view->generate(array('reportComments' => $reportComments, 'moderateComments' => $moderateComments));
+        $this->view->generate(array('reportComments' => $reportComments, 'waitingComments' => $waitingComments, 'moderateComments' => $moderateComments));
     }
 
     private function moderateComment($commentId)
     {
-        if (isset($commentId)) {
-            $this->commentsManager = new CommentsManager();
-            $moderatePost = $this->commentsManager->setModerateComment($commentId);
+        $this->commentsManager = new CommentsManager();
+        $moderatePost = $this->commentsManager->setModerateComment($commentId);
 
-            if($moderatePost === false) {
-                throw new \Exception("Impossible de modérer le commentaire !");
-            } else {
-                header('Location: admin.php?url=comments&action=list');
-                exit();
-            }
+        if($moderatePost === false) {
+            throw new \Exception("Impossible de modérer le commentaire !");
+        } else {
+            header('Location: admin.php?url=comments&action=list');
+            exit();
         }
     }
 
     private function deleteComment($commentId)
     {
-        if (isset($commentId)) {
-            $this->commentsManager = new CommentsManager();
-            $deletedComment = $this->commentsManager->setCommentDeleted($commentId);
+        $this->commentsManager = new CommentsManager();
+        $deletedComment = $this->commentsManager->setCommentDeleted($commentId);
 
-            if($deletedComment === false) {
-                throw new \Exception("Impossible de supprimer le commentaire !");
-            } else {
-                header('Location: admin.php?url=comments&action=list');
-                exit();
-            }
+        if($deletedComment === false) {
+            throw new \Exception("Impossible de supprimer le commentaire !");
+        } else {
+            header('Location: admin.php?url=comments&action=list');
+            exit();
         }
     }
 }
