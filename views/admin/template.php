@@ -77,7 +77,7 @@
 							</a>
 						</li>
 						<li class="nav-item <?php if ($_GET['url'] === 'users') echo 'active' ?>">
-							<a class="nav-link" href="admin.php?url=users">
+							<a class="nav-link" href="admin.php?url=users&action=list">
 								<i class="nc-icon nc-single-02"></i>
 								<p>Utilisateurs</p>
 							</a>
@@ -125,7 +125,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="admin.php?url=logout">
+									<a class="nav-link" href="admin.php?url=auth&action=logout">
 										<span class="nc-icon nc-button-power"></span>
 									</a>
 								</li>

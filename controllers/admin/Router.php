@@ -23,8 +23,8 @@ class Router
 
             // L'utilisateur n'est pas connecté
             if (!$this->isConnected()) {
-                require_once('controllers/admin/LoginController.php');
-                $this->ctrl = new LoginController($url);
+                require_once('controllers/admin/AuthController.php');
+                $this->ctrl = new AuthController($url);
                 exit();
             } else {
                 // L'utilisateur est connecté
