@@ -50,7 +50,6 @@
 							Billet simple pour l'Alaska
 						</a>
 					</div>
-					<!-- <?php if($_SESSION['connected']): ?> -->
 					<ul class="nav">
 						<li class="nav-item <?php if ($_GET['url'] === 'dashboard') echo 'active' ?>">
 							<a class="nav-link" href="admin.php?url=dashboard">
@@ -83,7 +82,6 @@
 							</a>
 						</li>
 					</ul>
-					<!-- <?php endif ?> -->
 				</div>
 			</div>
 
@@ -95,11 +93,6 @@
 						<div class="show-username">
 							<p>
 								Bonjour
-								<?php if($_SESSION['connected']): ?>
-									<a href="#"><?=$_SESSION['userName']?></a>
-								<?php else: ?>
-									
-								<?php endif ?>
 								!
 							</p>
 						</div>
@@ -110,7 +103,6 @@
 						</button>
 
 						<div class="collapse navbar-collapse justify-content-end" id="navigation">
-							<!-- <?php if($_SESSION['connected']): ?> -->
 							<ul class="navbar-nav ml-auto">
 								<li class="nav-item">
 									<a class="nav-link" href="index.php" target="_blank">
@@ -130,7 +122,6 @@
 									</a>
 								</li>
 							</ul>
-							<!-- <?php endif ?> -->
 						</div>
 					</div>
 				</nav>

@@ -6,52 +6,42 @@ class Router
     private $ctrl;
     private $view;
 
-    public function isConnected():bool
+    /* static function isLogged()
     {
-        return !empty($_SESSION['connected']);
-    }
+        if (isset($_SESSION) && isset($_SESSION['connected'])) {
+            return true;
+        } else {
+            return false;
+        }
+    } */
 
     public function routeReq()
     {
         try {
-            // chargement auto des class models (managers)
             spl_autoload_register(function($class) {
                 require_once('models/' . $class . '.php');
             });
 
-            $url = '';
-
-            // L'utilisateur n'est pas connecté
-            if (!$this->isConnected()) {
-                require_once('controllers/admin/AuthController.php');
-                $this->ctrl = new AuthController($url);
-                exit();
-            } else {
-                // L'utilisateur est connecté
-                
-                // détermine le controleur selon ce qui est passé dans l'url
+            $url = '';            
+        
                 if (isset($_GET['url'])) {
-                    // décomposition de l'url et application d'un filtre
-                    // ex : accueil/articles => [acceuil, articles]
-                    $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE_URL)); // renvoie un array
+                    $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE_URL));
 
-                    // création dynamique du controller et de son fichier
                     $controller = ucfirst(strtolower($url[0]));
                     $controllerClass = $controller . 'Controller';
                     $controllerFile = 'controllers/admin/'. $controllerClass . '.php';
 
-                    // vérifie si le fichier existe
                     if (file_exists($controllerFile) && count($url) === 1) {
                         require_once($controllerFile);
-                        $this->ctrl = new $controllerClass($url);
+                        $this->ctrl = new $controllerClass();
                     } else {
                         throw new \Exception("Page introuvable", 1);
                     }
                 } else {
                     require_once('controllers/admin/DashboardController.php');
-                    $this->ctrl = new DashboardController($url);
-                }
-            }
+                    $this->ctrl = new DashboardController();
+                }  
+
         } catch (\Exception $e) {
             $this->view = new View('error');
             $errorMessage = $e->getMessage();

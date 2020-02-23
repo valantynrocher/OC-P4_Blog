@@ -3,7 +3,6 @@ require_once 'views/admin/View.php';
 
 class AuthController
 {
-
     private $usersManager;
     private $view;
 
@@ -37,9 +36,14 @@ class AuthController
     {
         $this->usersManager = new UsersManager();
         $admins = $this->usersManager->getAdminUsers();
-        
+        echo 'Tentative de connexion <br>';
+        print_r($admins);
+        echo '<br>';
+        print_r($_SESSION);
+        echo '<br>';
+
         foreach ($admins as $admin) {
-            if(password_verify($_POST['userPassword'], $admin->userPassword()) && $_POST['userLogin'] === $admin->userLogin()) {
+            if(password_verify($userPaswword, $admin->userPassword()) && $userLogin === $admin->userLogin()) {
                 $_SESSION['connected'] = 1;
                 $_SESSION['userName'] = $admin->userFirstName();
                 header('Location: admin.php?url=dashboard');
@@ -47,6 +51,7 @@ class AuthController
             } else {
                 $this->view = new View('login');
                 $error = 'Login ou mot de passe incorrect';
+                echo $error;
                 $this->view->generate(array('error' => $error));
             }
         }
@@ -54,6 +59,8 @@ class AuthController
 
     private function firstLogin()
     {
+        echo 'Page de connexion <br>';
+        print_r($_SESSION);
         $_SESSION['connected'] = 0;
         $error = null;
         $this->view = new View('login');
@@ -62,7 +69,6 @@ class AuthController
 
     private function logout()
     {
-        $_SESSION['connected'] = 0;
         header('Location: admin.php?url=auth&action=login');
         exit();
     }
