@@ -2,11 +2,17 @@
                         
                         <div class="content-header">
                             <div class="content-header__title">
-                                <h1>Gérer les utilisateurs</h1>
+                                <h1>Mes utilisateurs</h1>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="admin.php?url=users&action=list">Utilisateurs</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Nouveau</li>
+                                    </ol>
+                                </nav>
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href=#><span class="nc-icon nc-simple-add"></span></a>
+                                    <a href="admin.php?url=users&action=list"><span class="nc-icon nc-stre-left"></span></a>
 								</div>
 							</div>
                         </div>
@@ -16,13 +22,13 @@
                                 <div class="card-header ">
 									<h4 class="card-title">Ajouter un utilisateur</h4>
 								</div>
-                                <form action="admin.php?url=users" method="POST">
+                                <form action="admin.php?url=users&action=insert" method="POST">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <input class="form-control" type="text" name="firstName" placeholder="Prénom" required>
+                                            <input class="form-control" type="text" name="firstName" placeholder="Prénom">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <input class="form-control" type="text" name="lastName" placeholder="Nom" required>
+                                            <input class="form-control" type="text" name="lastName" placeholder="Nom">
                                         </div>
                                     </div>  
                                     <div class="form-row">
@@ -51,39 +57,4 @@
                             </div>
                         </div>
 
-                        <div class="row">
-							<div class="col">
-								<div class="card ">
-									<div class="card-header ">
-										<h4 class="card-title">Liste des utilisateurs</h4>
-									</div>
-									<div class="card-body ">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Prénom</th>
-                                                    <th scope="col">Nom</th>
-                                                    <th scope="col">Identifiant</th>
-                                                    <th scope="col">E-mail</th>
-                                                    <th scope="col">Rôle</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($users as $user): ?>
-                                                    <tr>
-                                                        <td><?= $user->userFirstName() ?></td>
-                                                        <td><?= $user->userLastName() ?></td>
-                                                        <td><?= $user->userLogin() ?></td>
-                                                        <td><?= $user->userEmail() ?></td>
-                                                        <td><?= $user->userRole() ?></td>
-                                                    </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-									</div>
-								</div>
-							</div>
-                        </div>
-
-                        
 					</div>

@@ -10,6 +10,7 @@ class User
     private $user_password;
     private $user_email;
     private $user_role;
+    private $user_creation_date_fr;
 
     public function __construct(array $data)
     {
@@ -75,8 +76,15 @@ class User
     public function setUser_role($user_role)
     {
         if (is_string($user_role)) {
-            $this->user_role = $user_role;
+            if ($user_role === 'admin' || $user_role === 'reader') {
+                $this->user_role = $user_role;
+            }
         }
+    }
+
+    public function setUser_creation_date_fr($user_creation_date_fr)
+    {
+        $this->user_creation_date_fr = $user_creation_date_fr;
     }
 
 
@@ -114,5 +122,10 @@ class User
     public function userRole()
     {
         return $this->user_role;
+    }
+
+    public function userCreationDateFr()
+    {
+        return $this->user_creation_date_fr;
     }
 }
