@@ -52,9 +52,7 @@ class PostsManager extends Manager
         );
         $req->execute(array($postId));
 
-        // créé la variable data qui contiendra les données
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            // var contiendra les données sous forme d'objets
             $var[] = new $obj($data);
         }
 
@@ -113,9 +111,7 @@ class PostsManager extends Manager
             DESC"
         );
 
-        // créé la variable data qui contiendra les données
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            // var contiendra les données osus forme d'objets
             $var[] = new $obj($data);
         }
         return $var;
@@ -137,9 +133,7 @@ class PostsManager extends Manager
         );
         $req->execute(array($postId));
 
-        // créé la variable data qui contiendra les données
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            // var contiendra les données sous forme d'objets
             $var[] = new $obj($data);
         }
 
