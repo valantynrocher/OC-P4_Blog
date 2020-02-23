@@ -57,13 +57,13 @@ class CategoriesController
         $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
 
-        $this->view = new View('categories');
+        $this->view = new View('categories/categories');
         $this->view->generate(array('categories' => $this->categories));
     }
 
     private function createCategory()
     {
-        $this->view = new View('createCategory');
+        $this->view = new View('categories/createCategory');
         $this->view->generate(array());
     }
 
@@ -86,7 +86,7 @@ class CategoriesController
         $categoryToUpdate = $this->categoryManager->getOneCategory($categoryId);
         $this->categories = $this->categoryManager->getAllCategories();
 
-        $this->view = new View('categories');
+        $this->view = new View('categories/editCategory');
         $this->view->generate(array('categories' => $this->categories, 'categoryToUpdate' => $categoryToUpdate));
     }
 

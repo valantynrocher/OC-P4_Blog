@@ -2,7 +2,13 @@
                         
                         <div class="content-header">
                             <div class="content-header__title">
-                                <h1>Gestion des catégories</h1>
+                                <h1>Mes catégories</h1>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="admin.php?url=categories&action=list">Catégories</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Liste</li>
+                                    </ol>
+                                </nav>
                             </div>
 							<div class="content-header__button">
 								<div class="card">
