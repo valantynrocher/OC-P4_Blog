@@ -26,16 +26,16 @@
                 <div class="card-body ">
                     <h3><?= $postToRead[0]->postTitle()?></h3>
                     <?php if($postToRead[0]->postStatus() === 'progress'): ?>
-                        <p><i class="post-status post-status--progress fas fa-circle"></i> Brouillon</p>
+                        <p><span class="badge badge-warning">Brouillon</span></p>
                     <?php elseif($postToRead[0]->postStatus() === 'public'): ?>
-                        <p><i class="post-status post-status--public fas fa-circle"></i> Publié</p>
+                        <p><span class="badge badge-success">Publié</span></p>
                     <?php elseif($postToRead[0]->postStatus() === 'trash'):?>
-                        <p><i class="post-status post-status--trash fas fa-circle"></i> Corbeille</p>
+                        <p><span class="badge badge-danger">Corbeille</span></p>
                     <?php endif ?>
                         <?php if($postToRead[0]->postUpdateDateFr() === null): ?>
-                        <p>Article créé le <?= $postToRead[0]->postCreationDateFr() ?></p>
+                        <i>Article créé le <?= $postToRead[0]->postCreationDateFr() ?></i>
                     <?php else: ?>
-                        <p>Article modifié le <?= $postToRead[0]->postUpdateDateFr() ?></p>
+                        <i>Article modifié le <?= $postToRead[0]->postUpdateDateFr() ?></i>
                     <?php endif ?>
                                                                 
                         <p><?= $postToRead[0]->postContent()?></p>
