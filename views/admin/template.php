@@ -36,6 +36,7 @@
 
 		<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
 
+		<!-- TinyMCE -->
 		<script src="https://cdn.tiny.cloud/1/he8as15x59uxbesh3g7jf5d0knmdtjs1z46ompdvcwoahoyt/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 	</head>
@@ -253,9 +254,12 @@
 
 		});
 	</script>
+	<!-- TinyMCE -->
 	<script>
 		tinymce.init({
-        	selector: '#postContent'
+			selector: '#postContent',
+			language: 'fr_FR',
+			language_url : 'private/js/tinyMCE/langs/fr_FR.js'
       	});
 	</script>
 
