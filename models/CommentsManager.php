@@ -168,6 +168,49 @@ class CommentsManager extends Manager
         return $deletedComment;
     }
 
+    protected function selectLastFivePublicsComments($commentTable, $postTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT comment_author,
+            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            $postTable.post_title
+            FROM $commentTable LEFT JOIN $postTable 
+            ON $commentTable.post_id = $postTable.post_id
+            WHERE comment_status = 'public'
+            ORDER BY $commentTable.comment_id
+            DESC
+            LIMIT 0, 5"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function countReportCommentsNumber($commentTable)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(comment_id) FROM $commentTable WHERE comment_status = 'report'");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
+    protected function countWaitingCommentsNumber($commentTable)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(comment_id) FROM $commentTable WHERE comment_status = 'waiting'");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -210,5 +253,20 @@ class CommentsManager extends Manager
     public function setCommentDeleted($commentId)
     {
         return $this->deleteCommentDeleted($this->commentTable, $commentId);
+    }
+
+    public function getLastFivePublicsComments()
+    {
+        return $this->selectLastFivePublicsComments($this->commentTable, $this->postTable, $this->commentObject);
+    }
+
+    public function getReportCommentsNumber()
+    {
+        return $this->countReportCommentsNumber($this->commentTable);
+    }
+
+    public function getWaitingCommentsNumber()
+    {
+        return $this->countWaitingCommentsNumber($this->commentTable);
     }
 }

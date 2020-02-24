@@ -101,6 +101,35 @@ class CategoryManager extends Manager
         return $deletedCategory;
     }
 
+    protected function selectLastFiveCategories($categoryTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT category_title
+            FROM $categoryTable 
+            ORDER BY category_id 
+            DESC
+            LIMIT 0, 5"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function countCategoriesNumber($categoryTable)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(category_id) FROM $categoryTable");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -133,5 +162,15 @@ class CategoryManager extends Manager
     public function setCategoryDeleted($categoryId)
     {
         return $this->deleteCategoryDeleted($this->categoryTable, $categoryId);
+    }
+
+    public function getLastFiveCategories()
+    {
+        return $this->selectLastFiveCategories($this->categoryTable, $this->categoryObject);
+    }
+
+    public function getCategoriesNumber()
+    {
+        return $this->countCategoriesNumber($this->categoryTable);
     }
 }

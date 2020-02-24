@@ -7,8 +7,6 @@ class PostsManager extends Manager
     /* =================================================================================================================================
         REQUESTS SETTERS
     ================================================================================================================================= */
-
-    // Requests for FRONT side (ONLY PUBLIC POSTS (WHERE post_status = 2))
     
     protected function selectPublicPostsPagination($postTable, $categoryTable, $obj, $postPerPage, $offset)
     {
@@ -92,8 +90,6 @@ class PostsManager extends Manager
         return $count;
         $req->closeCursor();
     }
-
-    // Requests for BACK side
 
     protected function selectAllPosts($postTable, $categoryTable, $obj)
     {
@@ -206,6 +202,41 @@ class PostsManager extends Manager
         return $deletedPost;
     }
 
+    protected function selectLastFivePublicsPosts($postTable, $categoryTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT post_title, $postTable.category_id,
+            DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
+            DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
+            $categoryTable.category_title
+            FROM $postTable
+            LEFT JOIN $categoryTable 
+            ON $postTable.category_id = $categoryTable.category_id
+            WHERE post_status = 'public'
+            ORDER BY $postTable.post_id 
+            DESC
+            LIMIT 0, 5"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function countProgressPostsNumber($postTable)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(post_id) FROM $postTable WHERE post_status = 'progress'");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -262,6 +293,16 @@ class PostsManager extends Manager
     public function setPostDeleted($postId)
     {
         return $this->deletePostDeleted($this->postTable, $postId);
+    }
+
+    public function getLastFivePublicsPosts()
+    {
+        return $this->selectLastFivePublicsPosts($this->postTable, $this->categoryTable, $this->postObject);
+    }
+
+    public function getProgressPostsNumber()
+    {
+        return $this->countProgressPostsNumber($this->postTable);
     }
 
 }

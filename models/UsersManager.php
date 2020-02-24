@@ -142,6 +142,46 @@ class UsersManager extends Manager
         return $deletedUser;
     }
 
+    protected function selectLastFiveUsers($userTable, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->query(
+            "SELECT user_login, user_email, user_role,
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            FROM $userTable 
+            ORDER BY user_creation_date_fr 
+            DESC
+            LIMIT 0, 5"
+        );
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function countAdminUsersNumber($userTable)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(user_id) FROM $userTable WHERE user_role = 'admin'");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
+    protected function countReaderUsersNumber($userTable)
+    {
+        $this->getBdd();
+        $req = self::$bdd->query("SELECT count(user_id) FROM $userTable WHERE user_role = 'reader'");
+        $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
+
+        return $count;
+        $req->closeCursor();
+    }
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -184,5 +224,20 @@ class UsersManager extends Manager
     public function setUserDeleted($userId)
     {
         return $this->deleteUserDeleted($this->userTable, $userId);
+    }
+
+    public function getLastFiveUsers()
+    {
+        return $this->selectLastFiveUsers($this->userTable, $this->userObject);
+    }
+
+    public function getAdminUsersNumber()
+    {
+        return $this->countAdminUsersNumber($this->userTable);
+    }
+
+    public function getReaderUsersNumber()
+    {
+        return $this->countReaderUsersNumber($this->userTable);
     }
 }
