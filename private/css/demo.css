@@ -76,7 +76,7 @@ textarea.form-control {
 }
 
 .action-link--check:hover {
-    background-color: #28a745;;
+    background-color: #28a745;
 }
 
 .action-link--delete {
@@ -91,6 +91,73 @@ textarea.form-control {
 .report-comments tbody {
     color: #dc3545;
 }
+
+/* Dashboard */
+
+.dashboard-table table {
+    font-size: 14px;
+}
+
+.card__keys {
+    display:  flex;
+    justify-content: flex-start;
+}
+
+.card__keys__item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 150px;
+    height: 70px;
+    margin-right: 20px;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    color: #FFF;
+}
+
+.card__keys__item h4,
+.card__keys__item p {
+    margin: 0;
+}
+
+.card__keys__item h4 {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.card__keys__item p {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.card__keys__item--green {
+    background-color: #28a745;
+}
+
+.card__keys__item--purple {
+    background-color: #943bea;
+}
+
+.card__keys__item--blue {
+    background-color: #1DC7EA;
+}
+
+.card__keys__item--red {
+    background-color: #dc3545;
+}
+
+.card__keys__item--orange {
+    background-color: #ffc107;
+}
+
+.card__keys__item--grey {
+    background-color: #868e96;
+}
+
 
 /* ==============================
 TEMPLATE SASS CSS
