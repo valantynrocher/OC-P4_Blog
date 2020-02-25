@@ -6,14 +6,6 @@ class Router
     private $ctrl;
     private $view;
 
-    /* static function isLogged()
-    {
-        if (isset($_SESSION) && isset($_SESSION['connected'])) {
-            return true;
-        } else {
-            return false;
-        }
-    } */
 
     public function routeReq()
     {
@@ -22,8 +14,9 @@ class Router
                 require_once('models/' . $class . '.php');
             });
 
-            $url = '';            
-        
+            $url = '';
+            
+            if ($_SESSION['connected'] === 1 && $_SESSION['user']['role'] === 'admin') {
                 if (isset($_GET['url'])) {
                     $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE_URL));
 
@@ -40,7 +33,11 @@ class Router
                 } else {
                     require_once('controllers/admin/DashboardController.php');
                     $this->ctrl = new DashboardController();
-                }  
+                }
+            } else {
+                header('Location: index.php');
+                exit();
+            }
 
         } catch (\Exception $e) {
             $this->view = new View('error');

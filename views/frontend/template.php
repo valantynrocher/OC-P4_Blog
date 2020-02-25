@@ -57,7 +57,7 @@
 							<?php endif ?>
 							<li><a href="/about">Qui suis-je</a></li>
 							<li><a href="/contact">Contact</a></li>
-							<li class="btn btn-warning" ><a href="auth&action=auth"><i class="fas fa-user"></i> Mon compte</a></li>
+							<li class="btn btn-warning" ><a href="auth&action=reader"><i class="fas fa-user"></i> Mon compte</a></li>
 						</ul>
 					</nav>
 					
@@ -105,10 +105,14 @@
 					</div>
 					<div class="col-lg-4 col-md-6 col-sm-6">
 						<div class="single-footer-widget instafeed">
-							<h6 class="footer_title">Espace Lecteur</h6>
+							<h6 class="footer_title">Espace utilisateurs</h6>
 							<ul>
-								<li><a href="auth&action=auth">S'inscrire/Se connecter</a></li>
-								<li><a href="#">Gérer mon compte</a></li>
+								<?php if (isset($_SESSION['connected']) && $_SESSION['connected'] === 1): ?>
+									<li>Connecté en tant que <?=$_SESSION['user']['login']?> (<?=$_SESSION['user']['role']?>)</li>
+									<li><a href="auth&action=account">Gérer mon compte</a></li>
+									<li><a href="auth&action=logout">Déconnexion</a></li>
+								<?php endif ?>
+								<li><a href="auth&action=reader">S'inscrire/Se connecter</a></li>
 							</ul>
 						</div>
 					</div>
@@ -126,8 +130,6 @@
 				</div>
 				<div class="row footer-bottom d-flex justify-content-between align-items-center">
 					<div class="col-lg-4 footer-text text-center">
-						<a href="admin.php" target="_blank">Espace d'administration</a>
-						 | 
 						 <a href="/legals">Mentions légales</a>					
 					</div>
 					<p class="col-lg-8 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

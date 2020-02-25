@@ -94,6 +94,9 @@
 						<div class="show-username">
 							<p>
 								Bonjour
+								<?php if (isset($_SESSION['connected']) && $_SESSION['connected'] === 1): ?>
+									<?=$_SESSION['user']['firstName']?>
+								<?php endif ?>
 								!
 							</p>
 						</div>
@@ -118,7 +121,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="admin.php?url=auth&action=logout">
+									<a class="nav-link" href="index.php?url=auth&action=logout">
 										<i class="fas fa-power-off"></i>
 										Déconnexion
 									</a>

@@ -4,7 +4,7 @@
 		<div class="row d-flex align-items-center justify-content-center">
 			<div class="about-content col-lg-12">
 				<h1 class="text-white">
-					Connexion/Inscription
+					Espace lecteur
 				</h1>
 			</div>
 		</div>
@@ -19,11 +19,11 @@
 					Vous êtes déjà un fidèle lecteur ?<br> Munissez vous de votre login et de votre mot de passe et connectez-vous !
 				</div>
 				<div class="card-body">
-					<form action="#" method="POST" class="form-signin">
-						<h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
-						<?php if (isset($errorLoginMsg) && $errorSignupMsg !== null): ?>
+					<form action="auth&action=login&userType=reader" method="POST" class="form-signin">
+						<h2 class="h3 mb-3 font-weight-normal">Se connecter</h2>
+						<?php if (isset($errorLoginMsg) && $errorLoginMsg !== null): ?>
 							<div class="alert alert-danger">
-								<?= $errorSignupMsg ?>
+								<?= $errorLoginMsg ?>
 							</div>
 						<?php endif ?>
 						<div class="form-group">
@@ -34,7 +34,8 @@
 							<label for="userPassword" class="sr-only">Mot de passe</label>
 							<input type="password" name="password" id="userPassword" class="form-control" placeholder="Votre mot de passe" required>
 						</div>
-						<button class="btn btn-lg btn-warning btn-block" type="submit">Connexion</button>
+						<button class="btn btn-warning" name="submit" type="submit">Connexion</button>
+						<p>Vous êtes administrateur du site ? <a href="auth&action=admin">Connectez-vous ici</a></p>
 					</form>
 				</div>
 			</div>
@@ -47,7 +48,7 @@
 				</div>
 				<div class="card-body">
 					<form action="auth&action=signup" method="POST" class="form-signin">
-						<h1 class="h3 mb-3 font-weight-normal">S'inscrire</h1>
+						<h2 class="h3 mb-3 font-weight-normal">S'inscrire</h2>
 						<?php if (isset($errorSignupMsg) && $errorSignupMsg !== null): ?>
 							<div class="alert alert-danger">
 								<?= $errorSignupMsg ?>
@@ -81,7 +82,7 @@
 							<label for="confirmPassword" class="sr-only">Mot de passe</label>
 							<input type="password" name="passwordConfirm" id="confirmPassword" class="form-control" placeholder="Confirmez votre mot de passe" required>
 						</div>
-						<button class="btn btn-lg btn-warning btn-block" type="submit">Inscription</button>
+						<button class="btn btn-warning" name="submit" type="submit">Inscription</button>
 					</form>
 				</div>
 			</div>

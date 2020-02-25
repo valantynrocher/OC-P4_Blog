@@ -30,8 +30,6 @@ class CommentsManager extends Manager
             $postId
         ));
 
-        print_r($req->fetch(PDO::FETCH_ASSOC));
-
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
         }

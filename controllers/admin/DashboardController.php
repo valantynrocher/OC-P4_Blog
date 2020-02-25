@@ -17,6 +17,7 @@ class DashboardController
 
     private function dashboard()
     {
+        print_r($_SESSION);
         // POSTS
         $this->postsManager = new PostsManager();
         $lastFivesPublicsPosts = $this->postsManager->getLastFivePublicsPosts();

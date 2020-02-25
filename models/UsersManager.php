@@ -182,14 +182,50 @@ class UsersManager extends Manager
         $req->closeCursor();
     }
 
+    // get a count to check if user already register for login or for adding new user
+    protected function selectUserRegisterNumber($userTable, $userLogin)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "SELECT *
+            FROM $userTable
+            WHERE user_login = ?"
+        );
+        $result = $req->execute(array(
+            $userLogin
+        ));
+
+        $count = (int)$req->fetch(PDO::FETCH_NUM);
+
+        return $count;
+        $req->closeCursor();
+    }
+
+    protected function selectAuthUser($userTable, $userLogin, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->prepare(
+            "SELECT user_id, user_first_name, user_last_name, user_login, user_password, user_email, user_role,
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            FROM $userTable
+            WHERE user_login = ?"
+        );
+        $req->execute(array(
+            $userLogin
+        ));
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+
+        return $var;
+        $req->closeCursor();
+    }
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
-    
-    public function getAuthUser($userLogin, $userHashPassword)
-    {
-        return $this->selectAuthUser($this->userTable, $this->userObject, $userLogin, $userHashPassword);
-    }
 
     public function getAllUsers()
     {
@@ -239,5 +275,15 @@ class UsersManager extends Manager
     public function getReaderUsersNumber()
     {
         return $this->countReaderUsersNumber($this->userTable);
+    }
+
+    public function getUserRegisterNumber($userLogin)
+    {
+        return $this->selectUserRegisterNumber($this->userTable, $userLogin);
+    }
+
+    public function getAuthUser($userLogin)
+    {
+        return $this->selectAuthUser($this->userTable, $userLogin, $this->userObject);
     }
 }

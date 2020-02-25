@@ -95,7 +95,8 @@
                     
                 </div>
                 <div class="comment-form">
-                    <h4>Poster un commentaire</h4>
+					<h4>Poster un commentaire</h4>
+					<?php if (isset($_SESSION['connected']) && $_SESSION['connected'] === 1): ?>
                     <form action="comment&action=publish&postId=<?=$post[0]->postId() ?>" method="POST">
                         <div class="form-group ">
                             <div class="form-group">
@@ -108,7 +109,14 @@
                                 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre message'" required=""></textarea>
                         </div>
                         <button type="submit" class="primary-btn submit_btn text-uppercase">Envoyer</button>
-                    </form>
+					</form>
+					<?php else: ?>
+						<div class="card">
+							Pour publier des commentaires, vous devez être connecté.
+							Pas encore inscrit ? Crééez votre compte ici !
+							Déjà lecteur fidèle ? Connectez-vous ici !
+						</div>
+					<?php endif ?>
                 </div>
 			</div>
 
