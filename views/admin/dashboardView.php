@@ -173,6 +173,7 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
+															<th scope="col">Rôle</th>
 															<th scope="col">Identifiant</th>
 															<th scope="col">E-mail</th>
 															<th scope="col">Inscription</th>
@@ -181,6 +182,11 @@
 													<tbody>
 														<?php foreach ($lastFiveUsers as $user): ?>
 															<tr>
+																<?php if ($user->userRole() === 'admin'): ?>
+																	<td><span class="badge badge-primary">Admin</span></td>
+																<?php elseif ($user->userRole() === 'reader'): ?>
+																	<td><span class="badge badge-secondary">Lecteur</span></td>
+																<?php endif ?>
 																<td><?= $user->userLogin() ?></td>
 																<td><?= $user->userEmail() ?></td>
 																<td><?= $user->userCreationDateFr() ?></td>

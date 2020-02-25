@@ -12,7 +12,7 @@
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href="admin.php?url=categories&action=create"><span class="nc-icon nc-simple-add"></span></a>
+                                    <a href="admin.php?url=categories&action=create" data-toggle="tooltip" data-placement="left" title="Nouvelle catégorie"><span class="nc-icon nc-simple-add"></span></a>
 								</div>
 							</div>
                         </div>
@@ -63,9 +63,9 @@
                                                     <tr>
                                                         <td><?= $category->categoryId() ?></td>
                                                         <td><?= $category->categoryTitle() ?></td>
-                                                        <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=category&categoryId=<?=$category->categoryId()?>" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
-                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=categories&action=edit&categoryId=<?=$category->categoryId()?>"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=categories&action=delete&categoryId=<?=$category->categoryId()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer cet article ? Cette action est définitive. Si cette catégorie contient des articles, vous devez d\'abord supprimer ces articles.')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=category&categoryId=<?=$category->categoryId()?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Voir la catégorie en ligne"><i class="fas fa-external-link-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=categories&action=edit&categoryId=<?=$category->categoryId()?>" data-toggle="tooltip" data-placement="top" title="Modifier la catégorie"><i class="far fa-edit"></i></td>
+                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=categories&action=delete&categoryId=<?=$category->categoryId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer la catégorie" onclick="return confirm('Êtes-vous certain de vouloir supprimer cet article ? Cette action est définitive. Si cette catégorie contient des articles, vous devez d\'abord supprimer ces articles.')"><i class="far fa-trash-alt"></i></a></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>

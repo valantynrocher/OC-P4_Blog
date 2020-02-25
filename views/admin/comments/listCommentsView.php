@@ -43,8 +43,8 @@
                                         <td><?= $reportComment->commentCreationDateFr() ?></td>
                                         <td><?= $reportComment->commentContent() ?></td>
 
-                                        <td class="action-cell"><a class="action-link action-link--check" href="admin.php?url=comments&action=moderate&commentId=<?=$reportComment->commentId()?>"><i class="fas fa-check"></i></td>
-                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$reportComment->commentId()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
+                                        <td class="action-cell"><a class="action-link action-link--check" href="admin.php?url=comments&action=moderate&commentId=<?=$reportComment->commentId()?>" data-toggle="tooltip" data-placement="top" title="Modérer le commentaire"><i class="fas fa-check"></i></td>
+                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$reportComment->commentId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer le commentaire" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>
@@ -87,8 +87,8 @@
                                     <td><?= $waitingComment->commentCreationDateFr() ?></td>
                                     <td><?= $waitingComment->commentContent() ?></td>
 
-                                    <td class="action-cell"><a class="action-link action-link--check" href="admin.php?url=comments&action=moderate&commentId=<?=$waitingComment->commentId()?>"><i class="fas fa-check"></i></td>
-                                    <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$waitingComment->commentId()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
+                                    <td class="action-cell"><a class="action-link action-link--check" href="admin.php?url=comments&action=moderate&commentId=<?=$waitingComment->commentId()?>" data-toggle="tooltip" data-placement="top" title="Modérer le commentaire"><i class="fas fa-check"></i></td>
+                                    <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$waitingComment->commentId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer le commentaire" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>
@@ -126,8 +126,8 @@
                                     <td><?= $moderateComment->commentCreationDateFr() ?></td>
                                     <td><?= $moderateComment->commentContent() ?></td>
 
-                                    <td class="action-cell"><a class="action-link" href="admin.php?url=comments&action=answer&commentId=<?=$moderateComment->commentId()?>"><i class="fas fa-reply"></i></td>
-                                    <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$moderateComment->commentId()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
+                                    <td class="action-cell"><a class="action-link" href="admin.php?url=comments&action=answer&commentId=<?=$moderateComment->commentId()?>" data-toggle="tooltip" data-placement="top" title="Répondre au commentaire"><i class="fas fa-reply"></i></td>
+                                    <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$moderateComment->commentId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer le commentaire" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

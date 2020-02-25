@@ -12,7 +12,7 @@
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href="admin.php?url=users&action=list"><span class="nc-icon nc-stre-left"></span></a>
+                                    <a href="admin.php?url=users&action=list" data-toggle="tooltip" data-placement="left" title="Retour à la liste des utilisateurs"><span class="nc-icon nc-stre-left"></span></a>
 								</div>
 							</div>
                         </div>

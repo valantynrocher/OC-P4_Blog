@@ -12,7 +12,7 @@
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href="admin.php?url=users&action=create"><span class="nc-icon nc-simple-add"></span></a>
+                                    <a href="admin.php?url=users&action=create" data-toggle="tooltip" data-placement="left" title="Nouvel utilisateur"><span class="nc-icon nc-simple-add"></span></a>
 								</div>
 							</div>
                         </div>
@@ -44,8 +44,8 @@
                                                         <td><?= $admin->userLogin() ?></td>
                                                         <td><?= $admin->userEmail() ?></td>
                                                         <td><?= $admin->userCreationDateFr() ?></td>
-                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=users&action=edit&userId=<?=$admin->userId()?>"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=users&action=delete&userId=<?=$admin->userId()?>" onclick="return confirm('Vouslez-vous vraiment supprimer cet utilisateur ? ATTENTION : Cette action est irréversible.')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=users&action=edit&userId=<?=$admin->userId()?>" data-toggle="tooltip" data-placement="top" title="Modifier l'utilisateur"><i class="far fa-edit"></i></td>
+                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=users&action=delete&userId=<?=$admin->userId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer l'utilisateur" onclick="return confirm('Vouslez-vous vraiment supprimer cet utilisateur ? ATTENTION : Cette action est irréversible.')"><i class="far fa-trash-alt"></i></a></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>
@@ -82,8 +82,8 @@
                                                         <td><?= $reader->userLogin() ?></td>
                                                         <td><?= $reader->userEmail() ?></td>
                                                         <td><?= $reader->userCreationDateFr() ?></td>
-                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=users&action=edit&userId=<?=$reader->userId()?>"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=users&action=delete&userId=<?=$reader->userId()?>" onclick="return confirm('Vouslez-vous vraiment supprimer cet utilisateur ? ATTENTION : Cette action est irréversible.')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link" href="admin.php?url=users&action=edit&userId=<?=$reader->userId()?>" data-toggle="tooltip" data-placement="top" title="Modifier l'utilisateur"><i class="far fa-edit"></i></td>
+                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=users&action=delete&userId=<?=$reader->userId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer l'utilisateur" onclick="return confirm('Vouslez-vous vraiment supprimer cet utilisateur ? ATTENTION : Cette action est irréversible.')"><i class="far fa-trash-alt"></i></a></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>

@@ -12,12 +12,10 @@
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href="admin.php?url=posts&action=list"><span class="nc-icon nc-stre-left"></span></a>
+                                    <a href="admin.php?url=posts&action=list" data-toggle="tooltip" data-placement="left" title="Retour à la liste des articles"><span class="nc-icon nc-stre-left"></span></a>
 								</div>
 							</div>
                         </div>
-
-                        <!-- show form to create a post -->
                         
                         <div class="row">
                             <div class="col">
@@ -30,7 +28,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="postTitle">Titre</label>
-                                                    <input type="text" class="form-control" name="title" id="postTitle" placeholder="Titre de l'article" required>
+                                                    <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Titre de l'article" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="postCategory">Catégorie</label>
@@ -52,7 +50,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col">
                                                     <label for="postContent">Contenu de l'article</label>
-                                                    <textarea class="form-control" name="content" id="postContent" rows="19" required></textarea>
+                                                    <textarea class="form-control" name="postContent" id="postContent" rows="19" required></textarea>
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Publier</button>
