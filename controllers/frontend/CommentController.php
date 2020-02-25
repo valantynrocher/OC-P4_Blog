@@ -5,24 +5,29 @@ class CommentController
 {
     private $commentsManager;
     private $view;
+    public $actionError = 'Action impossible : des données n\'ont pas été transmises';
 
     public function __construct()
     {
-        if ($_GET['action'] === 'publish') {
-            if (isset($_GET['postId']) && isset($_POST['author']) && isset($_POST['comment'])) {
-                $this->publish($_GET['postId'], $_POST['author'], $_POST['comment']);
-            } else {
-                throw new Exception('Des données n\'ont pas pu être récupérées');
-            }
-        } else if ($_GET['action'] === 'report') {
-            if (isset($_GET['commentId']) && isset($_GET['postId'])) {
-                $this->report($_GET['commentId'], $_GET['postId']);
-            } else {
-                throw new Exception('Des données n\'ont pas pu être récupérées');
-            }
-        }
-        else {
-            throw new Exception('Action impossible');
+        $action = $_GET['action'];
+
+        switch ($action) {
+            case 'publish':
+                if (isset($_GET['postId']) && isset($_POST['author']) && isset($_POST['comment'])) {
+                    $this->publish($_GET['postId'], $_POST['author'], $_POST['comment']);
+                } else {
+                    throw new Exception($this->actionError);
+                }
+                break;
+            case 'report':
+                if (isset($_GET['commentId']) && isset($_GET['postId'])) {
+                    $this->report($_GET['commentId'], $_GET['postId']);
+                } else {
+                    throw new Exception($this->actionError);
+                }
+                break;
+            default:
+                throw new Exception('Action impossible !');
         }
     }
 

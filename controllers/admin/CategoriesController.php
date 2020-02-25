@@ -7,6 +7,7 @@ class CategoriesController
     private $categoryManager;
     public $categories;
     private $view;
+    public $actionError = 'Action impossible : des données n\'ont pas été transmises';
 
     public function __construct()
     {
@@ -23,32 +24,32 @@ class CategoriesController
                 if (isset($_POST['categoryTitle']) && isset($_POST['categoryImage'])) {
                     $this->insertCategory($_POST['categoryTitle'], $_POST['categoryImage']);
                 } else {
-                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                    throw new Exception($this->actionError);
                 }
                 break;
             case 'edit':
                 if (isset($_GET['categoryId'])) {
                     $this->editCategory($_GET['categoryId']);
                 } else {
-                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                    throw new Exception($this->actionError);
                 }
                 break;
             case 'update':
                 if (isset($_GET['categoryId']) && isset($_POST['categoryTitle']) && isset($_POST['categoryImage'])) {
                     $this->updateCategory($_GET['categoryId'], $_POST['categoryTitle'], $_POST['categoryImage']);
                 } else {
-                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                    throw new Exception($this->actionError);
                 }
                 break;
             case 'delete':
                 if (isset($_GET['categoryId'])) {
                     $this->deleteCategory($_GET['categoryId']);
                 } else {
-                    throw new Exception('Des données n\'ont pas pu être récupérées');
+                    throw new Exception($this->actionError);
                 }
                 break;
             default:
-                throw new Exception('Action impossible');
+                throw new Exception('Action impossible !');
         }
     }
 
@@ -57,7 +58,7 @@ class CategoriesController
         $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
 
-        $this->view = new View('categories/categories');
+        $this->view = new View('categories/listCategories');
         $this->view->generate(array('categories' => $this->categories));
     }
 
@@ -109,7 +110,7 @@ class CategoriesController
         $deletedCategory = $this->categoryManager->setCategoryDeleted($categoryId);
 
         if($deletedCategory === false) {
-            throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est rattaché à cette catégorie puis recommencez.");
+            throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est attribué à cette catégorie puis recommencez.");
         } else {
             header('Location: admin.php?url=categories&action=list');
             exit();

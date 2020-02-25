@@ -1,5 +1,4 @@
-		<!-- start banner Area -->
-		<section class="banner-area relative">
+	<section class="banner-area relative">
 		<div class="overlay overlay-bg"></div>
 		<div class="container">
 			<div class="row d-flex align-items-center justify-content-center">
@@ -11,9 +10,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- End banner Area -->
 
-	<!-- Start about-page Area -->
 	<section class="sample-text-area">
 		<div class="container">
 			<h2 class="text-heading">MENTIONS LEGALES :</h2>
@@ -120,4 +117,3 @@
 			<i><u>CREDIT</u> :  ces mentions légales ont étés générées par <a href="https://www.generer-mentions-legales.com/generateur-mentions-legales.html" target="_blank">générateur de mentions legales</a></i><br>
 		</div>
 	</section>
-	<!-- End about-page Area -->

@@ -1,4 +1,3 @@
-	<!-- start banner Area -->
 	<section class="banner-area relative">
 		<div class="overlay overlay-bg"></div>
 		<div class="container">
@@ -16,9 +15,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- End banner Area -->
 
-	<!-- Start contact-page Area -->
 	<section class="contact-page-area section-gap">
 		<div class="container">
 			<?php if (!empty($feedback)): ?>
@@ -94,4 +91,3 @@
 			</div>
 		</div>
 	</section>
-	<!-- End contact-page Area -->
