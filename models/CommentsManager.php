@@ -15,20 +15,27 @@ class CommentsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
-            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content, 
-            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status, $postTable.post_title
-            FROM $commentTable LEFT JOIN $postTable 
-            ON $commentTable.post_id = $postTable.post_id
-            WHERE $commentTable.post_id = $postId
-            ORDER BY $commentTable.comment_id
+        $req = self::$bdd->prepare(
+            "SELECT comment_id, $commentTable.post_id, comment_author, comment_content, 
+            DATE_FORMAT(comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            comment_status, comment_start_id,
+                (SELECT comment_id FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_id,
+                (SELECT comment_content FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_content
+            FROM $commentTable
+            WHERE $commentTable.post_id = ? AND comment_start_id = 0
+            ORDER BY comment_id
             DESC"
         );
+        $req->execute(array(
+            $postId
+        ));
+
+        print_r($req->fetch(PDO::FETCH_ASSOC));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
         }
+        
         return $var;
         $req->closeCursor();
     }
@@ -76,11 +83,11 @@ class CommentsManager extends Manager
         $req = self::$bdd->query(
             "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status, $postTable.post_title
+            comment_status, comment_start_id, $postTable.post_title
             FROM $commentTable 
             LEFT JOIN $postTable 
             ON $commentTable.comment_id = $postTable.post_id
-            WHERE comment_status = 'report'
+            WHERE comment_status = 'report' AND comment_start_id = 0
             ORDER BY $commentTable.comment_id 
             DESC"
         );
@@ -99,11 +106,11 @@ class CommentsManager extends Manager
         $req = self::$bdd->query(
             "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status, $postTable.post_title
+            comment_status, comment_start_id, $postTable.post_title
             FROM $commentTable 
             LEFT JOIN $postTable 
             ON $commentTable.comment_id = $postTable.post_id
-            WHERE comment_status = 'waiting'
+            WHERE comment_status = 'waiting' AND comment_start_id = 0
             ORDER BY $commentTable.comment_id 
             DESC"
         );
@@ -122,11 +129,11 @@ class CommentsManager extends Manager
         $req = self::$bdd->query(
             "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status, $postTable.post_title
+            comment_status, comment_start_id, $postTable.post_title
             FROM $commentTable 
             LEFT JOIN $postTable 
             ON $commentTable.comment_id = $postTable.post_id
-            WHERE comment_status = 'public'
+            WHERE comment_status = 'public' AND comment_start_id = 0
             ORDER BY $commentTable.comment_id 
             DESC"
         );
@@ -211,6 +218,50 @@ class CommentsManager extends Manager
         $req->closeCursor();
     }
 
+    protected function selectOneComment($commentTable, $postTable, $commentId, $obj)
+    {
+        $this->getBdd();
+        $var = [];
+        $req = self::$bdd->prepare(
+            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content, 
+            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
+            comment_status, comment_start_id, $postTable.post_title,
+            (SELECT comment_id FROM $commentTable WHERE comment_start_id = $commentTable.comment_id) AS comment_answer_id,
+            (SELECT comment_content FROM $commentTable WHERE comment_start_id = $commentTable.comment_id) AS comment_answer_content
+            FROM $commentTable
+            LEFT JOIN $postTable 
+            ON $commentTable.post_id = $postTable.post_id
+            WHERE $commentTable.comment_id = $commentId"
+        );
+        $req->execute(array($commentId));
+
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
+            $var[] = new $obj($data);
+        }
+
+        return $var;
+        $req->closeCursor();
+    }
+
+    protected function insertCommentAnswer($commentTable, $postId, $commentAuthor, $commentContent, $commentStartId)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "INSERT INTO $commentTable(post_id, comment_author, comment_content, comment_creation_date, comment_status, comment_start_id) 
+            VALUES(?, ?, ?, NOW(), 'public', ?)"
+        );
+        $affectedComment = $req->execute(array(
+            $postId,
+            $commentAuthor,
+            $commentContent,
+            $commentStartId
+        ));
+
+        return $affectedComment;
+        $req->closeCursor();
+    }
+
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -268,5 +319,15 @@ class CommentsManager extends Manager
     public function getWaitingCommentsNumber()
     {
         return $this->countWaitingCommentsNumber($this->commentTable);
+    }
+
+    public function getOneComment($commentId)
+    {
+        return $this->selectOneComment($this->commentTable, $this->postTable, $commentId, $this->commentObject);
+    }
+
+    public function setCommentAnswer($postId, $commentAuthor, $commentContent, $commentStartId)
+    {
+        return$this->insertCommentAnswer($this->commentTable, $postId, $commentAuthor, $commentContent, $commentStartId);
     }
 }

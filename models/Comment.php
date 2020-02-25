@@ -9,6 +9,9 @@ class Comment
     private $comment_content;
     private $comment_creation_date_fr;
     private $comment_status;
+    private $comment_start_id;
+    private $comment_answer_id;
+    private $comment_answer_content;
     // from post table
     private $post_title;
 
@@ -72,6 +75,29 @@ class Comment
         }
     }
 
+    public function setComment_start_id($comment_start_id)
+    {
+        $comment_start_id = (int) $comment_start_id;
+        if ($comment_start_id >= 0) {
+            $this->comment_start_id = $comment_start_id;
+        }
+    }
+
+    public function setComment_answer_id($comment_answer_id)
+    {
+        $comment_answer_id = (int) $comment_answer_id;
+        if ($comment_answer_id > 0) {
+            $this->comment_answer_id = $comment_answer_id;
+        }
+    }
+
+    public function setComment_answer_content($comment_answer_content)
+    {
+        if (is_string($comment_answer_content)) {
+            $this->comment_answer_content = $comment_answer_content;
+        }
+    }
+
     public function setPost_title($post_title)
     {
         if (is_string($post_title)){
@@ -108,6 +134,21 @@ class Comment
     public function commentStatus()
     {
         return $this->comment_status;
+    }
+
+    public function commentStartId()
+    {
+        return $this->comment_start_id;
+    }
+
+    public function commentAnswerId()
+    {
+        return $this->comment_answer_id;
+    }
+
+    public function commentAnswerContent()
+    {
+        return $this->comment_answer_content;
     }
 
     public function postTitle()

@@ -3,6 +3,12 @@
     <div class="content-header">
         <div class="content-header__title">
             <h1>Mes commentaires</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Commentaires</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Liste</li>
+                </ol>
+            </nav>
         </div>
     </div>
     
@@ -120,7 +126,7 @@
                                     <td><?= $moderateComment->commentCreationDateFr() ?></td>
                                     <td><?= $moderateComment->commentContent() ?></td>
 
-                                    <!--<td class="action-cell"><a class="action-link" href=""><i class="far fa-eye"></i></td>-->
+                                    <td class="action-cell"><a class="action-link" href="admin.php?url=comments&action=answer&commentId=<?=$moderateComment->commentId()?>"><i class="fas fa-reply"></i></td>
                                     <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=comments&action=delete&commentId=<?=$moderateComment->commentId()?>" onclick="return confirm('Êtes-vous certain de vouloir supprimer ce commentaire ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
                                 </tr>
                             <?php endforeach ?>
