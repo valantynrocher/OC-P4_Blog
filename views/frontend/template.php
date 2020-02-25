@@ -57,8 +57,10 @@
 							<?php endif ?>
 							<li><a href="/about">Qui suis-je</a></li>
 							<li><a href="/contact">Contact</a></li>
+							<li class="btn btn-warning" ><a href="auth&action=auth"><i class="fas fa-user"></i> Mon compte</a></li>
 						</ul>
 					</nav>
+					
 					<div class="search-widget">
 						<form class="example" action="#">
 							<input type="text" placeholder="Rechercher un article" name="search2">
@@ -103,16 +105,10 @@
 					</div>
 					<div class="col-lg-4 col-md-6 col-sm-6">
 						<div class="single-footer-widget instafeed">
-							<h6 class="footer_title">Instagram Feed</h6>
-							<ul class="list instafeed d-flex flex-wrap">
-								<li><img src="public/img/i1.jpg" alt=""></li>
-								<li><img src="public/img/i2.jpg" alt=""></li>
-								<li><img src="public/img/i3.jpg" alt=""></li>
-								<li><img src="public/img/i4.jpg" alt=""></li>
-								<li><img src="public/img/i5.jpg" alt=""></li>
-								<li><img src="public/img/i6.jpg" alt=""></li>
-								<li><img src="public/img/i7.jpg" alt=""></li>
-								<li><img src="public/img/i8.jpg" alt=""></li>
+							<h6 class="footer_title">Espace Lecteur</h6>
+							<ul>
+								<li><a href="auth&action=auth">S'inscrire/Se connecter</a></li>
+								<li><a href="#">Gérer mon compte</a></li>
 							</ul>
 						</div>
 					</div>
@@ -135,10 +131,10 @@
 						 <a href="/legals">Mentions légales</a>					
 					</div>
 					<p class="col-lg-8 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						<a href="http://valantyn.fr" target=_blank>Valentin Rocher</a>
+						<a href="http://valantyn.fr" target=_blank>Valentin Rocher, www.valantyn.fr </a>
 						Copyright &copy;<script>document.write(new Date().getFullYear());</script>
 						Tous droits réservés |
-						Template créée avec<i class="fa fa-heart-o" aria-hidden="true"></i>
+						Template créée avec <i class="fa fa-heart-o" aria-hidden="true"></i>
 						par <a href="https://colorlib.com" target="_blank">Colorlib</a>
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 					</p>
