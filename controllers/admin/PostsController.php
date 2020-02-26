@@ -12,6 +12,9 @@ class PostsController
 
     public function __construct()
     {
+        $this->postsManager = new PostsManager();
+        $this->categoryManager = new CategoryManager();
+
         $action = $_GET['action'];
 
         switch ($action) {
@@ -71,10 +74,8 @@ class PostsController
 
     private function listPosts()
     {
-        $this->postsManager = new PostsManager();
         $this->posts = $this->postsManager->getAllPosts();
 
-        $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('posts/listPosts');
@@ -83,7 +84,6 @@ class PostsController
 
     private function createPost()
     {
-        $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
                     
         $this->view = new View('posts/createPost');
@@ -92,7 +92,6 @@ class PostsController
 
     private function insertPost($postTitle, $categoryId, $postContent, $postStatus)
     {
-        $this->postsManager = new PostsManager();
         $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent, $postStatus);
     
         if($newPost === false) {
@@ -105,10 +104,8 @@ class PostsController
 
     private function readPost($postId)
     {
-        $this->postsManager = new PostsManager();
         $this->posts = $this->postsManager->getAllPosts();
 
-        $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
 
         $postToRead = $this->postsManager->getOnePost($postId);
@@ -119,10 +116,8 @@ class PostsController
 
     private function editPost($postId)
     {
-        $this->postsManager = new PostsManager();
         $this->posts = $this->postsManager->getAllPosts();
 
-        $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
             
         $postToUpdate = $this->postsManager->getOnePost($postId);
@@ -133,7 +128,6 @@ class PostsController
 
     private function updatePost($postId, $postTitle, $categoryId, $postContent, $postStatus) 
     {
-        $this->postsManager = new PostsManager();
         $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent, $postStatus);
 
         if($affectedPost === false) {
@@ -146,7 +140,6 @@ class PostsController
 
     private function trashPost($postId)
     {
-        $this->postsManager = new PostsManager();
         $trashedPost = $this->postsManager->setTrashedPost($postId);
 
         if($trashedPost === false) {
@@ -159,7 +152,6 @@ class PostsController
 
     private function deletePost($postId)
     {
-        $this->postsManager = new PostsManager();
         $deletedPost = $this->postsManager->setPostDeleted($postId);
 
         if($deletedPost === false) {

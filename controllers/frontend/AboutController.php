@@ -9,12 +9,12 @@ class AboutController
 
     public function __construct()
     {
+        $this->categoryManager = new CategoryManager();
         $this->about();
     }
 
     private function about()
     {
-        $this->categoryManager = new CategoryManager();
         $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('about');

@@ -9,12 +9,13 @@ class LegalsController
 
     public function __construct()
     {
+        $this->categoryManager = new CategoryManager();
+
         $this->legals();
     }
 
     private function legals()
     {
-        $this->categoryManager = new CategoryManager();
         $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('legals');

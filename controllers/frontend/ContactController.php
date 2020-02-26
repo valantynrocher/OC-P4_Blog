@@ -9,12 +9,13 @@ class ContactController
 
     public function __construct()
     {
+        $this->categoryManager = new CategoryManager();
+
         $this->contact();
     }
 
     private function contact()
     {
-        $this->categoryManager = new CategoryManager();
         $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('contact');

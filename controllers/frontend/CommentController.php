@@ -9,6 +9,8 @@ class CommentController
 
     public function __construct()
     {
+        $this->commentsManager = new CommentsManager();
+
         $action = $_GET['action'];
 
         switch ($action) {
@@ -35,8 +37,7 @@ class CommentController
     {
         $author = htmlspecialchars($commentAuthor);
         $comment = htmlspecialchars($commentContent);
-
-        $this->commentsManager = new CommentsManager();
+        
         $affectedComment = $this->commentsManager->setNewComment($postId, $commentAuthor, $commentContent);
 
         if ($affectedComment === false) {
@@ -49,7 +50,6 @@ class CommentController
 
     private function report($commentId, $postId)
     {
-        $this->commentsManager = new CommentsManager();
         $affectedComment = $this->commentsManager->setReportComment($commentId);
 
         if ($affectedComment === false) {

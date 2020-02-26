@@ -11,6 +11,10 @@ class PostController
 
     public function __construct()
     {
+        $this->postsManager = new PostsManager();
+        $this->commentsManager = new CommentsManager();
+        $this->categoryManager = new CategoryManager();
+
         if (isset($_GET['postId'])) {
             $this->singlePost($_GET['postId']);
         } else {
@@ -20,16 +24,13 @@ class PostController
 
     private function singlePost($postId)
     {
-        $this->postsManager = new PostsManager();
         $post = $this->postsManager->getOnePublicPost($postId);
         if (empty($post)) {
             throw new \Exception("Cet article n'est pas public");
         }
 
-        $this->commentsManager = new CommentsManager();
         $comments = $this->commentsManager->getCommentsByPost($postId);
 
-        $this->categoryManager = new CategoryManager();
         $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('post');

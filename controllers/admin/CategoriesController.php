@@ -11,6 +11,8 @@ class CategoriesController
 
     public function __construct()
     {
+        $this->categoryManager = new CategoryManager();
+
         $action = $_GET['action'];
 
         switch ($action) {
@@ -55,7 +57,6 @@ class CategoriesController
 
     private function listCategories()
     {
-        $this->categoryManager = new CategoryManager();
         $this->categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('categories/listCategories');
@@ -70,7 +71,6 @@ class CategoriesController
 
     private function insertCategory($categoryTitle, $categoryImage)
     {
-        $this->categoryManager = new CategoryManager();
         $newCategory = $this->categoryManager->setNewCategorysetNewCategory($categoryTitle, $categoryImage);
     
         if($newCategory === false) {
@@ -83,7 +83,6 @@ class CategoriesController
 
     private function editCategory($categoryId)
     {
-        $this->categoryManager = new CategoryManager();
         $categoryToUpdate = $this->categoryManager->getOneCategory($categoryId);
         $this->categories = $this->categoryManager->getAllCategories();
 
@@ -93,7 +92,6 @@ class CategoriesController
 
     private function updateCategory($categoryId, $categoryTitle, $categoryImage)
     {
-        $this->categoryManager = new CategoryManager();
         $affectedCategory = $this->categoryManager->setChangedCategory($categoryId, $categoryTitle, $categoryImage);
 
         if($affectedCategory === false) {
@@ -106,7 +104,6 @@ class CategoriesController
 
     private function deleteCategory($categoryId)
     {
-        $this->categoryManager = new CategoryManager();
         $deletedCategory = $this->categoryManager->setCategoryDeleted($categoryId);
 
         if($deletedCategory === false) {

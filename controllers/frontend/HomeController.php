@@ -10,15 +10,14 @@ class HomeController
 
     public function __construct()
     {
+        $this->postsManager = new PostsManager();
+        $this->categoryManager = new CategoryManager();
+
         $this->home();
     }
 
     private function home()
     {
-        // CREATE MANAGERS
-        $this->postsManager = new PostsManager();
-        $this->categoryManager = new CategoryManager();
-
         // GET PAGINATION
         $page = $_GET['page'] ?? 1;
         if(!filter_var($page, FILTER_VALIDATE_INT)) {

@@ -11,6 +11,8 @@ class CommentsController
 
     public function __construct()
     {
+        $this->commentsManager = new CommentsManager();
+
         $action = $_GET['action'];
 
         switch ($action) {
@@ -51,7 +53,6 @@ class CommentsController
 
     private function listComments()
     {
-        $this->commentsManager = new CommentsManager();
         $reportComments = $this->commentsManager->getReportedComments();
         $waitingComments = $this->commentsManager->getWaitingComments();
         $moderateComments = $this->commentsManager->getModeratedComments();
@@ -66,7 +67,6 @@ class CommentsController
 
     private function moderateComment($commentId)
     {
-        $this->commentsManager = new CommentsManager();
         $moderatePost = $this->commentsManager->setModerateComment($commentId);
 
         if($moderatePost === false) {
@@ -79,7 +79,6 @@ class CommentsController
 
     private function deleteComment($commentId)
     {
-        $this->commentsManager = new CommentsManager();
         $deletedComment = $this->commentsManager->setCommentDeleted($commentId);
 
         if($deletedComment === false) {
@@ -92,7 +91,6 @@ class CommentsController
 
     private function answerComment($commentId)
     {
-        $this->commentsManager = new CommentsManager();
         $commentToAnswer = $this->commentsManager->getOneComment($commentId);
 
         $this->view = new View('comments/answerComment');
@@ -103,7 +101,6 @@ class CommentsController
 
     private function insertCommentAnswer($postId, $commentAuthor, $commentContent, $commentStartId)
     {
-        $this->commentsManager = new CommentsManager();
         $commentAnswer = $this->commentsManager->setCommentAnswer($postId, $commentAuthor, $commentContent, $commentStartId);
 
         if($commentAnswer === false) {

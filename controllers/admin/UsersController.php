@@ -9,6 +9,8 @@ class UsersController
 
     public function __construct()
     {
+        $this->usersManager = new UsersManager();
+
         $action = $_GET['action'];
 
         switch ($action) {
@@ -53,8 +55,7 @@ class UsersController
     }
 
     private function listUsers()
-    {
-        $this->usersManager = new UsersManager();
+    { 
         $admins = $this->usersManager->getAdminUsers();
         $readers = $this->usersManager->getReaderUsers();
 
@@ -71,7 +72,6 @@ class UsersController
     private function insertUser($userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
     {
         $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
-        $this->usersManager = new UsersManager();
         $affectedUser = $this->usersManager->setNewUser($userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, $userRole);
 
         if ($affectedUser === false) {
@@ -84,7 +84,6 @@ class UsersController
 
     private function editUser($userId)
     {
-        $this->usersManager = new UsersManager();
         $userToUpdate = $this->usersManager->getOneUser($userId);
 
         $this->view = new View('users/editUser');
@@ -96,7 +95,6 @@ class UsersController
 
         $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
         
-        $this->usersManager = new UsersManager();
         $affectedUser = $this->usersManager->setChangedUser($userId, $userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, $userRole);
 
         if($affectedUser === false) {
@@ -109,7 +107,6 @@ class UsersController
 
     private function deleteUser($userId)
     {
-        $this->usersManager = new UsersManager();
         $deletedUser = $this->usersManager->setUserDeleted($userId);
 
         if($deletedUser === false) {

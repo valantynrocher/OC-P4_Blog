@@ -10,6 +10,9 @@ class CategoryController
 
     public function __construct()
     {
+        $this->postsManager = new PostsManager();
+        $this->categoryManager = new CategoryManager();
+
         if (isset($_GET['categoryId'])) {
             $this->postsCategory($_GET['categoryId']);
         } else {
@@ -19,10 +22,8 @@ class CategoryController
 
     private function postsCategory($categoryId)
     {
-        $this->postsManager = new PostsManager();
         $postsByCategory = $this->postsManager->getPublicPostsByCategory($categoryId);
-
-        $this->categoryManager = new CategoryManager();
+        
         $category = $this->categoryManager->getOneCategory($categoryId);
         $categories = $this->categoryManager->getAllCategories();
 
