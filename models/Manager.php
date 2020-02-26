@@ -1,5 +1,7 @@
 <?php
 
+require_once 'services/BddConfig.php';
+
 abstract class Manager
 {
     protected static $bdd;
@@ -13,21 +15,19 @@ abstract class Manager
 
     // =============================== CONNEXION BDD ===============================
 
-    protected static function setBdd()
-    {
-        self::$bdd = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root');
-
-        // on utilise les constantes de PDO pour gérer les erreurs
-        self::$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-    }
-
-    // fonction de connexion par défaut à la bdd
     protected function getBdd()
     {
-        if (self::$bdd == null) {
-            self::setBdd();
-            return self::setBdd();
+        if (self::$bdd === null) {
+            // Get parameters for db config
+            $dsn = BddConfig::get("dsn");
+            $login = BddConfig::get("login");
+            $mdp = BddConfig::get("mdp");
+            // create connexion to db
+            self::$bdd = new PDO($dsn, $login, $mdp, [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            ]);
         }
+        return self::$bdd;
     }
-
 }
