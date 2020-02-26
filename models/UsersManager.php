@@ -15,7 +15,8 @@ class UsersManager extends Manager
         $var = [];
         $req = self::$bdd->query(
             "SELECT user_first_name, user_last_name, user_login, user_email, user_role,
-            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
+            DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable 
             ORDER BY user_creation_date_fr 
             ASC"
@@ -33,7 +34,8 @@ class UsersManager extends Manager
         $this->getBdd();
         $req = self::$bdd->query(
             "SELECT user_id, user_first_name, user_last_name, user_login, user_password, user_email, user_role,
-            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
+            DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable
             WHERE user_role = 'admin'
             ORDER BY user_creation_date_fr 
@@ -52,7 +54,8 @@ class UsersManager extends Manager
         $this->getBdd();
         $req = self::$bdd->query(
             "SELECT user_id, user_first_name, user_last_name, user_login, user_email, user_role,
-            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
+            DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable
             WHERE user_role = 'reader'
             ORDER BY user_creation_date_fr 
@@ -90,7 +93,8 @@ class UsersManager extends Manager
         $var = [];
         $req = self::$bdd->prepare(
             "SELECT user_id, user_first_name, user_last_name, user_login, user_password, user_email, user_role,
-            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
+            DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable
             WHERE user_id = ?"
         );
@@ -148,7 +152,8 @@ class UsersManager extends Manager
         $var = [];
         $req = self::$bdd->query(
             "SELECT user_login, user_email, user_role,
-            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
+            DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable 
             ORDER BY user_creation_date_fr 
             DESC
@@ -207,7 +212,8 @@ class UsersManager extends Manager
         $var = [];
         $req = self::$bdd->prepare(
             "SELECT user_id, user_first_name, user_last_name, user_login, user_password, user_email, user_role,
-            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr
+            DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
+            DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable
             WHERE user_login = ?"
         );
@@ -221,6 +227,19 @@ class UsersManager extends Manager
 
         return $var;
         $req->closeCursor();
+    }
+
+    protected function updateLastConnexionUser($userTable, $userId)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "UPDATE $userTable
+            SET user_last_connexion = NOW()
+            WHERE user_id = $userId"
+        );
+        $affectedUser = $req->execute();
+
+        return $affectedUser;
     }
 
     /* =================================================================================================================================
@@ -285,5 +304,10 @@ class UsersManager extends Manager
     public function getAuthUser($userLogin)
     {
         return $this->selectAuthUser($this->userTable, $userLogin, $this->userObject);
+    }
+
+    public function setLastConnexionUser($userId)
+    {
+        return $this->updateLastConnexionUser($this->userTable, $userId);
     }
 }

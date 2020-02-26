@@ -1,10 +1,12 @@
+<?php $this->title = "Espace utilisateur - Site de Jean Forteroche"; ?>
+
 <section class="banner-area relative">
 	<div class="overlay overlay-bg"></div>
 	<div class="container">
 		<div class="row d-flex align-items-center justify-content-center">
 			<div class="about-content col-lg-12">
 				<h1 class="text-white">
-					Espace lecteur
+					Espace utilisateur
 				</h1>
 			</div>
 		</div>
@@ -19,7 +21,7 @@
 					Vous êtes déjà un fidèle lecteur ?<br> Munissez vous de votre login et de votre mot de passe et connectez-vous !
 				</div>
 				<div class="card-body">
-					<form action="auth&action=login&userType=reader" method="POST" class="form-signin">
+					<form action="auth&action=login" method="POST" class="form-signin">
 						<h2 class="h3 mb-3 font-weight-normal">Se connecter</h2>
 						<?php if (isset($errorLoginMsg) && $errorLoginMsg !== null): ?>
 							<div class="alert alert-danger">
@@ -34,8 +36,7 @@
 							<label for="userPassword" class="sr-only">Mot de passe</label>
 							<input type="password" name="password" id="userPassword" class="form-control" placeholder="Votre mot de passe" required>
 						</div>
-						<button class="btn btn-warning" name="submit" type="submit">Connexion</button>
-						<p>Vous êtes administrateur du site ? <a href="auth&action=admin">Connectez-vous ici</a></p>
+						<button class="btn btn-warning" name="signIn" type="submit">Connexion</button>
 					</form>
 				</div>
 			</div>
@@ -82,7 +83,7 @@
 							<label for="confirmPassword" class="sr-only">Mot de passe</label>
 							<input type="password" name="passwordConfirm" id="confirmPassword" class="form-control" placeholder="Confirmez votre mot de passe" required>
 						</div>
-						<button class="btn btn-warning" name="submit" type="submit">Inscription</button>
+						<button class="btn btn-warning" name="signUp" type="submit">Inscription</button>
 					</form>
 				</div>
 			</div>

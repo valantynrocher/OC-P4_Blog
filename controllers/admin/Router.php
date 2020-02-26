@@ -1,11 +1,11 @@
 <?php
 require_once 'views/admin/View.php';
+require_once 'services/LoginService.php';
 
 class Router
 {
     private $ctrl;
     private $view;
-
 
     public function routeReq()
     {
@@ -16,7 +16,7 @@ class Router
 
             $url = '';
             
-            if ($_SESSION['connected'] === 1 && $_SESSION['user']['role'] === 'admin') {
+            if (LoginService::isAdmin()) {
                 if (isset($_GET['url'])) {
                     $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE_URL));
 

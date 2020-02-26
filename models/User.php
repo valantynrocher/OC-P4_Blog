@@ -10,7 +10,7 @@ class User
     private $user_password;
     private $user_email;
     private $user_role;
-    private $user_creation_date_fr;
+    private $user_last_connexion_fr;
 
     public function __construct(array $data)
     {
@@ -87,6 +87,11 @@ class User
         $this->user_creation_date_fr = $user_creation_date_fr;
     }
 
+    public function setUser_last_connexion_fr($user_last_connexion_fr)
+    {
+        $this->user_last_connexion_fr = $user_last_connexion_fr;
+    }
+
 
     // getters
     public function userId()
@@ -127,5 +132,10 @@ class User
     public function userCreationDateFr()
     {
         return $this->user_creation_date_fr;
+    }
+
+    public function userLastConnexionDateFr()
+    {
+        return $this->user_last_connexion_fr;
     }
 }

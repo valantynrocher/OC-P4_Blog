@@ -1,10 +1,12 @@
+<?php $this->title = "Mon espace personnel - Site de Jean Forteroche"; ?>
+
 <section class="banner-area relative">
 	<div class="overlay overlay-bg"></div>
 	<div class="container">
 		<div class="row d-flex align-items-center justify-content-center">
 			<div class="about-content col-lg-12">
 				<h1 class="text-white">
-					Mon compte lecteur
+					Mon espace personnel
 				</h1>
 			</div>
 		</div>
@@ -15,12 +17,15 @@
 	<div class="row">
 
 		<div class="col">
-			<div class="card text-center">
-				<div class="card-header">
+			<div class="card">
+				<div class="card-header account">
 					<h3>Bonjour <?= $_SESSION['user']['firstName']. ' ' . $_SESSION['user']['lastName']?> !</h3>
-					<p>Bienvenue sur votre espace lecteur.<br>Vous pouvez ici consulter et modifier vos informations personnelles.</p>
+					<p>Bienvenue sur votre espace utilisateur.<br>Vous pouvez ici consulter et modifier vos informations personnelles.</p>
+					<div class="card admin-link">
+                        <a href="admin.php?url=posts&action=create" data-toggle="tooltip" data-placement="left" title="Nouvel article"><span class="nc-icon nc-simple-add"></span></a>
+					</div>
  				</div>
-				<div class="card-body row">
+				<div class="card-body row text-center">
 					<div class="col-md-8">
 						<form action="" method="POST" class="form-signin">
 							<h2 class="h3 mb-3 font-weight-normal">Mes informations personnelles</h2>
@@ -66,6 +71,9 @@
 							<button class="btn btn-warning" type="submit">Enregistrer</button>
 						</form>
 					</div>
+				</div>
+				<div>
+					Dernière connexion : <?= $_SESSION['user']['lastConnexion'] ?>
 				</div>
 			</div>
 		</div>

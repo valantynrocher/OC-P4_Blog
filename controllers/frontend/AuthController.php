@@ -1,5 +1,6 @@
 <?php 
 require_once 'views/frontend/View.php';
+require_once 'services/LoginService.php';
 
 class AuthController
 {
@@ -10,74 +11,60 @@ class AuthController
 
     public function __construct()
     {
+        $this->categoryManager = new CategoryManager();
+        $this->usersManager = new UsersManager();
+
         $action = $_GET['action'];
         
         switch ($action) {
-            case 'reader':
-                if (!isset($_SESSION['connected']) || $_SESSION['connected'] === 0) {
-                    $this->goToPublicAuth();
+            case 'auth':
+                if (LoginService::isConnected()) {
+                    $this->redirectConnectedUser($_SESSION['user']['role']);
                 } else {
-                    $this->redirectConnectedUser('reader');
-                }
-                break;
-            case 'admin':
-                if (!isset($_SESSION['connected']) || $_SESSION['connected'] === 0) {
-                    $this->goToAdminAuth();
-                } else {
-                    $this->redirectConnectedUser('admin');
-                }
-                break;
-            case 'account':
-                if (!isset($_SESSION['connected']) || $_SESSION['connected'] === 0) {
-                    header('Location : auth&action=reader');
-                    exit();
-                } else if ($_SESSION['connected'] === 1) {
-                    $this->accountUser();
+                    $this->authentification();
                 }
                 break;
             case 'login':
-                if (isset($_GET['userType']) && isset($_POST['login']) && isset($_POST['password'])) {
-                    $this->login($_GET['userType'], $_POST['login'], $_POST['password']);
+                if (isset($_POST['signIn'])) {
+                    $this->login($_POST['login'], $_POST['password']);
                 }
                 break;
             case 'signup':
-                if (isset($_POST['lastName']) && isset($_POST['firstName']) && isset($_POST['email']) && isset($_POST['login']) && isset($_POST['password']) && isset($_POST['passwordConfirm'])) {
-                    $this->readerSignup($_POST['firstName'], $_POST['lastName'], $_POST['login'], $_POST['password'], $_POST['passwordConfirm'], $_POST['email']);
+                if (isset($_POST['signUp'])) {
+                    $this->signup($_POST['firstName'], $_POST['lastName'], $_POST['login'], $_POST['password'], $_POST['passwordConfirm'], $_POST['email']);
                 } else {
                     throw new Exception($this->actionError);
                 }
                 break;
+            case 'account':
+                if (LoginService::isConnected()) {
+                    $this->accountUser();
+                } else {
+                    $this->authentification();
+                }
+                break;
             case 'logout':
-                $this->resetSession();
-                header('Location : /home');
-                exit();
+                $this->logout();
                 break;
             default:
                 throw new Exception('Action impossible !');
         }
     }
 
-    private function goToPublicAuth()
-    {
-        $this->categoryManager = new CategoryManager();
+    private function authentification($errorLoginMsg = null, $errorSignupMsg = null, $successMsg = null)
+    {      
         $categories = $this->categoryManager->getAllCategories();
 
-        $this->view = new View('readerAuth');
-        $this->view->generate(array(), $categories);
+        $this->view = new View('auth');
+        $this->view->generate(array(
+            'errorLoginMsg' => $errorLoginMsg,
+            'errorSignupMsg' => $errorSignupMsg,
+            'successMsg' => $successMsg
+        ), $categories);
     }
 
-    private function goToAdminAuth()
+    private function checkIfUserExist($userLogin): bool
     {
-        $this->categoryManager = new CategoryManager();
-        $categories = $this->categoryManager->getAllCategories();
-
-        $this->view = new View('adminAuth');
-        $this->view->generate(array(), $categories);
-    }
-
-    private function checkIfUserExist($userLogin)
-    {
-        $this->usersManager = new UsersManager();
         $userRegisterNumber = $this->usersManager->getUserRegisterNumber($userLogin);
 
         if ($userRegisterNumber === 0) {
@@ -87,48 +74,43 @@ class AuthController
         }
     }
 
-    private function login($userType, $userLogin, $userPaswword)
+    private function login($userLogin, $userPaswword)
     {
         $userExist = $this->checkIfUserExist($userLogin);
+        var_dump($userExist);
         
         if ($userExist === false) {
             // don't know this user login
-            $this->view = new View($userType.'Auth');
             $errorLoginMsg = 'Aucun utilisateur n\'est associé à cet identifiant.';
-            $this->view->generate(array('errorLoginMsg' => $errorLoginMsg));
+            $this->authentification($errorLoginMsg, null, null);
         } else {
             // user exists
             $authUser = $this->usersManager->getAuthUser($userLogin);
-            
-            if ($authUser[0]->userRole() === $userType) {
-                // user can access
-                if (password_verify($userPaswword, $authUser[0]->userPassword())) {
-                    $this->openSession($authUser[0]);
-                    print_r($_SESSION);
-                } else {
-                    $this->view = new View($userType.'Auth');
-                    $errorLoginMsg = 'Le mot de passe saisi est incorrect.';
-                    $this->view->generate(array('errorLoginMsg' => $errorLoginMsg));
-                }
+            if (password_verify($userPaswword, $authUser[0]->userPassword())) {
+                $this->usersManager->setLastConnexionUser($authUser[0]->userId());
+                $this->openSession($authUser[0]);
+            } else {
+                $errorLoginMsg = 'L\'identifiant et/ou le mot de passe saisi est incorrect.';
+                $this->authentification($errorLoginMsg, null, null);
             }
         }
     }
 
     private function openSession($userConnected)
-    {
+    {  
         $_SESSION['connected'] = 1;
         $_SESSION['user'] = array(
             'id' => $userConnected->userId(),
             'firstName' => $userConnected->userFirstName(),
             'lastName' => $userConnected->userLastName(),
             'login' => $userConnected->userLogin(),
-            'hashPassword' => $userConnected->userPassword(),
             'email' => $userConnected->userEmail(),
             'role' => $userConnected->userRole(),
-            'creationDate' => $userConnected->userCreationDateFr()
+            'creationDate' => $userConnected->userCreationDateFr(),
+            'lastConnexion' => $userConnected->userLastConnexionDateFr()
         );
         
-        $this->redirectConnectedUser($userConnected->userRole());
+        $this->redirectConnectedUser($_SESSION['user']['role']);
     }
 
     private function redirectConnectedUser($userRole)
@@ -142,7 +124,7 @@ class AuthController
         }
     }
 
-    protected function readerSignup($userFirstName, $userLastName, $userLogin, $userPassword, $passwordConfirm, $userEmail)
+    protected function signup($userFirstName, $userLastName, $userLogin, $userPassword, $passwordConfirm, $userEmail)
     {
         $userExist = $this->checkIfUserExist($userLogin);
         
@@ -150,44 +132,40 @@ class AuthController
             if ($userPassword === $passwordConfirm) {
                 $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
     
-                $this->usersManager = new UsersManager();
                 $affectedUser = $this->usersManager->setNewUser($userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, 'reader');
     
                 if ($affectedUser === false) {
-                    $this->view = new View('readerAuth');
                     $errorSignupMsg = 'Une erreur est survenue, impossible de créer le compte. Veuillez recommencer.';
-                    $this->view->generate(array('errorSignupMsg' => $errorSignupMsg));
+                    $this->authentification(null, $errorSignupMsg, null);
                 } else {
-                    $this->view = new View('readerAuth');
                     $successMsg = 'Votre compte a été créé avec succès ! Connectez-vous à présent pour profiter au mieux de mon site <i class="fas fa-smile-wink"></i>';
-                    $this->view->generate(array('successMsg' => $successMsg));
+                    $this->authentification(null, null, $successMsg);
                 }
             } else {
-                $this->view = new View('readerAuth');
                 $errorSignupMsg = 'Les mots de passes saisis ne correspondent pas.';
-                $this->view->generate(array('errorSignupMsg' => $errorSignupMsg));
+                $this->authentification(null, $errorSignupMsg, null);
             }
         } else {
-            $this->view = new View('readerAuth');
             $errorSignupMsg = 'Un utilisateur est déjà associé à cet identifiant.';
-            $this->view->generate(array('errorSignupMsg' => $errorSignupMsg));
+            $this->authentification(null, $errorSignupMsg, null);
         }
-        
     }
 
     protected function accountUser()
     {
-        $this->categoryManager = new CategoryManager();
         $categories = $this->categoryManager->getAllCategories();
 
         $this->view = new View('accountUser');
         $this->view->generate(array(), $categories);
     }
 
-    private function resetSession()
+    private function logout()
     {
         $_SESSION = array();
         session_destroy();
+
+        header('Location: /home');
+        exit();
     }
 
 }

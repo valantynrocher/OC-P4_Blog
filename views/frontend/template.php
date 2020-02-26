@@ -15,7 +15,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Jean Forteroche - Ecrivain</title>
+	<title><?= $title ?></title>
 
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700|Roboto:400,500" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
@@ -57,7 +57,7 @@
 							<?php endif ?>
 							<li><a href="/about">Qui suis-je</a></li>
 							<li><a href="/contact">Contact</a></li>
-							<li class="btn btn-warning" ><a href="auth&action=reader"><i class="fas fa-user"></i> Mon compte</a></li>
+							<li class="btn btn-warning" ><a href="auth&action=auth"><i class="fas fa-user"></i> Mon compte</a></li>
 						</ul>
 					</nav>
 					
@@ -107,12 +107,13 @@
 						<div class="single-footer-widget instafeed">
 							<h6 class="footer_title">Espace utilisateurs</h6>
 							<ul>
-								<?php if (isset($_SESSION['connected']) && $_SESSION['connected'] === 1): ?>
-									<li>Connecté en tant que <?=$_SESSION['user']['login']?> (<?=$_SESSION['user']['role']?>)</li>
+								<?php if (isset($_SESSION['connected'])): ?>
+									<li>Connecté en tant que <b><?=strtoupper($_SESSION['user']['login'])?></b></li>
 									<li><a href="auth&action=account">Gérer mon compte</a></li>
 									<li><a href="auth&action=logout">Déconnexion</a></li>
+								<?php else: ?>
+								<li><a href="auth&action=auth">S'inscrire/Se connecter</a></li>
 								<?php endif ?>
-								<li><a href="auth&action=reader">S'inscrire/Se connecter</a></li>
 							</ul>
 						</div>
 					</div>
