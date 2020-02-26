@@ -1,3 +1,5 @@
+<?php $this->title = "Accueil - Site de Jean Forteroche"; ?>
+
 <section class="banner-area">
 	<div class="container box_1170">
 		<div class="row fullscreen d-flex align-items-center justify-content-center">

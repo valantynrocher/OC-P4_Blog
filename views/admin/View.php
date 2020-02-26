@@ -4,7 +4,7 @@ class View
 {
 
     private $file;
-    private $t;
+    private $title;
 
     public function __construct($page)
     {
@@ -18,7 +18,7 @@ class View
         $content = $this->generateFile($this->file, $data);
 
         // template
-        $view = $this->generateFile('views/admin/template.php', array('t' => $this->t, 'content' => $content));
+        $view = $this->generateFile('views/admin/template.php', array('title' => $this->title, 'content' => $content));
         echo $view;
     }
 

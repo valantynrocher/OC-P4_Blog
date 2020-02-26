@@ -1,3 +1,5 @@
+<?php $this->title = "Mentions légales - Site de Jean Forteroche"; ?>
+
 	<section class="banner-area relative">
 		<div class="overlay overlay-bg"></div>
 		<div class="container">

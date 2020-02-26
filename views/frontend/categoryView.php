@@ -1,3 +1,5 @@
+<?php $this->title = $category[0]->categoryTitle()." - Site de Jean Forteroche"; ?>
+
 <section class="banner-area relative">
 	<div class="overlay overlay-bg"></div>
 	<div class="container box_1170">
