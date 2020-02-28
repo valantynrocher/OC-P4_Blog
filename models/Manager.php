@@ -1,6 +1,6 @@
 <?php
 
-require_once 'services/BddConfig.php';
+require_once 'services/Database.php';
 
 abstract class Manager
 {
@@ -19,9 +19,9 @@ abstract class Manager
     {
         if (self::$bdd === null) {
             // Get parameters for db config
-            $dsn = BddConfig::get("dsn");
-            $login = BddConfig::get("login");
-            $mdp = BddConfig::get("mdp");
+            $dsn = Database::get("dsn");
+            $login = Database::get("login");
+            $mdp = Database::get("mdp");
             // create connexion to db
             self::$bdd = new PDO($dsn, $login, $mdp, [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

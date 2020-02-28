@@ -1,7 +1,6 @@
 <?php
-require_once 'views/frontend/View.php';
 
-class MailController
+class Email
 {
 
     private $categoryManager;
@@ -39,10 +38,6 @@ class MailController
             $success = false;
             $feedback = 'Échec de l\'envoi.';
         }
-        $this->categoryManager = new CategoryManager();
-        $categories = $this->categoryManager->getCategories();
-
-        $this->view = new View('contact');
-        $this->view->generate(array('success' => $success, 'feedback' => $feedback), $categories);
+        
     }
 }

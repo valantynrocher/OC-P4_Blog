@@ -21,14 +21,14 @@
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
 	
 	<!-- CSS ============================================= -->
-	<link rel="stylesheet" href="public/css/linearicons.css">
-	<link rel="stylesheet" href="public/css/font-awesome.min.css">
-	<link rel="stylesheet" href="public/css/bootstrap.css">
-	<link rel="stylesheet" href="public/css/magnific-popup.css">
-	<link rel="stylesheet" href="public/css/nice-select.css">
-	<link rel="stylesheet" href="public/css/animate.min.css">
-	<link rel="stylesheet" href="public/css/owl.carousel.css">
-	<link rel="stylesheet" href="public/css/main.css">
+	<link rel="stylesheet" href="/public/css/linearicons.css">
+	<link rel="stylesheet" href="/public/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/public/css/bootstrap.css">
+	<link rel="stylesheet" href="/public/css/magnific-popup.css">
+	<link rel="stylesheet" href="/public/css/nice-select.css">
+	<link rel="stylesheet" href="/public/css/animate.min.css">
+	<link rel="stylesheet" href="/public/css/owl.carousel.css">
+	<link rel="stylesheet" href="/public/css/main.css">
 
 	<!-- KIT FONT AWESOME ============================================= -->
 	<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
@@ -45,7 +45,7 @@
 					</div>
 					<nav id="nav-menu-container">
 						<ul class="nav-menu">
-							<li class="menu-active"><a href="/home">Accueil</a></li>
+							<li class="menu-active"><a href="home">Accueil</a></li>
 							<?php if (!empty($categories)): ?>
 								<li class="menu-has-children"><a href="">Chapitres</a>
 									<ul>
@@ -55,9 +55,9 @@
 									</ul>
 								</li>
 							<?php endif ?>
-							<li><a href="/about">Qui suis-je</a></li>
-							<li><a href="/contact">Contact</a></li>
-							<li class="btn btn-warning" ><a href="auth&action=auth"><i class="fas fa-user"></i> Mon compte</a></li>
+							<li><a href="static&action=about">Qui suis-je</a></li>
+							<li><a href="static&action=contact">Contact</a></li>
+							<li class="btn btn-warning" ><a href="auth"><i class="fas fa-user"></i> Mon compte</a></li>
 						</ul>
 					</nav>
 					
@@ -112,7 +112,7 @@
 									<li><a href="auth&action=account">Gérer mon compte</a></li>
 									<li><a href="auth&action=logout">Déconnexion</a></li>
 								<?php else: ?>
-								<li><a href="auth&action=auth">S'inscrire/Se connecter</a></li>
+								<li><a href="auth">S'inscrire/Se connecter</a></li>
 								<?php endif ?>
 							</ul>
 						</div>
@@ -131,7 +131,7 @@
 				</div>
 				<div class="row footer-bottom d-flex justify-content-between align-items-center">
 					<div class="col-lg-4 footer-text text-center">
-						 <a href="/legals">Mentions légales</a>					
+						 <a href="static&action=legals">Mentions légales</a>					
 					</div>
 					<p class="col-lg-8 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						<a href="http://valantyn.fr" target=_blank>Valentin Rocher, www.valantyn.fr </a>

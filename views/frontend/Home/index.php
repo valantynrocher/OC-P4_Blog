@@ -27,20 +27,20 @@
 							<img class="post-img img-fluid" src="public/img/posts/p1.jpg" alt="">
 						</figure>
 						<h3>
-							<a href="<?= 'post&postId=' . $post->postId() ?>"><?= $post->postTitle() ?></a>
+							<a href="post&postId=<?=$post->postId()?>"><?= $post->postTitle() ?></a>
 						</h3>
 						<p><?= substr($post->postContent(), 0, 150) . '...' ?></p>
-						<a href="<?= 'post&postId=' . $post->postId() ?>" class="primary-btn text-uppercase mt-15">lire la suite</a>
+						<a href="post&postId=<?=$post->postId()?>" class="primary-btn text-uppercase mt-15">lire la suite</a>
 						<div class="post-box">
 							<div class="d-flex">
 								<div>
-									<a href="/about">
+									<a href="about">
 										<img src="public/img/author/a1.png" alt="">
 									</a>
 								</div>
 								<div class="post-meta">
 									<div class="meta-head">
-										<a href="/about">Jean Forteroche</a>
+										<a href="about">Jean Forteroche</a>
 									</div>
 									<div class="meta-details">
 										<ul>
@@ -75,7 +75,7 @@
 						<ul class="pagination">
 							<?php if ($currentPage > 1): ?>
 							<li class="page-item">
-								<a href="/home&page=<?= $currentPage - 1 ?>" class="page-link" aria-label="Previous">
+								<a href="home&page=<?= $currentPage - 1 ?>" class="page-link" aria-label="Previous">
 									<span aria-hidden="true">
 										<span class="lnr lnr-arrow-left"></span>
 									</span>
@@ -84,18 +84,20 @@
 							<?php endif ?>
 							<?php for($i = 1; $i <= $pages; $i++): ?>
 								<?php if ($currentPage === $i): ?>
-									<li class="page-item active"><a href="/home&page=<?= $i ?>" class="page-link"><?= $i ?></a></li>
+									<li class="page-item active"><a href="home&page=<?= $i ?>" class="page-link"><?= $i ?></a></li>
 								<?php else: ?>
-									<li class="page-item"><a href="/home&page=<?= $i ?>" class="page-link"><?= $i ?></a></li>
+									<li class="page-item"><a href="home&page=<?= $i ?>" class="page-link"><?= $i ?></a></li>
 								<?php endif ?>
 							<?php endfor ?>
+							<?php if ($currentPage < $pages): ?>
 							<li class="page-item">
-								<a href="#" class="page-link" aria-label="Next">
+								<a href="home&page=<?= $currentPage + 1 ?>" class="page-link" aria-label="Next">
 									<span aria-hidden="true">
 										<span class="lnr lnr-arrow-right"></span>
 									</span>
 								</a>
 							</li>
+							<?php endif ?>
 						</ul>
 					</nav>
 				</section>
@@ -126,7 +128,7 @@
 					<h4 class="title">Les chapitres</h4>
 					<ul>
 						<?php foreach ($categories as $category): ?>
-						<li><a href="<?= 'category&categoryId=' . $category->categoryId() ?>" class="justify-content-between align-items-center d-flex">
+						<li><a href="category&categoryId=<?= $category->categoryId() ?>" class="justify-content-between align-items-center d-flex">
 								<p><?= $category->categoryTitle() ?></p>
 							</a>
 						</li>

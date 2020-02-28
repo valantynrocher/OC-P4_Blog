@@ -1,26 +1,36 @@
 <?php 
-require_once 'views/admin/View.php';
+require_once 'views/View.php';
+require_once 'controllers/Controller.php';
 
-class DashboardController
+class DashboardController extends Controller
 {
-
+    /**
+     * Manager for posts
+     */
     private $postsManager;
+
+    /**
+     * Manager for comments
+     */
     private $commentsManager;
-    private $categoriesManager;
+
+    /**
+     * Manager for users
+     */
     private $usersManager;
-    private $view;
 
     public function __construct()
     {
         $this->postsManager = new PostsManager();
         $this->commentsManager = new CommentsManager();
-        $this->categoriesManager = new CategoryManager();
         $this->usersManager = new UsersManager();
-
-        $this->dashboard();
     }
 
-    private function dashboard()
+    /**
+     * Action 'index' (default)
+     * Generates view for dashboard page
+     */
+    public function index()
     {
         // POSTS
         $lastFivesPublicsPosts = $this->postsManager->getLastFivePublicsPosts();
@@ -33,8 +43,8 @@ class DashboardController
         $waitingCommentsNumber = $this->commentsManager->getWaitingCommentsNumber();
 
         // CATEGORIES
-        $lastFiveCategories = $this->categoriesManager->getLastFiveCategories();
-        $categoriesNumber = $this->categoriesManager->getCategoriesNumber();
+        $lastFiveCategories = $this->getCategoryManager()->getLastFiveCategories();
+        $categoriesNumber = $this->getCategoryManager()->getCategoriesNumber();
 
         // USERS
         $lastFiveUsers = $this->usersManager->getLastFiveUsers();
@@ -42,8 +52,7 @@ class DashboardController
         $readerUsersNumber = $this->usersManager->getReaderUsersNumber();
 
         // VIEW
-        $this->view = new View('dashboard');
-        $this->view->generate(array(
+        $this->generateView(array(
             'lastFivesPublicsPosts' => $lastFivesPublicsPosts,
             'publicPostsNumber' => $publicPostsNumber,
             'progressPostsNumber' => $progressPostsNumber,

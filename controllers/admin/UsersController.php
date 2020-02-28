@@ -1,119 +1,122 @@
 <?php 
-require_once 'views/admin/View.php';
+require_once 'views/View.php';
+require_once 'controllers/Controller.php';
 
-class UsersController
+class UsersController extends Controller
 {
-
+    /**
+     * Manager for users
+     */       
     private $usersManager;
-    private $view;
 
     public function __construct()
     {
         $this->usersManager = new UsersManager();
-
-        $action = $_GET['action'];
-
-        switch ($action) {
-            case 'list':
-                $this->listUsers();
-                break;
-            case 'create':
-                $this->createUser();
-                break;
-            case 'insert':
-                if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])) {
-                    $this->insertUser($_POST['firstName'], $_POST['lastName'], $_POST['login'], $_POST['password'], $_POST['email'], $_POST['role']);
-                } else {
-                    throw new Exception('Action impossible. Des données n\'ont pas pu être récupérées');
-                }
-                break;
-            case 'edit':
-                if (isset($_GET['userId'])) {
-                    $this->editUser($_GET['userId']);
-                } else {
-                    throw new Exception('Action impossible. Des données n\'ont pas pu être récupérées');
-                }
-                break;
-            case 'update':
-                if (isset($_GET['userId']) && isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])) {
-                    $this->updateUser($_GET['userId'], $_POST['firstName'], $_POST['lastName'], $_POST['login'], $_POST['password'], $_POST['email'], $_POST['role']);
-                } else {
-                    throw new Exception('Action impossible. Des données n\'ont pas pu être récupérées');
-                }
-                break;
-            case 'delete':
-                if (isset($_GET['userId'])) {
-                    $this->deleteUser($_GET['userId']);
-                } else {
-                    throw new Exception('Action impossible. Des données n\'ont pas pu être récupérées');
-                }
-                break;
-            default:
-                throw new Exception('Action inconnue');
-        }
-
     }
 
-    private function listUsers()
+    /**
+     * Action 'index' (default)
+     * Generates view lo list users
+     */
+    public function index()
     { 
         $admins = $this->usersManager->getAdminUsers();
         $readers = $this->usersManager->getReaderUsers();
 
-        $this->view = new View('users/listUsers');
-        $this->view->generate(array('admins' => $admins, 'readers' => $readers));
+        $this->generateView(array(
+            'admins' => $admins,
+            'readers' => $readers
+        ));
     }
 
-    private function createUser()
+    /**
+     * Action 'create'
+     * Generates view to create new user
+     */
+    public function create()
     {
-        $this->view = new View('users/createUser');
-        $this->view->generate(array());
+        $this->generateView(array());
     }
 
-    private function insertUser($userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
+    /**
+     * Action 'edit'
+     * Generates view to edit one user
+     */
+    public function edit()
     {
-        $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
-        $affectedUser = $this->usersManager->setNewUser($userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, $userRole);
+        if (isset($_GET['userId'])) {
+            $userToUpdate = $this->usersManager->getOneUser($_GET['userId']);
 
-        if ($affectedUser === false) {
-            throw new Exception("Impossible d'ajouter l'utilisateur");
+            $this->generateView(array('userToUpdate' => $userToUpdate));
         } else {
-            header('Location: admin.php?url=users&action=list');
-            exit();
+            throw new Exception($this->actionError);
         }
     }
 
-    private function editUser($userId)
+    /**
+     * Action 'insert'
+     * Call Users Manager to insert new user in databse
+     * Redirect on index
+     */
+    public function insert()
     {
-        $userToUpdate = $this->usersManager->getOneUser($userId);
-
-        $this->view = new View('users/editUser');
-        $this->view->generate(array('userToUpdate' => $userToUpdate));
+        if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])) {
+            $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $affectedUser = $this->usersManager->setNewUser($_POST['firstName'], $_POST['lastName'], $_POST['login'], $hashPassword, $_POST['email'], $_POST['role']);
+    
+            if ($affectedUser === false) {
+                throw new Exception("Impossible d'ajouter l'utilisateur");
+            } else {
+                header('Location: admin.php?url=users');
+                exit();
+            }
+        } else {
+            throw new Exception($this->actionError);
+        }
     }
 
-    private function updateUser($userId, $userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
+    /**
+     * Action 'update'
+     * Call Users Manager to update one user in databse
+     * Redirect on index
+     */
+    public function update()
     {
-
-        $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
+        if (isset($_GET['userId']) && isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email'])) {
+            $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
         
-        $affectedUser = $this->usersManager->setChangedUser($userId, $userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, $userRole);
-
-        if($affectedUser === false) {
-            throw new Exception("Impossible de mettre à jour l\'utilisateur !");
-        } else  {
-            header('Location: admin.php?url=users&action=list');
-            exit();
+            $affectedUser = $this->usersManager->setChangedUser($_GET['userId'], $_POST['firstName'], $_POST['lastName'], $_POST['login'], $hashPassword, $_POST['email'], $_POST['role']);
+    
+            if($affectedUser === false) {
+                throw new Exception("Impossible de mettre à jour l\'utilisateur !");
+            } else  {
+                header('Location: admin.php?url=users');
+                exit();
+            }
+        } else {
+            throw new Exception($this->actionError);
         }
+
     }
 
-    private function deleteUser($userId)
+    /**
+     * Action 'delete'
+     * Call Users Manager to delete one user in databse
+     * Redirect on index
+     */
+    public function delete()
     {
-        $deletedUser = $this->usersManager->setUserDeleted($userId);
+        if (isset($_GET['userId'])) {
+            $deletedUser = $this->usersManager->setUserDeleted($_GET['userId']);
 
-        if($deletedUser === false) {
-            throw new \Exception("Impossible de supprimer l\'utilisateur !");
+            if($deletedUser === false) {
+                throw new \Exception("Impossible de supprimer l\'utilisateur !");
+            } else {
+                header('Location: admin.php?url=users');
+                exit();
+            }
         } else {
-            header('Location: admin.php?url=users&action=list');
-            exit();
+            throw new Exception($this->actionError);
         }
     }
 }

@@ -23,7 +23,7 @@
 				<div class="card-body">
 					<form action="auth&action=login" method="POST" class="form-signin">
 						<h2 class="h3 mb-3 font-weight-normal">Se connecter</h2>
-						<?php if (isset($errorLoginMsg) && $errorLoginMsg !== null): ?>
+						<?php if ($errorLoginMsg !== null): ?>
 							<div class="alert alert-danger">
 								<?= $errorLoginMsg ?>
 							</div>
@@ -50,11 +50,11 @@
 				<div class="card-body">
 					<form action="auth&action=signup" method="POST" class="form-signin">
 						<h2 class="h3 mb-3 font-weight-normal">S'inscrire</h2>
-						<?php if (isset($errorSignupMsg) && $errorSignupMsg !== null): ?>
+						<?php if ($errorSignupMsg !== null): ?>
 							<div class="alert alert-danger">
 								<?= $errorSignupMsg ?>
 							</div>
-						<?php elseif(isset($successMsg) && $successMsg !== null): ?>
+						<?php elseif($successMsg !== null): ?>
 							<div class="alert alert-success">
 								<?= $successMsg ?>
 							</div>

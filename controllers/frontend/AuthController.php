@@ -1,101 +1,102 @@
 <?php 
-require_once 'views/frontend/View.php';
-require_once 'services/LoginService.php';
+require_once 'views/View.php';
+require_once 'controllers/Controller.php';
+require_once 'services/Login.php';
 
-class AuthController
+class AuthController extends Controller
 {
+    /**
+     * Manager for users
+     */
     private $usersManager;
-    private $categoryManager;
-    private $view;
-    public $actionError = '<i class="fas fa-exclamation-circle"></i> Action impossible : des données n\'ont pas été transmises';
 
     public function __construct()
     {
-        $this->categoryManager = new CategoryManager();
         $this->usersManager = new UsersManager();
-
-        $action = $_GET['action'];
-        
-        switch ($action) {
-            case 'auth':
-                if (LoginService::isConnected()) {
-                    $this->redirectConnectedUser($_SESSION['user']['role']);
-                } else {
-                    $this->authentification();
-                }
-                break;
-            case 'login':
-                if (isset($_POST['signIn'])) {
-                    $this->login($_POST['login'], $_POST['password']);
-                }
-                break;
-            case 'signup':
-                if (isset($_POST['signUp'])) {
-                    $this->signup($_POST['firstName'], $_POST['lastName'], $_POST['login'], $_POST['password'], $_POST['passwordConfirm'], $_POST['email']);
-                } else {
-                    throw new Exception($this->actionError);
-                }
-                break;
-            case 'account':
-                if (LoginService::isConnected()) {
-                    $this->accountUser();
-                } else {
-                    $this->authentification();
-                }
-                break;
-            case 'logout':
-                $this->logout();
-                break;
-            default:
-                throw new Exception('Action impossible !');
-        }
     }
 
-    private function authentification($errorLoginMsg = null, $errorSignupMsg = null, $successMsg = null)
-    {      
-        $categories = $this->categoryManager->getAllCategories();
-
-        $this->view = new View('auth');
-        $this->view->generate(array(
-            'errorLoginMsg' => $errorLoginMsg,
-            'errorSignupMsg' => $errorSignupMsg,
-            'successMsg' => $successMsg
-        ), $categories);
-    }
-
-    private function checkIfUserExist($userLogin): bool
-    {
-        $userRegisterNumber = $this->usersManager->getUserRegisterNumber($userLogin);
-
-        if ($userRegisterNumber === 0) {
-            return false;
-        } else if ($userRegisterNumber > 0) {
-            return true;
-        }
-    }
-
-    private function login($userLogin, $userPaswword)
-    {
-        $userExist = $this->checkIfUserExist($userLogin);
-        var_dump($userExist);
-        
-        if ($userExist === false) {
-            // don't know this user login
-            $errorLoginMsg = 'Aucun utilisateur n\'est associé à cet identifiant.';
-            $this->authentification($errorLoginMsg, null, null);
+    /**
+     * Action 'index' (default)
+     * Check if user is connected to redirect to account()
+     * If false, generates the view for authentification page
+     * If true redirect user accordint to his role
+     */
+    public function index()
+    {   
+        if (Login::isConnected()) {
+            $this->redirectConnectedUser($_SESSION['user']['role']);
         } else {
-            // user exists
-            $authUser = $this->usersManager->getAuthUser($userLogin);
-            if (password_verify($userPaswword, $authUser[0]->userPassword())) {
-                $this->usersManager->setLastConnexionUser($authUser[0]->userId());
-                $this->openSession($authUser[0]);
-            } else {
-                $errorLoginMsg = 'L\'identifiant et/ou le mot de passe saisi est incorrect.';
-                $this->authentification($errorLoginMsg, null, null);
+            // Init error params
+            $alert = null;
+            $errorLoginMsg = null;
+            $errorSignupMsg = null;
+            $successMsg = null;
+
+            // Catch feedback during login or signup and set alert message
+            if (isset($_GET['alert'])) {
+                $alert = $_GET['alert'];
+                switch($alert) {
+                    case 'NotUser':
+                        $errorLoginMsg = 'L\'identifiant saisi ne correspond à aucun utilisateur';
+                        break;
+                    case 'Login':
+                        $errorLoginMsg = 'L\'identifiant ou le mot de passe saisi est incorrect.';
+                        break;
+                    case 'signup':
+                        $errorSignupMsg = 'Une erreur est survenue, impossible de créer le compte. Veuillez recommencer.';
+                        break;
+                    case 'success':
+                        $successMsg = 'Votre compte a été créé avec succès ! Connectez-vous à présent pour profiter au mieux de mon site <i class="fas fa-smile-wink"></i>';
+                        break;
+                    case 'passwords':
+                        $errorSignupMsg = 'Les mots de passes saisis ne correspondent pas.';
+                        break;
+                    case 'userSignup':
+                        $errorSignupMsg = 'Un utilisateur est déjà associé à cet identifiant.';
+                        break;
+                }
             }
+
+            $this->generateView(array(
+                'errorLoginMsg' => $errorLoginMsg,
+                'errorSignupMsg' => $errorSignupMsg,
+                'successMsg' => $successMsg
+            ));
         }
     }
 
+    /**
+     * Action 'login'
+     * Check login informations
+     */
+    public function login()
+    {
+        if (isset($_POST['signIn'])) {
+            $userExist = $this->checkIfUserExist($_POST['login']);
+            var_dump($userExist);
+            
+            if ($userExist === false) {
+                header('Location: auth&alert=NotUser');
+                exit();
+            } else {
+                $authUser = $this->usersManager->getAuthUser($_POST['login']);
+                if (password_verify($_POST['password'], $authUser[0]->userPassword())) {
+                    $this->usersManager->setLastConnexionUser($authUser[0]->userId());
+                    $this->openSession($authUser[0]);
+                } else {
+                    header('Location: auth&alert=Login');
+                    exit();
+                }
+            }
+        } else {
+            throw new Exception($this->datasError);
+        }
+    }
+
+    /**
+     * Opening session when login success
+     * Take user informations and declare $_SESSION variables
+     */
     private function openSession($userConnected)
     {  
         $_SESSION['connected'] = 1;
@@ -113,7 +114,10 @@ class AuthController
         $this->redirectConnectedUser($_SESSION['user']['role']);
     }
 
-    private function redirectConnectedUser($userRole)
+    /**
+     * Redirect user according to the role
+     */
+    public function redirectConnectedUser($userRole)
     {
         if ($userRole === 'admin') {
             header('Location: admin.php?url=dashboard');
@@ -124,42 +128,65 @@ class AuthController
         }
     }
 
-    protected function signup($userFirstName, $userLastName, $userLogin, $userPassword, $passwordConfirm, $userEmail)
+    /**
+     * Action 'signup'
+     * Take user informations and set a new user in database
+     * Redirect on authentification page
+     */
+    public function signup()
     {
-        $userExist = $this->checkIfUserExist($userLogin);
+        if (isset($_POST['signUp'])) {
+            $userExist = $this->checkIfUserExist($_POST['login']);
+            $userPassword = $_POST['password'];
         
-        if ($userExist === false) {
-            if ($userPassword === $passwordConfirm) {
-                $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
-    
-                $affectedUser = $this->usersManager->setNewUser($userFirstName, $userLastName, $userLogin, $hashPassword, $userEmail, 'reader');
-    
-                if ($affectedUser === false) {
-                    $errorSignupMsg = 'Une erreur est survenue, impossible de créer le compte. Veuillez recommencer.';
-                    $this->authentification(null, $errorSignupMsg, null);
+            if ($userExist === false) {
+                if ($userPassword === $_POST['passwordConfirm']) {
+                    $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
+        
+                    $affectedUser = $this->usersManager->setNewUser($_POST['firstName'], $_POST['lastName'], $_POST['login'], $hashPassword, $_POST['email'], 'reader');
+        
+                    if ($affectedUser === false) {
+                        header('Location: auth&alert=signup');
+                        exit();
+                    } else {
+                        header('Location: auth&alert=success');
+                        exit();
+                    }
                 } else {
-                    $successMsg = 'Votre compte a été créé avec succès ! Connectez-vous à présent pour profiter au mieux de mon site <i class="fas fa-smile-wink"></i>';
-                    $this->authentification(null, null, $successMsg);
+                    header('Location: auth&alert=passwords');
+                    exit();
                 }
             } else {
-                $errorSignupMsg = 'Les mots de passes saisis ne correspondent pas.';
-                $this->authentification(null, $errorSignupMsg, null);
+                header('Location: auth&alert=userSignup');
+                exit();
             }
         } else {
-            $errorSignupMsg = 'Un utilisateur est déjà associé à cet identifiant.';
-            $this->authentification(null, $errorSignupMsg, null);
+            throw new Exception($this->datasError);
         }
+
     }
 
-    protected function accountUser()
+    /**
+     * Action 'account'
+     * If user already connected, generates view for user account
+     * If not, redirect to index
+     */
+    public function account()
     {
-        $categories = $this->categoryManager->getAllCategories();
+        if (Login::isConnected()) {
+            $this->generateView(array());
+        } else {
+            $this->index();
+        }
 
-        $this->view = new View('accountUser');
-        $this->view->generate(array(), $categories);
     }
 
-    private function logout()
+    /**
+     * Action 'logout'
+     * Delete $_SESSION variables and destroy session
+     * Redirect to index
+     */
+    public function logout()
     {
         $_SESSION = array();
         session_destroy();
@@ -168,4 +195,19 @@ class AuthController
         exit();
     }
 
+    /**
+     * Check if user already exist
+     * Useful when a user try to login or
+     * when a user want to create an account
+     */
+    private function checkIfUserExist($userLogin): bool
+    {
+        $userRegisterNumber = $this->usersManager->getUserRegisterNumber($userLogin);
+
+        if ($userRegisterNumber === 0) {
+            return false;
+        } else if ($userRegisterNumber > 0) {
+            return true;
+        }
+    }
 }

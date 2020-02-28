@@ -1,113 +1,118 @@
 <?php 
-require_once 'views/admin/View.php';
+require_once 'views/View.php';
+require_once 'controllers/Controller.php';
 
-class CommentsController
+class CommentsController extends Controller
 {
 
-    private $postsManager;
+    /**
+     * Manager for comments
+     */
     private $commentsManager;
-    private $view;
-    public $actionError = 'Action impossible : des données n\'ont pas été transmises';
 
     public function __construct()
     {
         $this->commentsManager = new CommentsManager();
-
-        $action = $_GET['action'];
-
-        switch ($action) {
-            case 'list':
-                $this->listComments();
-                break;
-            case 'moderate':
-                if (isset($_GET['commentId'])) {
-                    $this->moderateComment($_GET['commentId']);
-                } else {
-                    throw new Exception($this->actionError);
-                }
-                break;
-            case 'delete':
-                if (isset($_GET['commentId'])) {
-                    $this->deleteComment($_GET['commentId']);
-                } else {
-                    throw new Exception($this->actionError);
-                }
-                break;
-            case 'answer':
-                if (isset($_GET['commentId'])) {
-                    $this->answerComment($_GET['commentId']);
-                } else {
-                    throw new Exception($this->actionError);
-                }
-            case 'insert':
-                if (isset($_GET['postId']) && isset($_POST['commentStartId']) && isset($_POST['author']) && isset($_POST['content'])) {
-                    $this->insertCommentAnswer($_GET['postId'], $_POST['author'], $_POST['content'], $_POST['commentStartId']);
-                } else {
-                    throw new Exception($this->actionError);
-                }
-                break;
-            default:
-                throw new Exception('Action impossible !');
-        }
     }
 
-    private function listComments()
+    /**
+     * Action 'index' (default)
+     * Generates view to list comments
+     */    
+    public function index()
     {
         $reportComments = $this->commentsManager->getReportedComments();
         $waitingComments = $this->commentsManager->getWaitingComments();
         $moderateComments = $this->commentsManager->getModeratedComments();
 
-        $this->view = new View('comments/listComments');
-        $this->view->generate(array(
+        $this->generateView(array(
             'reportComments' => $reportComments,
             'waitingComments' => $waitingComments,
             'moderateComments' => $moderateComments
         ));
     }
 
-    private function moderateComment($commentId)
+    /**
+     * Action 'answer'
+     * Generates view to answer to a comment
+     */  
+    public function answer()
     {
-        $moderatePost = $this->commentsManager->setModerateComment($commentId);
+        if (isset($_GET['commentId'])) {
+            $commentToAnswer = $this->commentsManager->getOneComment($_GET['commentId']);
 
-        if($moderatePost === false) {
-            throw new \Exception("Impossible de modérer le commentaire !");
+            $this->generateView(array(
+                'commentToAnswer' => $commentToAnswer
+            ));
         } else {
-            header('Location: admin.php?url=comments&action=list');
-            exit();
+            throw new Exception($this->datasError);
+        }
+
+    }
+
+    /**
+     * Action 'moderate' (default)
+     * Call Comments Manager to set comment status to 'moderate' in databse
+     * Redirect on index
+     */  
+    public function moderate()
+    {
+        if (isset($_GET['commentId'])) {
+            $moderatePost = $this->commentsManager->setModerateComment($_GET['commentId']);
+
+            if($moderatePost === false) {
+                throw new \Exception("Impossible de modérer le commentaire !");
+            } else {
+                header('Location: admin.php?url=comments');
+                exit();
+            }
+        } else {
+            throw new Exception($this->datasError);
         }
     }
 
-    private function deleteComment($commentId)
+    /**
+     * Action 'insertAnswer'
+     * Call Comments Manager to set new comment as answer to an other comment in databse
+     * Redirect on index
+     */  
+    public function insertAnswer()
     {
-        $deletedComment = $this->commentsManager->setCommentDeleted($commentId);
+        if (isset($_GET['postId']) && isset($_POST['commentStartId']) && isset($_POST['author']) && isset($_POST['content'])) {
+            $commentAnswer = $this->commentsManager->setCommentAnswer($_GET['postId'], $_POST['author'], $_POST['content'], $_POST['commentStartId']);
 
-        if($deletedComment === false) {
-            throw new \Exception("Impossible de supprimer le commentaire !");
+            if($commentAnswer === false) {
+                throw new \Exception("Impossible d'ajouter la réponse !");
+            } else {
+                header('Location: admin.php?url=comments');
+                exit();
+            }
         } else {
-            header('Location: admin.php?url=comments&action=list');
-            exit();
+            throw new Exception($this->datasError);
         }
+
     }
 
-    private function answerComment($commentId)
+    /**
+     * Action 'delete'
+     * Call Comments Manager to delete comment in databse
+     * Redirect on index
+     */  
+    public function delete()
     {
-        $commentToAnswer = $this->commentsManager->getOneComment($commentId);
+        if (isset($_GET['commentId'])) {
+            $deletedComment = $this->commentsManager->setCommentDeleted($_GET['commentId']);
 
-        $this->view = new View('comments/answerComment');
-        $this->view->generate(array(
-            'commentToAnswer' => $commentToAnswer
-        ));
-    }
-
-    private function insertCommentAnswer($postId, $commentAuthor, $commentContent, $commentStartId)
-    {
-        $commentAnswer = $this->commentsManager->setCommentAnswer($postId, $commentAuthor, $commentContent, $commentStartId);
-
-        if($commentAnswer === false) {
-            throw new \Exception("Impossible d'ajouter la réponse !");
+            if($deletedComment === false) {
+                throw new \Exception("Impossible de supprimer le commentaire !");
+            } else {
+                header('Location: admin.php?url=comments');
+                exit();
+            }
         } else {
-            header('Location: admin.php?url=comments&action=list');
-            exit();
+            throw new Exception($this->datasError);
         }
+
     }
+
 }

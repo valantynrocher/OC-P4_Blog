@@ -1,164 +1,180 @@
 <?php 
-require_once 'views/admin/View.php';
+require_once 'views/View.php';
+require_once 'controllers/Controller.php';
 
-class PostsController
+class PostsController extends Controller
 {
+    /**
+     * Manager for posts
+     */    
     private $postsManager;
+
+    /**
+     * Posts returned with databse
+     */    
     public $posts;
-    private $categoryManager;
-    public $categories;
-    private $view;
-    public $actionError = 'Action impossible : des données n\'ont pas été transmises';
 
     public function __construct()
     {
         $this->postsManager = new PostsManager();
-        $this->categoryManager = new CategoryManager();
-
-        $action = $_GET['action'];
-
-        switch ($action) {
-            case 'list':
-                $this->listPosts();
-                break;
-            case 'create':
-                $this->createPost();
-                break;
-            case 'insert':
-                if (isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) ) {
-                    $this->insertPost($_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
-                } else {
-                    throw new \Exception($this->actionError);
-                }
-                break;
-            case 'read':
-                if (isset($_GET['postId'])) {
-                    $this->readPost($_GET['postId']);
-                } else {
-                    throw new \Exception($this->actionError);
-                }
-                break;
-            case 'edit':
-                if (isset($_GET['postId'])) {
-                    $this->editPost($_GET['postId']);
-                } else {
-                    throw new \Exception($this->actionError);
-                }
-                break;
-            case 'update':
-                if (isset($_GET['postId']) && isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) && isset($_POST['postStatus'])) {
-                    $this->updatePost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
-                } else {
-                    throw new \Exception($this->actionError);
-                }
-                break;
-            case 'trash':
-                if (isset($_GET['postId'])) {
-                    $this->trashPost($_GET['postId']);
-                } else {
-                    throw new \Exception($this->actionError);
-                }
-                break;
-            case 'delete':
-                if (isset($_GET['postId'])) {
-                    $this->deletePost($_GET['postId']);
-                } else {
-                    throw new \Exception($this->actionError);
-                }
-                break;
-            default:
-                throw new Exception('Action impossible !');
-        }
-        
     }
 
-    private function listPosts()
+    /**     
+     * Action 'index' (default)
+     * Generates view for to list posts
+     */
+    public function index()
     {
         $this->posts = $this->postsManager->getAllPosts();
 
-        $this->categories = $this->categoryManager->getAllCategories();
+        $this->categories = $this->getCategories();
 
-        $this->view = new View('posts/listPosts');
-        $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories));       
+        $this->generateView(array(
+            'posts' => $this->posts,
+            'categories' => $this->categories
+        ));       
     }
 
-    private function createPost()
+    /**
+     * Action 'create'
+     * Generates view for new post page
+     */
+    public function create()
     {
-        $this->categories = $this->categoryManager->getAllCategories();
+        $this->categories = $this->getCategories();
                     
-        $this->view = new View('posts/createPost');
-        $this->view->generate(array('categories' => $this->categories));
+        $this->generateView(array(
+            'categories' => $this->categories
+        ));
     }
 
-    private function insertPost($postTitle, $categoryId, $postContent, $postStatus)
+    /**
+     * Action 'read'
+     * Generates view for read post page
+     */
+    public function read()
     {
-        $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent, $postStatus);
+        if (isset($_GET['postId'])) {
+            $this->posts = $this->postsManager->getAllPosts();
+
+            $this->categories = $this->getCategories();
     
-        if($newPost === false) {
-            throw new \Exception("Impossible d'ajouter l\'article !");
+            $postToRead = $this->postsManager->getOnePost($_GET['postId']);
+    
+            $this->generateView(array(
+                'posts' => $this->posts,
+                'categories' => $this->categories,
+                'postToRead' => $postToRead
+            ));
         } else {
-            header('Location: admin.php?url=posts&action=list');
-            exit();
+            throw new \Exception($this->datasError);
         }
     }
 
-    private function readPost($postId)
+    /**
+     * Action 'edit'
+     * Generates view for edit post page
+     */
+    public function edit()
     {
-        $this->posts = $this->postsManager->getAllPosts();
+        if (isset($_GET['postId'])) {
+            $this->posts = $this->postsManager->getAllPosts();
 
-        $this->categories = $this->categoryManager->getAllCategories();
-
-        $postToRead = $this->postsManager->getOnePost($postId);
-
-        $this->view = new View('posts/readPost');
-        $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories, 'postToRead' => $postToRead));
-    }
-
-    private function editPost($postId)
-    {
-        $this->posts = $this->postsManager->getAllPosts();
-
-        $this->categories = $this->categoryManager->getAllCategories();
-            
-        $postToUpdate = $this->postsManager->getOnePost($postId);
-
-        $this->view = new View('posts/editPost');
-        $this->view->generate(array('posts' => $this->posts, 'categories' => $this->categories, 'postToUpdate' => $postToUpdate));
-    }
-
-    private function updatePost($postId, $postTitle, $categoryId, $postContent, $postStatus) 
-    {
-        $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent, $postStatus);
-
-        if($affectedPost === false) {
-            throw new Exception("Impossible de mettre à jour l\'article !");
-        } else  {
-            header('Location: admin.php?url=posts&action=list');
-            exit();
+            $this->categories = $this->getCategories();
+                
+            $postToUpdate = $this->postsManager->getOnePost($_GET['postId']);
+    
+            $this->generateView(array(
+                'posts' => $this->posts,
+                'categories' => $this->categories,
+                'postToUpdate' => $postToUpdate
+            ));
+        } else {
+            throw new \Exception($this->datasError);
         }
     }
 
-    private function trashPost($postId)
+    /**
+     * Action 'insert'
+     * Call Post Manager to insert new post in databse
+     * Redirect on index
+     */
+    public function insert()
     {
-        $trashedPost = $this->postsManager->setTrashedPost($postId);
-
-        if($trashedPost === false) {
-            throw new \Exception("Impossible de mettre l\'article à la corbeille !");
+        if (isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) ) {
+            $newPost = $this->postsManager->setNewPost($_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
+    
+            if($newPost === false) {
+                throw new \Exception("Impossible d'ajouter l\'article !");
+            } else {
+                header('Location: admin.php?url=posts');
+                exit();
+            }
         } else {
-            header('Location: admin.php?url=posts&action=list');
-            exit();
+            throw new \Exception($this->datasError);
         }
     }
 
-    private function deletePost($postId)
+    /**
+     * Action 'update'
+     * Call Post Manager to update one post in databse
+     * Redirect on index
+     */
+    public function update() 
     {
-        $deletedPost = $this->postsManager->setPostDeleted($postId);
+        if (isset($_GET['postId']) && isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) && isset($_POST['postStatus'])) {
+            $affectedPost = $this->postsManager->setChangedPost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
 
-        if($deletedPost === false) {
-            throw new \Exception("Impossible de supprimer l\'article !");
+            if($affectedPost === false) {
+                throw new Exception("Impossible de mettre à jour l\'article !");
+            } else  {
+                header('Location: admin.php?url=posts');
+                exit();
+            }
         } else {
-            header('Location: admin.php?url=posts&action=list');
-            exit();
+            throw new \Exception($this->datasError);
+        }
+    }
+
+    /**
+     * Action 'trash'
+     * Call Post Manager to set trashed post in databse
+     * Redirect on index
+     */
+    public function trash()
+    {
+        if (isset($_GET['postId'])) {
+            $trashedPost = $this->postsManager->setTrashedPost($_GET['postId']);
+
+            if($trashedPost === false) {
+                throw new \Exception("Impossible de mettre l\'article à la corbeille !");
+            } else {
+                header('Location: admin.php?url=posts');
+                exit();
+            }
+        } else {
+            throw new \Exception($this->datasError);
+        }
+    }
+
+    /**
+     * Action 'delete'
+     * Call Post Manager to delete one post in databse
+     * Redirect on index
+     */
+    public function delete()
+    {
+        if (isset($_GET['postId'])) {
+            $deletedPost = $this->postsManager->setPostDeleted($_GET['postId']);
+
+            if($deletedPost === false) {
+                throw new \Exception("Impossible de supprimer l\'article !");
+            } else {
+                header('Location: admin.php?url=posts');
+                exit();
+            }
+        } else {
+            throw new \Exception($this->datasError);
         }
     }
 

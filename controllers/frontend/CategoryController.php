@@ -1,33 +1,37 @@
 <?php
-require_once 'views/frontend/View.php';
+require_once 'views/View.php';
+require_once 'controllers/Controller.php';
 
-class CategoryController
+class CategoryController extends Controller
 {
-
+    /**
+     * Manager for posts
+     */
     private $postsManager;
-    private $categoryManager;
-    private $view;
 
     public function __construct()
     {
         $this->postsManager = new PostsManager();
-        $this->categoryManager = new CategoryManager();
-
-        if (isset($_GET['categoryId'])) {
-            $this->postsCategory($_GET['categoryId']);
-        } else {
-            throw new Exception('Des données n\'ont pas pu être récupérées');
-        }
     }
 
-    private function postsCategory($categoryId)
+    /**
+     * Action 'index' (default)
+     * Generates view to show one category with related posts
+     */
+    public function index()
     {
-        $postsByCategory = $this->postsManager->getPublicPostsByCategory($categoryId);
-        
-        $category = $this->categoryManager->getOneCategory($categoryId);
-        $categories = $this->categoryManager->getAllCategories();
-
-        $this->view = new View('category');
-        $this->view->generate(array('postsByCategory' => $postsByCategory, 'category' => $category, 'categories' => $categories), $categories);
+        if (isset($_GET['categoryId'])) {
+            $categoryId = $_GET['categoryId'];
+            $postsByCategory = $this->postsManager->getPublicPostsByCategory($categoryId);
+            $category = $this->getCategoryManager()->getOneCategory($categoryId);
+    
+            $this->generateView(array(
+                'postsByCategory' => $postsByCategory,
+                'category' => $category,
+                'categories' => $this->getCategories()
+            ));
+        } else {
+            throw new Exception($this->datasError);
+        }
     }
 }

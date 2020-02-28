@@ -64,9 +64,6 @@
 								<div class="container single-comment">
 									<div class="justify-content-between d-flex">
 										<div class="user justify-content-between d-flex">
-											<!--<div class="thumb">
-												<img src="public/img/blog/c1.jpg" alt="">
-											</div>-->
 											<div class="desc">
 												<h5><?= $comment->commentAuthor()?></h5>
 												<p class="date"><?= $comment->commentCreationDateFr()?></p>

@@ -9,9 +9,9 @@
 				Qui suis-je
 			</h1>
 			<p class="text-white link-nav">
-				<a href="/home">Accueil</a>
+				<a href="home">Accueil</a>
 				<span class="lnr lnr-arrow-right"></span>
-				<a href="#">Qui suis-je</a>
+				<a>Qui suis-je</a>
 			</p>
 		</div>
 	</div>

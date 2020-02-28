@@ -2,27 +2,32 @@
 
 class View
 {
-
+    private $viewSide;
     private $file;
     private $title;
 
-    function __construct($page)
+    public function __construct(string $action, string $viewSide , string $controller = '')
     {
-        $this->file = 'views/frontend/' . $page . 'View.php';
+        $this->viewSide = $viewSide;
+        $this->file = 'views/'.$this->viewSide.'/'.$controller.'/'. $action.'.php';
     }
 
     // générer et envoyer la vue
-    public function generate($data, $categories = '')
+    public function generate(array $data, $categories)
     {
         // définir le contenu à envoyer
         $content = $this->generateFile($this->file, $data);
 
         // template
-        $layout = $this->generateFile('views/frontend/template.php', array('title' => $this->title, 'categories' => $categories, 'content' => $content));
+        $layout = $this->generateFile('views/'.$this->viewSide.'/template.php', array(
+            'title' => $this->title,
+            'categories' => $categories,
+            'content' => $content
+        ));
         echo $layout;
     }
 
-    private function generateFile($file, $data)
+    private function generateFile(string $file, array $data)
     {
         if(file_exists($file)) {
             extract($data);

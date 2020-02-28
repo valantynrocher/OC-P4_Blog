@@ -1,7 +1,6 @@
 					<div class="container-fluid">
 						
 						<div class="row">
-
 							<!-- POSTS CARD-->
 							<div class="col-md-6">
 								<div class="card ">

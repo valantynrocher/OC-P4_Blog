@@ -1,6 +1,6 @@
 <?php
 
-class BddConfig {
+class Database {
 
     private static $settings;
     private static $configMode = 'dev';
@@ -28,11 +28,10 @@ class BddConfig {
 
         if (!file_exists($configFile)) {
           $configFile = "Config/dev.ini";
-        }
-        if (!file_exists($configFile)) {
-          throw new \Exception("Aucun fichier de configuration trouvé");
-        }
-        else {
+          if (!file_exists($configFile)) {
+            throw new \Exception("Aucun fichier de configuration trouvé");
+          }
+        } else {
           self::$settings = parse_ini_file($configFile);
         }
       }

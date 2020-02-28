@@ -59,25 +59,25 @@
 							</a>
 						</li>
 						<li class="nav-item <?php if ($_GET['url'] === 'posts') echo 'active' ?>">
-							<a class="nav-link" href="admin.php?url=posts&action=list">
+							<a class="nav-link" href="admin.php?url=posts">
 								<i class="nc-icon nc-single-copy-04"></i>
 								<p>Articles</p>
 							</a>
 						</li>
 						<li class="nav-item <?php if ($_GET['url'] === 'comments') echo 'active' ?>">
-							<a class="nav-link" href="admin.php?url=comments&action=list">
+							<a class="nav-link" href="admin.php?url=comments">
 								<i class="nc-icon nc-chat-round"></i>
 								<p>Commentaires</p>
 							</a>
 						</li>
 						<li class="nav-item <?php if ($_GET['url'] === 'categories') echo 'active' ?>">
-							<a class="nav-link" href="admin.php?url=categories&action=list">
+							<a class="nav-link" href="admin.php?url=categories">
 								<i class="nc-icon nc-bullet-list-67"></i>
 								<p>Catégories</p>
 							</a>
 						</li>
 						<li class="nav-item <?php if ($_GET['url'] === 'users') echo 'active' ?>">
-							<a class="nav-link" href="admin.php?url=users&action=list">
+							<a class="nav-link" href="admin.php?url=users">
 								<i class="nc-icon nc-single-02"></i>
 								<p>Utilisateurs</p>
 							</a>

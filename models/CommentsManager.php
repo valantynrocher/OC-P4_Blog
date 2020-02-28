@@ -11,7 +11,7 @@ class CommentsManager extends Manager
 
     //***************** Rq front side *****************/
 
-    protected function selectCommentsByPost($commentTable, $postTable, $obj, $postId)
+    protected function selectCommentsByPost($commentTable, $obj, $postId)
     {
         $this->getBdd();
         $var = [];

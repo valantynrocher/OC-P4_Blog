@@ -1,9 +1,9 @@
 <?php
 
-class LoginService
+class Login
 {
     /**
-   * @var LoginService
+   * @var Login
    * @access private
    * @static
    */
@@ -23,12 +23,12 @@ class LoginService
     * if doesn't exist yet and return it
     *
     * @param void
-    * @return LoginService
+    * @return Login
     */
    public static function getInstance() {
  
      if(is_null(self::$_instance)) {
-       self::$_instance = new LoginService();  
+       self::$_instance = new Login();  
      }
  
      return self::$_instance;

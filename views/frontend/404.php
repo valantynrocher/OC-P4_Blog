@@ -14,5 +14,6 @@
     </section>
     
 <div class="container">
-    <h1><?= $errorMessage ?></h1>
+    <h1><?= $errorMsg ?></h1>
+	<pre><?= print_r($_SERVER)?></pre>
 </div>
