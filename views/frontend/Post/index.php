@@ -74,7 +74,7 @@
 										</div>
 										<?php if ($comment->commentStatus() === 'waiting' || $comment->commentStatus() === 'public'): ?>
 											<div class="report-btn">
-												<a href="comment&action=report&commentId=<?= $comment->commentId() ?>&postId=<?=$post[0]->postId() ?>"
+												<a href="post&action=report&commentId=<?= $comment->commentId() ?>&postId=<?=$post[0]->postId() ?>"
 												onclick="return confirm('Le signalement de commentaire permet de faire remonter à l\'administrateur des commentaires dont le contenu semble irrespectueux, outrancier, diffamatoire, etc. Êtes-vous certain de vouloir signaler ce commentaire ?')"
 												class="genric-btn danger radius text-uppercase">
 													<i class="fas fa-exclamation-triangle"></i>
@@ -96,7 +96,7 @@
                 <div class="comment-form">
 					<h4>Poster un commentaire</h4>
 					<?php if (isset($_SESSION['connected']) && $_SESSION['connected'] === 1): ?>
-                    <form action="comment&action=publish&postId=<?=$post[0]->postId() ?>" method="POST">
+                    <form action="post&action=newComment&postId=<?=$post[0]->postId() ?>" method="POST">
                         <div class="form-group ">
                             <div class="form-group">
                                 <input type="text" name="author" class="form-control" id="author" placeholder="Votre nom ou pseudo" onfocus="this.placeholder = ''"
@@ -129,12 +129,14 @@
 						<p>Écrivain aventurier</p>
 					</div>
 					<p>
-						about...
+						Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+						bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+						bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 					</p>
 					<ul>
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+						<li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+						<li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
+						<li><a href="#"><i class="fab fa-instagram-square"></i></a></li>
 					</ul>
 				</div>
 				<div class="single-widget category-widget">

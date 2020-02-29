@@ -12,7 +12,7 @@
                             </div>
 							<div class="content-header__button">
 								<div class="card">
-                                    <a href="admin.php?url=users&action=list" data-toggle="tooltip" data-placement="left" title="Retour à la liste des utilisateurs"><span class="nc-icon nc-stre-left"></span></a>
+                                    <a href="admin.php?url=users" data-toggle="tooltip" data-placement="left" title="Retour à la liste des utilisateurs"><span class="nc-icon nc-stre-left"></span></a>
 								</div>
 							</div>
                         </div>
@@ -39,15 +39,11 @@
                                             <input class="form-control" type="text" name="login" value="<?=$userToUpdate[0]->userLogin()?>" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Mot de passe</label>
-                                            <input class="form-control" type="password" name="password" placeholder="Saisir un nouveau mot de passe" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
                                             <label for="inputState">E-mail</label>
                                             <input class="form-control" type="text" name="email" value="<?=$userToUpdate[0]->userEmail()?>" required>
                                         </div>
+                                    </div>
+                                    <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="inputState">Rôle</label>
                                             <select name="role" class="form-control">

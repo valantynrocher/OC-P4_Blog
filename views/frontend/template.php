@@ -41,7 +41,7 @@
 			<div class="container box_1170 main-menu">
 				<div class="row align-items-center justify-content-between d-flex">
 					<div id="logo">
-						<a href="/home"><img src="public/img/logo.png" alt="" title="" /></a>
+						<a href="home"><img src="public/img/logo.png" alt="" title="" /></a>
 					</div>
 					<nav id="nav-menu-container">
 						<ul class="nav-menu">
@@ -122,9 +122,9 @@
 							<h6 class="footer_title">Restez connectés</h6>
 							<p>Je parle de mon livre et de mes aventures sur les réseaux sociaux !</p>
 							<div class="f_social">
-								<a href="#"><i class="fa fa-facebook"></i></a>
-								<a href="#"><i class="fa fa-twitter"></i></a>
-								<a href="#"><i class="fa fa-instagram"></i></a>
+								<a href="#"><i class="fab fa-facebook-square"></i></a>
+								<a href="#"><i class="fab fa-twitter-square"></i></a>
+								<a href="#"><i class="fab fa-instagram-square"></i></a>
 							</div>
 						</div>
 					</div>

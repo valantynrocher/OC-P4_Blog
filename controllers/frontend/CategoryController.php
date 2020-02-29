@@ -22,11 +22,11 @@ class CategoryController extends Controller
     {
         if (isset($_GET['categoryId'])) {
             $categoryId = $_GET['categoryId'];
-            $postsByCategory = $this->postsManager->getPublicPostsByCategory($categoryId);
+            $posts = $this->postsManager->getPublicPostsByCategory($categoryId);
             $category = $this->getCategoryManager()->getOneCategory($categoryId);
     
             $this->generateView(array(
-                'postsByCategory' => $postsByCategory,
+                'posts' => $posts,
                 'category' => $category,
                 'categories' => $this->getCategories()
             ));

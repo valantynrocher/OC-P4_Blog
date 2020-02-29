@@ -1,6 +1,7 @@
 <?php 
 require_once 'views/View.php';
 require_once 'controllers/Controller.php';
+require_once 'services/Login.php';
 
 class PostController extends Controller
 {
@@ -28,7 +29,13 @@ class PostController extends Controller
     {
         if (isset($_GET['postId'])) {
             $postId = $_GET['postId'];
+
+            // Non loggin user or readers can see only public posts
             $post = $this->postsManager->getOnePublicPost($postId);
+            if (Login::isAdmin()) {
+                // admin users can see all posts
+                $post = $this->postsManager->getOnePost($postId);
+            }
 
             if (empty($post)) {
                 throw new \Exception("Cet article n'est pas public");
@@ -51,7 +58,7 @@ class PostController extends Controller
      * Call Comments Manager to set new comment related to the current post in databse
      * Redirect on index
      */  
-    private function newComment()
+    public function newComment()
     {
         if (isset($_GET['postId']) && isset($_POST['author']) && isset($_POST['comment'])) {
             $postId = $_GET['postId'];
@@ -63,7 +70,7 @@ class PostController extends Controller
             if ($affectedComment === false) {
                 throw new Exception('Impossible d\'ajouter le commentaire !');
             } else {
-                header('Location: post&id='.$postId);
+                header('Location: post&postId='.$postId);
                 exit();
             }
         } else {
@@ -76,7 +83,7 @@ class PostController extends Controller
      * Call Comments Manager to set a comment status to 'report' in databse
      * Redirect on index
      */
-    private function report()
+    public function report()
     {
         if (isset($_GET['commentId']) && isset($_GET['postId'])) {
             $affectedComment = $this->commentsManager->setReportComment($_GET['commentId']);

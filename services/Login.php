@@ -53,7 +53,7 @@ class Login
     */
     public static function isAdmin()
     {
-        if ($_SESSION['user']['role'] === 'admin') {
+        if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
             return true;
         }
     }

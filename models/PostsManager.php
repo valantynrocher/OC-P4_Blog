@@ -69,7 +69,7 @@ class PostsManager extends Manager
             FROM $postTable 
             LEFT JOIN $categoryTable 
             ON $postTable.category_id = $categoryTable.category_id 
-            WHERE $categoryTable.category_id=$categoryId AND post_status = 'public'
+            WHERE $categoryTable.category_id = $categoryId AND post_status = 'public'
             ORDER BY $postTable.post_id 
             DESC"
         );

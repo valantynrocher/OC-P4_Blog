@@ -51,15 +51,6 @@
 					<div class="col-md-4">
 						<form action="" method="POST" class="form-signin">
 							<h2 class="h3 mb-3 font-weight-normal">Mon mot de passe</h2>
-							<?php if (isset($errorSignupMsg) && $errorSignupMsg !== null): ?>
-								<div class="alert alert-danger">
-									<?= $errorSignupMsg ?>
-								</div>
-							<?php elseif(isset($successMsg) && $successMsg !== null): ?>
-								<div class="alert alert-success">
-									<?= $successMsg ?>
-								</div>
-							<?php endif ?>
 							<div class="form-group">
 								<label for="userPassword" class="sr-only">Mot de passe</label>
 								<input type="password" name="password" id="userPassword" class="form-control" placeholder="Votre nouveau mot de passe" required>

@@ -55,7 +55,11 @@
                                                         <td class="action-cell"><a class="action-link action-link--external" href="index.php?url=post&postId=<?=$post->postId()?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Voir l'article en ligne"><i class="fas fa-external-link-alt"></i></a></td>
                                                         <td class="action-cell"><a class="action-link" href="admin.php?url=posts&action=read&postId=<?=$post->postId()?>" data-toggle="tooltip" data-placement="top" title="Lire l'article"><i class="far fa-eye"></i></td>
                                                         <td class="action-cell"><a class="action-link" href="admin.php?url=posts&action=edit&postId=<?=$post->postId()?>" data-toggle="tooltip" data-placement="top" title="Modifier l'article"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=posts&action=trash&postId=<?=$post->postId()?>" data-toggle="tooltip" data-placement="top" title="Mettre l'article à la corbeille" onclick="return confirm('Vouslez-vous vraiment mettre cet article à la corbeille ?')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <?php if($post->postStatus() === 'trash'):?>
+                                                            <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=posts&action=delete&postId=<?=$post->postId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer définitivement" onclick="return confirm('Cette action supprimera définitivement cet article. Êtes-vous sûr ?')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <?php else: ?>
+                                                            <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=posts&action=trash&postId=<?=$post->postId()?>" data-toggle="tooltip" data-placement="top" title="Mettre à la corbeille" onclick="return confirm('Voulez-vous vraiment mettre cet article à la corbeille ?')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <?php endif ?>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>

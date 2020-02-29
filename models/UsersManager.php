@@ -110,21 +110,22 @@ class UsersManager extends Manager
         $req->closeCursor();
     }
 
-    protected function updateChangedUser($userTable, $userId, $userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
+    protected function updateChangedUser($userTable, $userId, $userFirstName, $userLastName, $userLogin, $userEmail, $userRole)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $userTable
-            SET user_first_name = :new_user_first_name, user_last_name = :new_user_last_name,
-            user_login = :new_user_login, user_password = :new_user_password,
-            user_email = :new_user_email, user_role = :new_user_role
+            SET user_first_name = :new_user_first_name,
+                user_last_name = :new_user_last_name,
+                user_login = :new_user_login,
+                user_email = :new_user_email,
+                user_role = :new_user_role
             WHERE user_id = $userId"
         );
         $affectedUser = $req->execute(array(
             'new_user_first_name' => $userFirstName,
             'new_user_last_name' => $userLastName,
             'new_user_login' => $userLogin,
-            'new_user_password' => $userPassword,
             'new_user_email' => $userEmail,
             'new_user_role' => $userRole
         ));
@@ -242,6 +243,21 @@ class UsersManager extends Manager
         return $affectedUser;
     }
 
+    protected function updateNewPasswordUser($userTable, $userId, $newPassword)
+    {
+        $this->getBdd();
+        $req = self::$bdd->prepare(
+            "UPDATE $userTable
+            SET user_password = :new_password
+            WHERE user_id = $userId"
+        );
+        $affectedUser = $req->execute(array(
+            'new_password' => $newPassword
+        ));
+
+        return $affectedUser;
+    }
+
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -271,9 +287,9 @@ class UsersManager extends Manager
         return $this->selectOneUser($this->userTable, $this->userObject, $userId);
     }
 
-    public function setChangedUser($userId, $userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole)
+    public function setChangedUser($userId, $userFirstName, $userLastName, $userLogin, $userEmail, $userRole)
     {
-        return $this->updateChangedUser($this->userTable, $userId, $userFirstName, $userLastName, $userLogin, $userPassword, $userEmail, $userRole);
+        return $this->updateChangedUser($this->userTable, $userId, $userFirstName, $userLastName, $userLogin, $userEmail, $userRole);
     }
 
     public function setUserDeleted($userId)
@@ -309,5 +325,10 @@ class UsersManager extends Manager
     public function setLastConnexionUser($userId)
     {
         return $this->updateLastConnexionUser($this->userTable, $userId);
+    }
+
+    public function setNewPasswordUser($userId, $newPassword)
+    {
+        return $this->updateNewPasswordUser($this->userTable, $userId, $newPassword);
     }
 }

@@ -15,20 +15,17 @@ class CommentsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->prepare(
+        $req = self::$bdd->query(
             "SELECT comment_id, $commentTable.post_id, comment_author, comment_content, 
             DATE_FORMAT(comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
             comment_status, comment_start_id,
                 (SELECT comment_id FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_id,
                 (SELECT comment_content FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_content
             FROM $commentTable
-            WHERE $commentTable.post_id = ? AND comment_start_id = 0
+            WHERE $commentTable.post_id = $postId AND comment_start_id = 0
             ORDER BY comment_id
             DESC"
         );
-        $req->execute(array(
-            $postId
-        ));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -266,7 +263,7 @@ class CommentsManager extends Manager
     
     public function getCommentsByPost($postId)
     {
-        return $this->selectCommentsByPost($this->commentTable, $this->postTable, $this->commentObject, $postId);
+        return $this->selectCommentsByPost($this->commentTable, $this->commentObject, $postId);
     }
 
     public function setNewComment($postId, $commentAuthor, $commentContent)

@@ -26,7 +26,7 @@ class AuthController extends Controller
         if (Login::isConnected()) {
             $this->redirectConnectedUser($_SESSION['user']['role']);
         } else {
-            // Init error params
+            // Init alert params
             $alert = null;
             $errorLoginMsg = null;
             $errorSignupMsg = null;
