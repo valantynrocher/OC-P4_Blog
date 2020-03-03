@@ -153,8 +153,8 @@
 				</div>
 				<div class="single-widget newsletter-widget">
 					<h4 class="title">Newsletter</h4>
-					<div id="mc_embed_signup">
-						<form target="_blank" novalidate="true" action="comment&id=<?=$_GET['id']?>"
+					<div>
+						<form target="_blank" action="comment&id=<?=$_GET['id']?>"
 						method="get" class="">
 							<div class="form-group" style="width: 100%">
 								<input name="EMAIL" placeholder="Votre e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail '"

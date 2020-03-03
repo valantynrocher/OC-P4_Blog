@@ -90,7 +90,7 @@
 						<div class="single-footer-widget">
 							<h6 class="footer_title">Newsletter</h6>
 							<p>Recevez les dernières pages du livre dans votre boîte mail</p>
-							<div id="mc_embed_signup">
+							<div>
 								<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
 								method="get" class="subscribe_form relative">
 									<div class="input-group d-flex flex-row">
@@ -150,7 +150,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
 		crossorigin="anonymous"></script>
 		<script src="elements/frontend/js/vendor/bootstrap.min.js"></script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
 		<script src="elements/frontend/js/easing.min.js"></script>
 		<script src="elements/frontend/js/hoverIntent.js"></script>
 		<script src="elements/frontend/js/superfish.min.js"></script>
