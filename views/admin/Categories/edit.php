@@ -5,7 +5,7 @@
                                 <h1>Mes catégories</h1>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="admin.php?url=categories&action=list">Catégories</a></li>
+                                        <li class="breadcrumb-item"><a href="admin.php?url=categories">Catégories</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Modifier</li>
                                     </ol>
                                 </nav>

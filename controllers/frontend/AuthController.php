@@ -24,7 +24,7 @@ class AuthController extends Controller
     public function index()
     {   
         if (Login::isConnected()) {
-            $this->redirectConnectedUser($_SESSION['user']['role']);
+            $this->redirectConnectedUser(htmlspecialchars(strip_tags($_SESSION['user']['role'])));
         } else {
             // Init alert params
             $alert = null;
@@ -34,7 +34,7 @@ class AuthController extends Controller
 
             // Catch feedback during login or signup and set alert message
             if (isset($_GET['alert'])) {
-                $alert = $_GET['alert'];
+                $alert = htmlspecialchars(strip_tags($_GET['alert']));
                 switch($alert) {
                     case 'NotUser':
                         $errorLoginMsg = 'L\'identifiant saisi ne correspond à aucun utilisateur';
@@ -72,15 +72,14 @@ class AuthController extends Controller
     public function login()
     {
         if (isset($_POST['signIn'])) {
-            $userExist = $this->checkIfUserExist($_POST['login']);
-            var_dump($userExist);
+            $userExist = $this->checkIfUserExist(htmlspecialchars(strip_tags($_POST['login'])));
             
             if ($userExist === false) {
                 header('Location: auth&alert=NotUser');
                 exit();
             } else {
-                $authUser = $this->usersManager->getAuthUser($_POST['login']);
-                if (password_verify($_POST['password'], $authUser[0]->userPassword())) {
+                $authUser = $this->usersManager->getAuthUser(htmlspecialchars(strip_tags($_POST['login'])));
+                if (password_verify(htmlspecialchars(strip_tags($_POST['password'])), $authUser[0]->userPassword())) {
                     $this->usersManager->setLastConnexionUser($authUser[0]->userId());
                     $this->openSession($authUser[0]);
                 } else {
@@ -111,7 +110,7 @@ class AuthController extends Controller
             'lastConnexion' => $userConnected->userLastConnexionDateFr()
         );
         
-        $this->redirectConnectedUser($_SESSION['user']['role']);
+        $this->redirectConnectedUser(htmlspecialchars(strip_tags($_SESSION['user']['role'])));
     }
 
     /**
@@ -136,14 +135,21 @@ class AuthController extends Controller
     public function signup()
     {
         if (isset($_POST['signUp'])) {
-            $userExist = $this->checkIfUserExist($_POST['login']);
-            $userPassword = $_POST['password'];
+            $userExist = $this->checkIfUserExist(htmlspecialchars(strip_tags($_POST['login'])));
+            $userPassword = htmlspecialchars(strip_tags($_POST['password']));
         
             if ($userExist === false) {
-                if ($userPassword === $_POST['passwordConfirm']) {
+                if ($userPassword === htmlspecialchars(strip_tags($_POST['passwordConfirm']))) {
                     $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
         
-                    $affectedUser = $this->usersManager->setNewUser($_POST['firstName'], $_POST['lastName'], $_POST['login'], $hashPassword, $_POST['email'], 'reader');
+                    $affectedUser = $this->usersManager->setNewUser(
+                        htmlspecialchars(strip_tags($_POST['firstName'])),
+                        htmlspecialchars(strip_tags($_POST['lastName'])),
+                        htmlspecialchars(strip_tags($_POST['login'])),
+                        $hashPassword,
+                        htmlspecialchars(strip_tags($_POST['email'])),
+                        'reader'
+                    );
         
                     if ($affectedUser === false) {
                         header('Location: auth&alert=signup');

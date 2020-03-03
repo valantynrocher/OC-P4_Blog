@@ -5,7 +5,7 @@
                                 <h1>Mes articles</h1>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="admin.php?url=posts&action=list">Articles</a></li>
+                                        <li class="breadcrumb-item"><a href="admin.php?url=posts">Articles</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Nouveau</li>
                                     </ol>
                                 </nav>

@@ -34,7 +34,7 @@
                                     <p><?= $post[0]->postCreationDateFr() ?></p>
                                 </div>
                                 <div class="d-flex">
-                                    <img src="public/img/author/a1.png" alt="">
+                                    <img src="elements/frontend/img/author/a1.png" alt="">
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
 
 			<div class="col-lg-4 sidebar">
 				<div class="single-widget protfolio-widget">
-					<img class="img-fluid" src="public/img/jean-forterouche-about.jpg" alt="">
+					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="">
 					<a href="#">
 						<h4>Jean Forteroche</h4>
 					</a>

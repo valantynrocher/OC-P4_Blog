@@ -111,7 +111,7 @@ class Comment
         return $this->comment_id;
     }
 
-    public function post_id()
+    public function postId()
     {
         return $this->post_id;
     }

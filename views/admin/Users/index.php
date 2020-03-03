@@ -5,7 +5,7 @@
                                 <h1>Mes utilisateurs</h1>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Utilisateurs</a></li>
+                                        <li class="breadcrumb-item"><a href="admin.php?url=users">Utilisateurs</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Liste</li>
                                     </ol>
                                 </nav>
@@ -45,7 +45,7 @@
                                                         <td><?= $admin->userEmail() ?></td>
                                                         <td><?= $admin->userCreationDateFr() ?></td>
                                                         <td class="action-cell"><a class="action-link" href="admin.php?url=users&action=edit&userId=<?=$admin->userId()?>" data-toggle="tooltip" data-placement="top" title="Modifier l'utilisateur"><i class="far fa-edit"></i></td>
-                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=users&action=delete&userId=<?=$admin->userId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer l'utilisateur" onclick="return confirm('Vouslez-vous vraiment supprimer cet utilisateur ? ATTENTION : Cette action est irréversible.')"><i class="far fa-trash-alt"></i></a></td>
+                                                        <td class="action-cell"><a class="action-link action-link--delete" href="admin.php?url=users&action=delete&userId=<?=$admin->userId()?>" data-toggle="tooltip" data-placement="top" title="Supprimer l'utilisateur" onclick="return confirm('Êtes-vous certains de vouloir supprimer cet utilisateur ? Cette action est définitive.')"><i class="far fa-trash-alt"></i></a></td>
                                                     </tr>
                                                 <?php endforeach ?>
                                             </tbody>

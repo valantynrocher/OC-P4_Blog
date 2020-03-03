@@ -19,8 +19,8 @@
 
 	<head>
 		<meta charset="utf-8" />
-		<link rel="apple-touch-icon" sizes="76x76" href="../private/img/apple-icon.png">
-		<link rel="icon" type="image/png" href="../private/img/favicon.ico">
+		<link rel="apple-touch-icon" sizes="76x76" href="elements/admin/img/apple-icon.png">
+		<link rel="icon" type="image/png" href="elements/admin/img/favicon.ico">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<title>Administration - Jean Forteroche</title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
@@ -29,10 +29,10 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 		<!-- CSS Files -->
-		<link href="../private/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="../private/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+		<link href="elements/admin/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="elements/admin/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
 		<!-- CSS Just for demo purpose, don't include it in your project -->
-		<link href="../private/css/demo.css" rel="stylesheet" />
+		<link href="elements/admin/css/demo.css" rel="stylesheet" />
 
 		<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
 
@@ -44,7 +44,7 @@
 	<body>
 		<div class="wrapper">
 
-			<div class="sidebar" data-image="../private/img/jean-forteroche-sidebar.jpg">
+			<div class="sidebar" data-image="elements/admin/img/jean-forteroche-sidebar.jpg">
 				<div class="sidebar-wrapper">
 					<div class="logo">
 						<a href="admin.php?url=dashboard" class="simple-text">
@@ -157,19 +157,19 @@
 
 
 	<!--   Core JS Files   -->
-	<script src="../private/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
-	<script src="../private/js/core/popper.min.js" type="text/javascript"></script>
-	<script src="../private/js/core/bootstrap.min.js" type="text/javascript"></script>
+	<script src="elements/admin/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+	<script src="elements/admin/js/core/popper.min.js" type="text/javascript"></script>
+	<script src="elements/admin/js/core/bootstrap.min.js" type="text/javascript"></script>
 	<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-	<script src="../private/js/plugins/bootstrap-switch.js"></script>
+	<script src="elements/admin/js/plugins/bootstrap-switch.js"></script>
 	<!--  Google Maps Plugin    -->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 	<!--  Chartist Plugin  -->
-	<script src="../private/js/plugins/chartist.min.js"></script>
+	<script src="elements/admin/js/plugins/chartist.min.js"></script>
 	<!--  Notifications Plugin    -->
-	<script src="../private/js/plugins/bootstrap-notify.js"></script>
+	<script src="elements/admin/js/plugins/bootstrap-notify.js"></script>
 	<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-	<script src="../private/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+	<script src="elements/admin/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
 	<!-- Bootstrap Tooltip init -->
 	<script>
 		$(function () {
@@ -181,7 +181,7 @@
 		tinymce.init({
 			selector: '#postContent',
 			language: 'fr_FR',
-			language_url : 'private/js/tinyMCE/langs/fr_FR.js'
+			language_url : 'elements/admin/js/tinyMCE/langs/fr_FR.js'
       	});
 	</script>
 

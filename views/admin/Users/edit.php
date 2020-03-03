@@ -5,7 +5,7 @@
                                 <h1>Mes utilisateurs</h1>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="admin.php?url=users&action=list">Utilisateurs</a></li>
+                                        <li class="breadcrumb-item"><a href="admin.php?url=users">Utilisateurs</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">Modifier</li>
                                     </ol>
                                 </nav>
@@ -25,35 +25,34 @@
                                 <form action="admin.php?url=users&action=update&userId=<?=$userToUpdate[0]->userId()?>" method="POST">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Prénom</label>
+                                            <label>Prénom</label>
                                             <input class="form-control" type="text" name="firstName" value="<?=$userToUpdate[0]->userFirstName()?>">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Nom</label>
+                                            <label>Nom</label>
                                             <input class="form-control" type="text" name="lastName" value="<?=$userToUpdate[0]->userLastName()?>">
                                         </div>
                                     </div>  
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Identifiant</label>
+                                            <label>Identifiant</label>
                                             <input class="form-control" type="text" name="login" value="<?=$userToUpdate[0]->userLogin()?>" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">E-mail</label>
+                                            <label>E-mail</label>
                                             <input class="form-control" type="text" name="email" value="<?=$userToUpdate[0]->userEmail()?>" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Rôle</label>
+                                            <label>Rôle</label>
                                             <select name="role" class="form-control">
                                                 <option value="admin" <?php if ($userToUpdate[0]->userRole() === 'admin') echo 'selected'?>>Admin</option>
                                                 <option value="reader" <?php if ($userToUpdate[0]->userRole() === 'reader') echo 'selected'?>>Lecteur</option>
                                             </select>
                                         </div>
                                     </div>
-
-                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    <input type="submit" name="submit" class="btn btn-primary" value="Enregistrer"></input>
                                 </form>
                             </div>
                         </div>

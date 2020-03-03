@@ -21,15 +21,20 @@ class CategoryController extends Controller
     public function index()
     {
         if (isset($_GET['categoryId'])) {
-            $categoryId = $_GET['categoryId'];
-            $posts = $this->postsManager->getPublicPostsByCategory($categoryId);
-            $category = $this->getCategoryManager()->getOneCategory($categoryId);
-    
-            $this->generateView(array(
-                'posts' => $posts,
-                'category' => $category,
-                'categories' => $this->getCategories()
-            ));
+            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
+
+            if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
+                $posts = $this->postsManager->getPublicPostsByCategory($categoryId);
+                $category = $this->getCategoryManager()->getOneCategory($categoryId);
+        
+                $this->generateView(array(
+                    'posts' => $posts,
+                    'category' => $category,
+                    'categories' => $this->getCategories()
+                ));
+            } else {
+                throw new Exception($this->datasError);
+            }
         } else {
             throw new Exception($this->datasError);
         }

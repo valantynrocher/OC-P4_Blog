@@ -28,26 +28,29 @@ class PostController extends Controller
     public function index()
     {
         if (isset($_GET['postId'])) {
-            $postId = $_GET['postId'];
-
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
             // Non loggin user or readers can see only public posts
-            $post = $this->postsManager->getOnePublicPost($postId);
-            if (Login::isAdmin()) {
-                // admin users can see all posts
-                $post = $this->postsManager->getOnePost($postId);
-            }
-
-            if (empty($post)) {
-                throw new \Exception("Cet article n'est pas public");
-            }
+            if (filter_var($postId, FILTER_VALIDATE_INT)) {
+                $post = $this->postsManager->getOnePublicPost($postId);
+                if (Login::isAdmin()) {
+                    // admin users can see any posts
+                    $post = $this->postsManager->getOnePost($postId);
+                }
     
-            $comments = $this->commentsManager->getCommentsByPost($postId);
-    
-            $this->generateView(array(
-                'post' => $post,
-                'comments' => $comments,
-                'categories' => $this->getCategories()
-            ));
+                if (empty($post)) {
+                    throw new \Exception("Cet article n'est pas public");
+                }
+        
+                $comments = $this->commentsManager->getCommentsByPost($postId);
+        
+                $this->generateView(array(
+                    'post' => $post,
+                    'comments' => $comments,
+                    'categories' => $this->getCategories()
+                ));
+            } else {
+                throw new Exception($this->datasError);
+            }  
         } else {
             throw new Exception($this->datasError);
         }
@@ -61,17 +64,22 @@ class PostController extends Controller
     public function newComment()
     {
         if (isset($_GET['postId']) && isset($_POST['author']) && isset($_POST['comment'])) {
-            $postId = $_GET['postId'];
-            $commentAuthor = $_POST['author'];
-            $commentContent = $_POST['comment'];
-            
-            $affectedComment = $this->commentsManager->setNewComment($postId, $commentAuthor, $commentContent);
-    
-            if ($affectedComment === false) {
-                throw new Exception('Impossible d\'ajouter le commentaire !');
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
+
+            if (filter_var($postId, FILTER_VALIDATE_INT)) {
+                $commentAuthor = htmlspecialchars(strip_tags($_POST['author']));
+                $commentContent = htmlspecialchars(strip_tags($_POST['comment']));
+                
+                $affectedComment = $this->commentsManager->setNewComment($postId, $commentAuthor, $commentContent);
+        
+                if ($affectedComment === false) {
+                    throw new Exception('Impossible d\'ajouter le commentaire !');
+                } else {
+                    header('Location: post&postId='.$postId);
+                    exit();
+                }
             } else {
-                header('Location: post&postId='.$postId);
-                exit();
+                throw new Exception($this->datasError);
             }
         } else {
             throw new Exception($this->datasError);
@@ -86,13 +94,20 @@ class PostController extends Controller
     public function report()
     {
         if (isset($_GET['commentId']) && isset($_GET['postId'])) {
-            $affectedComment = $this->commentsManager->setReportComment($_GET['commentId']);
+            $commentId = htmlspecialchars(strip_tags((int)$_GET['commentId']));
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
 
-            if ($affectedComment === false) {
-                throw new Exception('Action impossible');
+            if (filter_var($postId, FILTER_VALIDATE_INT) && filter_var($commentId, FILTER_VALIDATE_INT)) {
+                $affectedComment = $this->commentsManager->setReportComment($commentId);
+
+                if ($affectedComment === false) {
+                    throw new Exception('Action impossible');
+                } else {
+                    header('Location: post&postId='.$_GET['postId']);
+                    exit();
+                }
             } else {
-                header('Location: post&postId='.$_GET['postId']);
-                exit();
+                throw new Exception($this->datasError);
             }
         } else {
             throw new Exception($this->datasError);

@@ -29,9 +29,14 @@ class CategoriesController extends Controller
     public function edit()
     {
         if (isset($_GET['categoryId'])) {
-            $categoryToUpdate = $this->getCategoryManager()->getOneCategory($_GET['categoryId']);
+            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
 
-            $this->generateView(array('categories' => $this->getCategories(), 'categoryToUpdate' => $categoryToUpdate));
+            if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
+                $categoryToUpdate = $this->getCategoryManager()->getOneCategory($categoryId);
+                $this->generateView(array('categories' => $this->getCategories(), 'categoryToUpdate' => $categoryToUpdate));
+            } else {
+                throw new Exception($this->actionError);
+            }
         } else {
             throw new Exception($this->actionError);
         }
@@ -45,7 +50,9 @@ class CategoriesController extends Controller
     public function insert()
     {
         if (isset($_POST['categoryTitle']) && isset($_POST['categoryImage'])) {
-            $newCategory = $this->getCategoryManager()->setNewCategorysetNewCategory($_POST['categoryTitle'], $_POST['categoryImage']);
+            $categoryTitle = htmlspecialchars(strip_tags($_POST['categoryTitle']));
+            $categoryImage = htmlspecialchars(strip_tags($_POST['categoryImage']));
+            $newCategory = $this->getCategoryManager()->setNewCategorysetNewCategory($categoryTitle, $categoryImage);
     
             if($newCategory === false) {
                 throw new \Exception("Impossible d'ajouter la catégorie !");
@@ -66,13 +73,21 @@ class CategoriesController extends Controller
     public function update()
     {
         if (isset($_GET['categoryId']) && isset($_POST['categoryTitle']) && isset($_POST['categoryImage'])) {
-            $affectedCategory = $this->getCategoryManager()->setChangedCategory($_GET['categoryId'], $_POST['categoryTitle'], $_POST['categoryImage']);
+            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
+            $categoryTitle = htmlspecialchars(strip_tags($_POST['categoryTitle']));
+            $categoryImage = htmlspecialchars(strip_tags($_POST['categoryImage']));
 
-            if($affectedCategory === false) {
-                throw new Exception("Impossible de mettre à jour la catégorie !");
-            } else  {
-                header('Location: admin.php?url=categories');
-                exit();
+            if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
+                $affectedCategory = $this->getCategoryManager()->setChangedCategory($categoryId, $categoryTitle, $categoryImage);
+
+                if($affectedCategory === false) {
+                    throw new Exception("Impossible de mettre à jour la catégorie !");
+                } else  {
+                    header('Location: admin.php?url=categories');
+                    exit();
+                }
+            } else {
+                throw new Exception($this->actionError);
             }
         } else {
             throw new Exception($this->actionError);
@@ -87,13 +102,19 @@ class CategoriesController extends Controller
     public function delete()
     {
         if (isset($_GET['categoryId'])) {
-            $deletedCategory = $this->getCategoryManager()->setCategoryDeleted($_GET['categoryId']);
+            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
 
-            if($deletedCategory === false) {
-                throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est attribué à cette catégorie puis recommencez.");
+            if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
+                $deletedCategory = $this->getCategoryManager()->setCategoryDeleted($categoryId);
+
+                if($deletedCategory === false) {
+                    throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est attribué à cette catégorie puis recommencez.");
+                } else {
+                    header('Location: admin.php?url=categories');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=categories');
-                exit();
+                throw new Exception($this->actionError);
             }
         } else {
             throw new Exception($this->actionError);

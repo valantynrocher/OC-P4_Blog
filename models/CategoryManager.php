@@ -13,12 +13,13 @@ class CategoryManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT category_id, category_title, category_image 
-            FROM $categoryTable 
+            FROM $categoryTable
             ORDER BY category_id 
             ASC"
         );
+        $req->execute(array());
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -48,7 +49,8 @@ class CategoryManager extends Manager
     protected function countAllCategoriesNumber($categoryTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(category_id) FROM $categoryTable");
+        $req = self::$bdd->prepare("SELECT count(category_id) FROM $categoryTable");
+        $req->execute(array());
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -94,9 +96,7 @@ class CategoryManager extends Manager
             "DELETE FROM $categoryTable
             WHERE category_id = ?"
         );
-        $deletedCategory = $req->execute(array(
-            $categoryId
-        ));
+        $deletedCategory = $req->execute(array($categoryId));
 
         return $deletedCategory;
     }
@@ -105,13 +105,14 @@ class CategoryManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT category_title
-            FROM $categoryTable 
+            FROM $categoryTable
             ORDER BY category_id 
             DESC
             LIMIT 0, 5"
         );
+        $req->execute(array());
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -123,7 +124,8 @@ class CategoryManager extends Manager
     protected function countCategoriesNumber($categoryTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(category_id) FROM $categoryTable");
+        $req = self::$bdd->prepare("SELECT count(category_id) FROM $categoryTable");
+        $req->execute(array());
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;

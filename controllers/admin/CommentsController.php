@@ -21,14 +21,9 @@ class CommentsController extends Controller
      */    
     public function index()
     {
-        $reportComments = $this->commentsManager->getReportedComments();
-        $waitingComments = $this->commentsManager->getWaitingComments();
-        $moderateComments = $this->commentsManager->getModeratedComments();
-
+        $comments = $this->commentsManager->getAllComments();
         $this->generateView(array(
-            'reportComments' => $reportComments,
-            'waitingComments' => $waitingComments,
-            'moderateComments' => $moderateComments
+            'comments' => $comments
         ));
     }
 
@@ -39,11 +34,16 @@ class CommentsController extends Controller
     public function answer()
     {
         if (isset($_GET['commentId'])) {
-            $commentToAnswer = $this->commentsManager->getOneComment($_GET['commentId']);
+            $commentId = htmlspecialchars(strip_tags((int)$_GET['commentId']));
 
-            $this->generateView(array(
-                'commentToAnswer' => $commentToAnswer
-            ));
+            if (filter_var($commentId, FILTER_VALIDATE_INT)) {
+                $commentToAnswer = $this->commentsManager->getOneComment($commentId);
+                $this->generateView(array(
+                    'commentToAnswer' => $commentToAnswer
+                ));
+            } else {
+                throw new Exception($this->datasError);
+            }
         } else {
             throw new Exception($this->datasError);
         }
@@ -58,13 +58,19 @@ class CommentsController extends Controller
     public function moderate()
     {
         if (isset($_GET['commentId'])) {
-            $moderatePost = $this->commentsManager->setModerateComment($_GET['commentId']);
+            $commentId = htmlspecialchars(strip_tags((int)$_GET['commentId']));
 
-            if($moderatePost === false) {
-                throw new \Exception("Impossible de modérer le commentaire !");
+            if (filter_var($commentId, FILTER_VALIDATE_INT)) {
+                $moderatePost = $this->commentsManager->setModerateComment($commentId);
+
+                if($moderatePost === false) {
+                    throw new \Exception("Impossible de modérer le commentaire !");
+                } else {
+                    header('Location: admin.php?url=comments');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=comments');
-                exit();
+                throw new Exception($this->datasError);
             }
         } else {
             throw new Exception($this->datasError);
@@ -79,13 +85,22 @@ class CommentsController extends Controller
     public function insertAnswer()
     {
         if (isset($_GET['postId']) && isset($_POST['commentStartId']) && isset($_POST['author']) && isset($_POST['content'])) {
-            $commentAnswer = $this->commentsManager->setCommentAnswer($_GET['postId'], $_POST['author'], $_POST['content'], $_POST['commentStartId']);
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
+            $commentStartId = htmlspecialchars(strip_tags((int)$_GET['commentStartId']));
+            $commentAuthor = htmlspecialchars(strip_tags($_POST['author']));
+            $commentContent = htmlspecialchars(strip_tags($_POST['content']));
 
-            if($commentAnswer === false) {
-                throw new \Exception("Impossible d'ajouter la réponse !");
+            if (filter_var($postId, FILTER_VALIDATE_INT) && filter_var($commentStartId, FILTER_VALIDATE_INT)) {
+                $commentAnswer = $this->commentsManager->setCommentAnswer($postId, $commentAuthor, $commentContent, $commentStartId);
+
+                if($commentAnswer === false) {
+                    throw new \Exception("Impossible d'ajouter la réponse !");
+                } else {
+                    header('Location: admin.php?url=comments');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=comments');
-                exit();
+                throw new Exception($this->datasError);
             }
         } else {
             throw new Exception($this->datasError);
@@ -101,18 +116,23 @@ class CommentsController extends Controller
     public function delete()
     {
         if (isset($_GET['commentId'])) {
-            $deletedComment = $this->commentsManager->setCommentDeleted($_GET['commentId']);
+            $commentId = htmlspecialchars(strip_tags((int)$_GET['commentId']));
 
-            if($deletedComment === false) {
-                throw new \Exception("Impossible de supprimer le commentaire !");
+            if (filter_var($commentId, FILTER_VALIDATE_INT)) {
+                $deletedComment = $this->commentsManager->setCommentDeleted($commentId);
+
+                if($deletedComment === false) {
+                    throw new \Exception("Impossible de supprimer le commentaire !");
+                } else {
+                    header('Location: admin.php?url=comments');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=comments');
-                exit();
+                throw new Exception($this->datasError);
             }
         } else {
             throw new Exception($this->datasError);
         }
-
     }
-
+    
 }

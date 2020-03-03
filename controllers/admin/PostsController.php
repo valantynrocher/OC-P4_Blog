@@ -26,9 +26,7 @@ class PostsController extends Controller
     public function index()
     {
         $this->posts = $this->postsManager->getAllPosts();
-
         $this->categories = $this->getCategories();
-
         $this->generateView(array(
             'posts' => $this->posts,
             'categories' => $this->categories
@@ -41,10 +39,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        $this->categories = $this->getCategories();
-                    
         $this->generateView(array(
-            'categories' => $this->categories
+            'categories' => $this->getCategories()
         ));
     }
 
@@ -55,17 +51,20 @@ class PostsController extends Controller
     public function read()
     {
         if (isset($_GET['postId'])) {
-            $this->posts = $this->postsManager->getAllPosts();
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
 
-            $this->categories = $this->getCategories();
-    
-            $postToRead = $this->postsManager->getOnePost($_GET['postId']);
-    
-            $this->generateView(array(
-                'posts' => $this->posts,
-                'categories' => $this->categories,
-                'postToRead' => $postToRead
-            ));
+            if (filter_var($postId, FILTER_VALIDATE_INT)) {
+                $this->posts = $this->postsManager->getAllPosts();    
+                $postToRead = $this->postsManager->getOnePost($postId);
+        
+                $this->generateView(array(
+                    'posts' => $this->posts,
+                    'categories' => $this->getCategories(),
+                    'postToRead' => $postToRead
+                ));
+            } else {
+                throw new \Exception($this->datasError);
+            }
         } else {
             throw new \Exception($this->datasError);
         }
@@ -78,17 +77,19 @@ class PostsController extends Controller
     public function edit()
     {
         if (isset($_GET['postId'])) {
-            $this->posts = $this->postsManager->getAllPosts();
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
 
-            $this->categories = $this->getCategories();
-                
-            $postToUpdate = $this->postsManager->getOnePost($_GET['postId']);
-    
-            $this->generateView(array(
-                'posts' => $this->posts,
-                'categories' => $this->categories,
-                'postToUpdate' => $postToUpdate
-            ));
+            if (filter_var($postId, FILTER_VALIDATE_INT)) {
+                $this->posts = $this->postsManager->getAllPosts();
+                $postToUpdate = $this->postsManager->getOnePost($postId);
+                $this->generateView(array(
+                    'posts' => $this->posts,
+                    'categories' => $this->getCategories(),
+                    'postToUpdate' => $postToUpdate
+                ));
+            } else {
+                throw new \Exception($this->datasError);
+            }
         } else {
             throw new \Exception($this->datasError);
         }
@@ -102,13 +103,22 @@ class PostsController extends Controller
     public function insert()
     {
         if (isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) ) {
-            $newPost = $this->postsManager->setNewPost($_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
+            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
+            $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
+            $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
+            $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));
+
+            if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
+                $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent, $postStatus);
     
-            if($newPost === false) {
-                throw new \Exception("Impossible d'ajouter l\'article !");
+                if($newPost === false) {
+                    throw new \Exception("Impossible d'ajouter l\'article !");
+                } else {
+                    header('Location: admin.php?url=posts');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=posts');
-                exit();
+                throw new \Exception($this->datasError);
             }
         } else {
             throw new \Exception($this->datasError);
@@ -123,7 +133,14 @@ class PostsController extends Controller
     public function update() 
     {
         if (isset($_GET['postId']) && isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) && isset($_POST['postStatus'])) {
-            $affectedPost = $this->postsManager->setChangedPost($_GET['postId'], $_POST['postTitle'], $_POST['categoryId'], $_POST['postContent'], $_POST['postStatus']);
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
+            $categoryId = htmlspecialchars(strip_tags((int)$_POST['categoryId']));
+            $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
+            $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
+            $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));
+
+            if (filter_var($postId, FILTER_VALIDATE_INT))
+            $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent, $postStatus);
 
             if($affectedPost === false) {
                 throw new Exception("Impossible de mettre à jour l\'article !");
@@ -144,13 +161,19 @@ class PostsController extends Controller
     public function trash()
     {
         if (isset($_GET['postId'])) {
-            $trashedPost = $this->postsManager->setTrashedPost($_GET['postId']);
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
 
-            if($trashedPost === false) {
-                throw new \Exception("Impossible de mettre l\'article à la corbeille !");
+            if (filter_var($postId, FILTER_VALIDATE_INT)) {
+                $trashedPost = $this->postsManager->setTrashedPost($postId);
+
+                if($trashedPost === false) {
+                    throw new \Exception("Impossible de mettre l\'article à la corbeille !");
+                } else {
+                    header('Location: admin.php?url=posts');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=posts');
-                exit();
+                throw new \Exception($this->datasError);
             }
         } else {
             throw new \Exception($this->datasError);
@@ -165,13 +188,19 @@ class PostsController extends Controller
     public function delete()
     {
         if (isset($_GET['postId'])) {
-            $deletedPost = $this->postsManager->setPostDeleted($_GET['postId']);
+            $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
 
-            if($deletedPost === false) {
-                throw new \Exception("Impossible de supprimer l\'article !");
+            if (filter_var($postId, FILTER_VALIDATE_INT)) {
+                $deletedPost = $this->postsManager->setPostDeleted($postId);
+
+                if($deletedPost === false) {
+                    throw new \Exception("Impossible de supprimer l\'article !");
+                } else {
+                    header('Location: admin.php?url=posts');
+                    exit();
+                }
             } else {
-                header('Location: admin.php?url=posts');
-                exit();
+                throw new \Exception($this->datasError);
             }
         } else {
             throw new \Exception($this->datasError);

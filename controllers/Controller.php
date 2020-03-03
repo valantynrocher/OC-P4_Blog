@@ -26,7 +26,7 @@ abstract class Controller {
    * Error message called if datas ($_GET or $_POST) are not set
    * @param String
    */
-  protected $datasError = '<i class="fas fa-exclamation-circle"></i> Action impossible : des données n\'ont pas été transmises';
+  protected $datasError = '<i class="fas fa-exclamation-circle"></i> Action impossible : des données n\'ont pas été transmises ou sont incorrects.';
 
   /**
    * Category Manager

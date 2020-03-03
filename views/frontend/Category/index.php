@@ -34,7 +34,7 @@
 							<div class="col-lg-6 col-md-6">
 								<div class="single-post-item short">
 									<figure>
-										<img class="post-img img-fluid" src="public/img/category/c1.jpg" alt="">
+										<img class="post-img img-fluid" src="elements/frontend/img/category/c1.jpg" alt="">
 									</figure>
 									<h3>
 										<a href="<?= 'post&postId=' . $post->postId() ?>"><?= $post->postTitle() ?></a>
@@ -45,7 +45,7 @@
 										<div class="d-flex">
 											<div>
 												<a href="#">
-													<img src="public/img/author/a1.png" alt="">
+													<img src="elements/frontend/img/author/a1.png" alt="">
 												</a>
 											</div>
 											<div class="post-meta">
@@ -82,7 +82,7 @@
 
 			<div class="col-lg-4 sidebar">
 				<div class="single-widget protfolio-widget">
-					<img class="img-fluid" src="public/img/jean-forterouche-about.jpg" alt="">
+					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="">
 					<a href="#">
 						<h4>Jean Forteroche</h4>
 					</a>

@@ -15,17 +15,21 @@ class CommentsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT comment_id, $commentTable.post_id, comment_author, comment_content, 
             DATE_FORMAT(comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
             comment_status, comment_start_id,
                 (SELECT comment_id FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_id,
                 (SELECT comment_content FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_content
             FROM $commentTable
-            WHERE $commentTable.post_id = $postId AND comment_start_id = 0
+            WHERE $commentTable.post_id = ? AND comment_start_id = ?
             ORDER BY comment_id
             DESC"
         );
+        $req->execute(array(
+            $postId,
+            0
+        ));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -61,9 +65,7 @@ class CommentsManager extends Manager
             SET comment_status = 'report'
             WHERE comment_id = ?"
         );
-        $affectedComment = $req->execute(array(
-            $commentId
-        ));
+        $affectedComment = $req->execute(array($commentId));
 
         return $affectedComment;
         $req->closeCursor();
@@ -71,67 +73,22 @@ class CommentsManager extends Manager
 
     //***************** Rq back side *****************/
 
-    protected function selectReportedComments($commentTable, $postTable, $obj)
+    protected function selectAllComments($commentTable, $postTable, $obj)
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
-            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
+        $req = self::$bdd->prepare(
+            "SELECT comment_id, $commentTable.post_id, comment_author, comment_content,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
             comment_status, comment_start_id, $postTable.post_title
-            FROM $commentTable 
+            FROM $commentTable
             LEFT JOIN $postTable 
-            ON $commentTable.comment_id = $postTable.post_id
-            WHERE comment_status = 'report' AND comment_start_id = 0
-            ORDER BY $commentTable.comment_id 
+            ON $commentTable.post_id = $postTable.post_id
+            WHERE comment_start_id = ?
+            ORDER BY comment_id 
             DESC"
         );
-
-        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            $var[] = new $obj($data);
-        }
-        return $var;
-        $req->closeCursor();
-    }
-
-    protected function selectWaitingComments($commentTable, $postTable, $obj)
-    {
-        $this->getBdd();
-        $var = [];
-        $req = self::$bdd->query(
-            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
-            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status, comment_start_id, $postTable.post_title
-            FROM $commentTable 
-            LEFT JOIN $postTable 
-            ON $commentTable.comment_id = $postTable.post_id
-            WHERE comment_status = 'waiting' AND comment_start_id = 0
-            ORDER BY $commentTable.comment_id 
-            DESC"
-        );
-
-        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            $var[] = new $obj($data);
-        }
-        return $var;
-        $req->closeCursor();
-    }
-
-    protected function selectModeratedComments($commentTable, $postTable, $obj)
-    {
-        $this->getBdd();
-        $var = [];
-        $req = self::$bdd->query(
-            "SELECT $commentTable.comment_id, $commentTable.post_id, comment_author, comment_content,
-            DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
-            comment_status, comment_start_id, $postTable.post_title
-            FROM $commentTable 
-            LEFT JOIN $postTable 
-            ON $commentTable.comment_id = $postTable.post_id
-            WHERE comment_status = 'public' AND comment_start_id = 0
-            ORDER BY $commentTable.comment_id 
-            DESC"
-        );
+        $req->execute(array(0));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -148,9 +105,7 @@ class CommentsManager extends Manager
             SET comment_status = 'public'
             WHERE comment_id = ?"
         );
-        $affectedComment = $req->execute(array(
-            $commentId
-        ));
+        $affectedComment = $req->execute(array($commentId));
 
         return $affectedComment;
         $req->closeCursor();
@@ -161,11 +116,9 @@ class CommentsManager extends Manager
         $this->getBdd();
         $req = self::$bdd->prepare(
             "DELETE FROM $commentTable
-            WHERE id = ?"
+            WHERE comment_id = ?"
         );
-        $deletedComment = $req->execute(array(
-            $commentId
-        ));
+        $deletedComment = $req->execute(array($commentId));
 
         return $deletedComment;
     }
@@ -174,17 +127,19 @@ class CommentsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT comment_author,
             DATE_FORMAT($commentTable.comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
             $postTable.post_title
-            FROM $commentTable LEFT JOIN $postTable 
+            FROM $commentTable
+            LEFT JOIN $postTable
             ON $commentTable.post_id = $postTable.post_id
-            WHERE comment_status = 'public'
+            WHERE comment_status = ?
             ORDER BY $commentTable.comment_id
             DESC
             LIMIT 0, 5"
         );
+        $req->execute(array('public'));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -196,7 +151,8 @@ class CommentsManager extends Manager
     protected function countReportCommentsNumber($commentTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(comment_id) FROM $commentTable WHERE comment_status = 'report'");
+        $req = self::$bdd->prepare("SELECT count(comment_id) FROM $commentTable WHERE comment_status = ?");
+        $req->execute(array('report'));
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -206,7 +162,8 @@ class CommentsManager extends Manager
     protected function countWaitingCommentsNumber($commentTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(comment_id) FROM $commentTable WHERE comment_status = 'waiting'");
+        $req = self::$bdd->prepare("SELECT count(comment_id) FROM $commentTable WHERE comment_status = ?");
+        $req->execute(array('waiting'));
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -224,7 +181,7 @@ class CommentsManager extends Manager
             (SELECT comment_id FROM $commentTable WHERE comment_start_id = $commentTable.comment_id) AS comment_answer_id,
             (SELECT comment_content FROM $commentTable WHERE comment_start_id = $commentTable.comment_id) AS comment_answer_content
             FROM $commentTable
-            LEFT JOIN $postTable 
+            LEFT JOIN $postTable
             ON $commentTable.post_id = $postTable.post_id
             WHERE $commentTable.comment_id = $commentId"
         );
@@ -256,7 +213,6 @@ class CommentsManager extends Manager
         $req->closeCursor();
     }
 
-
     /* =================================================================================================================================
         REQUESTS GETTERS
     ================================================================================================================================= */
@@ -274,6 +230,11 @@ class CommentsManager extends Manager
     public function setReportComment($commentId)
     {
         return $this->updateToReportComment($this->commentTable, $commentId);
+    }
+
+    public function getAllComments()
+    {
+        return $this->selectAllComments($this->commentTable, $this->postTable, $this->commentObject);
     }
 
     public function getReportedComments()

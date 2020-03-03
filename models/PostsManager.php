@@ -12,20 +12,21 @@ class PostsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content,
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             $categoryTable.category_title
             FROM $postTable
-            LEFT JOIN $categoryTable 
+            LEFT JOIN $categoryTable
             ON $postTable.category_id = $categoryTable.category_id
-            WHERE post_status = 'public'
+            WHERE post_status = ?
             ORDER BY $postTable.post_id 
             DESC
             LIMIT $postPerPage
             OFFSET $offset"
         );
+        $req->execute(array('public'));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -45,7 +46,8 @@ class PostsManager extends Manager
             post_status,
             $categoryTable.category_title
             FROM $postTable
-            LEFT JOIN $categoryTable ON $postTable.category_id = $categoryTable.category_id
+            LEFT JOIN $categoryTable
+            ON $postTable.category_id = $categoryTable.category_id
             WHERE $postTable.post_id = ? AND post_status = 'public'"
         );
         $req->execute(array($postId));
@@ -62,17 +64,21 @@ class PostsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content, 
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr
             FROM $postTable 
-            LEFT JOIN $categoryTable 
+            LEFT JOIN $categoryTable
             ON $postTable.category_id = $categoryTable.category_id 
-            WHERE $categoryTable.category_id = $categoryId AND post_status = 'public'
+            WHERE $categoryTable.category_id = ? AND post_status = ?
             ORDER BY $postTable.post_id 
             DESC"
         );
+        $req->execute(array(
+            $categoryId,
+            'public'
+        ));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -84,7 +90,8 @@ class PostsManager extends Manager
     protected function countPublicPostsNumber($postTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(post_id) FROM $postTable WHERE post_status = 'public'");
+        $req = self::$bdd->prepare("SELECT count(post_id) FROM $postTable WHERE post_status = ?");
+        $req->execute(array('public'));
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -95,17 +102,19 @@ class PostsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content,
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             post_status, $categoryTable.category_title
-            FROM $postTable 
-            LEFT JOIN $categoryTable 
+            FROM $postTable
+            LEFT JOIN $categoryTable
             ON $postTable.category_id = $categoryTable.category_id
             ORDER BY $postTable.post_id 
             DESC"
         );
+        $req->execute(array('public'));
+        
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -124,7 +133,8 @@ class PostsManager extends Manager
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             post_status, $categoryTable.category_title
             FROM $postTable
-            LEFT JOIN $categoryTable ON $postTable.category_id = $categoryTable.category_id
+            LEFT JOIN $categoryTable
+            ON $postTable.category_id = $categoryTable.category_id
             WHERE $postTable.post_id = ?"
         );
         $req->execute(array($postId));
@@ -160,14 +170,15 @@ class PostsManager extends Manager
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $postTable
-            SET post_title = :new_post_title, $postTable.category_id = :new_category_id, post_content = :new_post_content, post_update_date = NOW(), post_status = :new_post_status
-            WHERE post_id = $postId"
+            SET post_title = :new_post_title, category_id = :new_category_id, post_content = :new_post_content, post_update_date = NOW(), post_status = :new_post_status
+            WHERE post_id = :postId"
         );
         $affectedPost = $req->execute(array(
             'new_post_title' => $postTitle,
             'new_category_id' => $categoryId,
             'new_post_content' => $postContent,
-            'new_post_status' => $postStatus
+            'new_post_status' => $postStatus,
+            'postId' => $postId
         ));
 
         return $affectedPost;
@@ -206,7 +217,7 @@ class PostsManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT post_title, $postTable.category_id,
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
@@ -214,11 +225,12 @@ class PostsManager extends Manager
             FROM $postTable
             LEFT JOIN $categoryTable 
             ON $postTable.category_id = $categoryTable.category_id
-            WHERE post_status = 'public'
-            ORDER BY $postTable.post_id 
+            WHERE post_status = ?
+            ORDER BY $postTable.post_id
             DESC
             LIMIT 0, 5"
         );
+        $req->execute(array('public'));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -230,7 +242,8 @@ class PostsManager extends Manager
     protected function countProgressPostsNumber($postTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(post_id) FROM $postTable WHERE post_status = 'progress'");
+        $req = self::$bdd->prepare("SELECT count(post_id) FROM $postTable WHERE post_status = ? ");
+        $req->execute(array('progress'));
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;

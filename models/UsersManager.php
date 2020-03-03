@@ -13,14 +13,15 @@ class UsersManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT user_first_name, user_last_name, user_login, user_email, user_role,
             DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
             DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
-            FROM $userTable 
-            ORDER BY user_creation_date_fr 
+            FROM $userTable
+            ORDER BY user_creation_date_fr
             ASC"
         );
+        $req->execute(array());
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -32,15 +33,16 @@ class UsersManager extends Manager
     protected function selectAdminUsers($userTable, $obj)
     {
         $this->getBdd();
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT user_id, user_first_name, user_last_name, user_login, user_password, user_email, user_role,
             DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
             DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable
-            WHERE user_role = 'admin'
-            ORDER BY user_creation_date_fr 
+            WHERE user_role = ?
+            ORDER BY user_creation_date_fr
             ASC"
         );
+        $req->execute(array('admin'));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -52,15 +54,16 @@ class UsersManager extends Manager
     protected function selectReaderUsers($userTable, $obj)
     {
         $this->getBdd();
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT user_id, user_first_name, user_last_name, user_login, user_email, user_role,
             DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
             DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
             FROM $userTable
-            WHERE user_role = 'reader'
+            WHERE user_role = ?
             ORDER BY user_creation_date_fr 
             ASC"
         );
+        $req->execute(array('reader'));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -98,9 +101,7 @@ class UsersManager extends Manager
             FROM $userTable
             WHERE user_id = ?"
         );
-        $req->execute(array(
-            $userId
-        ));
+        $req->execute(array($userId));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -140,9 +141,7 @@ class UsersManager extends Manager
             "DELETE FROM $userTable
             WHERE user_id = ?"
         );
-        $deletedUser = $req->execute(array(
-            $userId
-        ));
+        $deletedUser = $req->execute(array($userId));
 
         return $deletedUser;
     }
@@ -151,15 +150,16 @@ class UsersManager extends Manager
     {
         $this->getBdd();
         $var = [];
-        $req = self::$bdd->query(
+        $req = self::$bdd->prepare(
             "SELECT user_login, user_email, user_role,
             DATE_FORMAT(user_creation_date, '%d/%m/%Y') AS user_creation_date_fr,
             DATE_FORMAT(user_last_connexion, 'le %d/%m/%Y à %Hh%i') AS user_last_connexion_fr
-            FROM $userTable 
-            ORDER BY user_creation_date_fr 
+            FROM $userTable
+            ORDER BY user_creation_date_fr
             DESC
             LIMIT 0, 5"
         );
+        $req->execute(array());
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);
@@ -171,7 +171,8 @@ class UsersManager extends Manager
     protected function countAdminUsersNumber($userTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(user_id) FROM $userTable WHERE user_role = 'admin'");
+        $req = self::$bdd->prepare("SELECT count(user_id) FROM $userTable WHERE user_role = ?");
+        $req->execute(array('admin'));
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -181,7 +182,8 @@ class UsersManager extends Manager
     protected function countReaderUsersNumber($userTable)
     {
         $this->getBdd();
-        $req = self::$bdd->query("SELECT count(user_id) FROM $userTable WHERE user_role = 'reader'");
+        $req = self::$bdd->prepare("SELECT count(user_id) FROM $userTable WHERE user_role = ?");
+        $req->execute(array('reader'));
         $count = (int)$req->fetch(PDO::FETCH_NUM)[0];
 
         return $count;
@@ -197,9 +199,7 @@ class UsersManager extends Manager
             FROM $userTable
             WHERE user_login = ?"
         );
-        $result = $req->execute(array(
-            $userLogin
-        ));
+        $result = $req->execute(array($userLogin));
 
         $count = (int)$req->fetch(PDO::FETCH_NUM);
 
@@ -218,9 +218,7 @@ class UsersManager extends Manager
             FROM $userTable
             WHERE user_login = ?"
         );
-        $req->execute(array(
-            $userLogin
-        ));
+        $req->execute(array($userLogin));
 
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             $var[] = new $obj($data);

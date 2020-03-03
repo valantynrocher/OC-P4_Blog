@@ -5,7 +5,7 @@
             <h1>Mes commentaires</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="admin.php?url=comments&action=list">Commentaires</a></li>
+                    <li class="breadcrumb-item"><a href="admin.php?url=comments">Commentaires</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Répondre</li>
                 </ol>
             </nav>
@@ -28,7 +28,7 @@
                         <p><?=$commentToAnswer[0]->commentCreationDateFr()?>, <?=$commentToAnswer[0]->commentAuthor()?> a commenté votre article "<?=$commentToAnswer[0]->postTitle()?>" :</p>
                         <p><?=$commentToAnswer[0]->commentContent()?></p>
                     </div>
-                    <form action="admin.php?url=comments&action=insert&postId=<?=$commentToAnswer[0]->post_id()?>" method="POST">
+                    <form action="admin.php?url=comments&action=insertAnswer&postId=<?=$commentToAnswer[0]->postId()?>&commentStartId=<?=$commentToAnswer[0]->commentId()?>" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-2">
                                 <label for="commentId">Id</label>
