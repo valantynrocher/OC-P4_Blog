@@ -1,6 +1,10 @@
 <?php
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+namespace JeanForteroche\Controllers\Frontend;
+
+use JeanForteroche\Views\View;
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Models\PostsManager;
+use \Exception;
 
 class CategoryController extends Controller
 {

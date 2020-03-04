@@ -1,8 +1,12 @@
 <?php
+namespace JeanForteroche\Models;
+
+use JeanForteroche\Models\Manager;
+use \PDO;
 
 class PostsManager extends Manager
 {
-    private $postObject = 'Post';
+    private $postObject = 'JeanForteroche\Models\Post';
 
     /* =================================================================================================================================
         REQUESTS SETTERS

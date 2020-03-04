@@ -1,8 +1,12 @@
 <?php
+namespace JeanForteroche\Models;
+
+use JeanForteroche\Models\Manager;
+use \PDO;
 
 class UsersManager extends Manager
 {
-    private $userObject = 'User';
+    private $userObject = 'JeanForteroche\Models\User';
 
 
     /* =================================================================================================================================

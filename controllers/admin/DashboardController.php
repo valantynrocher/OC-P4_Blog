@@ -1,6 +1,11 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+<?php
+namespace JeanForteroche\Controllers\Admin;
+
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Views\View;
+use JeanForteroche\Models\PostsManager;
+use JeanForteroche\Models\CommentsManager;
+use JeanForteroche\Models\UsersManager;
 
 class DashboardController extends Controller
 {

@@ -1,6 +1,8 @@
 <?php
+namespace JeanForteroche\Models;
 
-require_once 'services/Database.php';
+use JeanForteroche\Services\Database;
+use \PDO;
 
 abstract class Manager
 {

@@ -1,4 +1,5 @@
 <?php
+namespace JeanForteroche\Services;
 
 class Email
 {

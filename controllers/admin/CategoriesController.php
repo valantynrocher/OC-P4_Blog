@@ -1,6 +1,9 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+<?php
+namespace JeanForteroche\Controllers\Admin;
+
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Views\View;
+use \Exception;
 
 class CategoriesController extends Controller
 {
@@ -55,7 +58,7 @@ class CategoriesController extends Controller
             $newCategory = $this->getCategoryManager()->setNewCategorysetNewCategory($categoryTitle, $categoryImage);
     
             if($newCategory === false) {
-                throw new \Exception("Impossible d'ajouter la catégorie !");
+                throw new Exception("Impossible d'ajouter la catégorie !");
             } else {
                 header('Location: admin.php?url=categories');
                 exit();
@@ -108,7 +111,7 @@ class CategoriesController extends Controller
                 $deletedCategory = $this->getCategoryManager()->setCategoryDeleted($categoryId);
 
                 if($deletedCategory === false) {
-                    throw new \Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est attribué à cette catégorie puis recommencez.");
+                    throw new Exception("Impossible de supprimer la catégorie ! Vérifiez qu'aucun article n'est attribué à cette catégorie puis recommencez.");
                 } else {
                     header('Location: admin.php?url=categories');
                     exit();

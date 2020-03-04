@@ -1,7 +1,11 @@
 <?php
+namespace JeanForteroche\Controllers;
 
-require_once 'services/Request.php';
-require_once 'views/View.php';
+require 'vendor/autoload.php';
+
+use JeanForteroche\Services\Request;
+use JeanForteroche\Views\View;
+use JeanForteroche\Models\CategoryManager;
 
 abstract class Controller {
 
@@ -65,7 +69,7 @@ abstract class Controller {
     }
     else {
       $controllerClass = get_class($this);
-      throw new Exception("Action '$action' non définie dans la classe $controllerClass");
+      throw new \Exception("Action '$action' non définie dans la classe $controllerClass");
     }
   }
 
@@ -98,8 +102,16 @@ abstract class Controller {
    */
   protected function generateView(array $datas) {
     // Define view's file name according to current controller's name
-    $controllerClass = get_class($this);
-    $controller = str_replace("Controller", "", $controllerClass);
+    $controllerClass = get_class($this); // get a controller with the plain namespace
+    // Clean the namespace to get only the controller Name
+    $controller = str_replace(array(
+      'JeanForteroche',
+      'Controllers',
+      'Frontend',
+      'Admin',
+      'Controller',
+      '\\'
+    ), "", $controllerClass);    
     
     $view = new View($this->action, $this->side, $controller);
     $view->generate($datas, $this->getCategories());

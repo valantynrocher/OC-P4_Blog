@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+namespace JeanForteroche\Views;
 
 class View
 {
@@ -9,7 +11,7 @@ class View
     public function __construct(string $action, string $viewSide , string $controller = '')
     {
         $this->viewSide = $viewSide;
-        $this->file = 'views/'.$this->viewSide.'/'.$controller.'/'. $action.'.php';
+        $this->file = 'Views/'.$this->viewSide.'/'.$controller.'/'. $action.'.php';
     }
 
     // générer et envoyer la vue
@@ -19,7 +21,7 @@ class View
         $content = $this->generateFile($this->file, $data);
 
         // template
-        $layout = $this->generateFile('views/'.$this->viewSide.'/template.php', array(
+        $layout = $this->generateFile('Views/'.$this->viewSide.'/layout/template.php', array(
             'title' => $this->title,
             'categories' => $categories,
             'content' => $content
@@ -40,7 +42,7 @@ class View
             return ob_get_clean();
         }
         else {
-            throw new \Exception('Le fichier ' . $file . ' est introuvable.', 1);
+            throw new \Exception('Le fichier de vue ' . $file . ' est introuvable.', 1);
         }
     }
 }

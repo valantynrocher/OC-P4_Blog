@@ -1,6 +1,10 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+<?php
+namespace JeanForteroche\Controllers\Admin;
+
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Views\View;
+use JeanForteroche\Models\UsersManager;
+use \Exception;
 
 class UsersController extends Controller
 {
@@ -259,7 +263,7 @@ class UsersController extends Controller
                 $deletedUser = $this->usersManager->setUserDeleted($userId);
 
                 if($deletedUser === false) {
-                    throw new \Exception("Impossible de supprimer l\'utilisateur !");
+                    throw new Exception("Impossible de supprimer l\'utilisateur !");
                 } else {
                     header('Location: admin.php?url=users');
                     exit();

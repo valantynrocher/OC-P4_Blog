@@ -1,4 +1,7 @@
 <?php
+namespace JeanForteroche\Services;
+
+use JeanForteroche\Services\Login;
 
 class Login
 {

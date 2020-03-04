@@ -1,4 +1,5 @@
 <?php
+namespace JeanForteroche\Services;
 
 class Request {
 
@@ -30,6 +31,6 @@ class Request {
       return $this->settings[$name];
     }
     else
-      throw new Exception("Paramètre '$name' absent de la requête");
+      throw new \Exception("Paramètre '$name' absent de la requête");
   }
 }

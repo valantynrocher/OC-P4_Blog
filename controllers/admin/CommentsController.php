@@ -1,6 +1,10 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+<?php
+namespace JeanForteroche\Controllers\Admin;
+
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Views\View;
+use JeanForteroche\Models\CommentsManager;
+use \Exception;
 
 class CommentsController extends Controller
 {

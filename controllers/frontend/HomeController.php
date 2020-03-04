@@ -1,6 +1,10 @@
 <?php
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+namespace JeanForteroche\Controllers\Frontend;
+
+use JeanForteroche\Views\View;
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Models\PostsManager;
+use \Exception;
 
 class HomeController extends Controller
 {
@@ -29,13 +33,13 @@ class HomeController extends Controller
     {
         $currentPage = $this->checkCurrentPage();
         if ($currentPage <= 0) {
-            throw new \Exception('Numéro de page invalide');
+            throw new Exception('Numéro de page invalide');
         }
 
         // Check if current page exist
         $pagesCount = $this->getPagesCount();
         if ($currentPage > $pagesCount) {
-            throw new \Exception('Cette page n\'existe pas');
+            throw new Exception('Cette page n\'existe pas');
         }
 
         // Call the view
@@ -50,7 +54,7 @@ class HomeController extends Controller
     {
         $reqPage = $_GET['page'] ?? 1;
         if(!filter_var($reqPage, FILTER_VALIDATE_INT)) {
-            throw new \Exception('Numéro de page invalide');
+            throw new Exception('Numéro de page invalide');
         }
 
         if ($reqPage === '1') {

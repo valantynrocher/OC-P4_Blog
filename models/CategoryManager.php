@@ -1,9 +1,13 @@
 <?php
+namespace JeanForteroche\Models;
+
+use JeanForteroche\Models\Manager;
+use \PDO;
 
 class CategoryManager extends Manager
 {
     
-    private $categoryObject = 'Category';
+    private $categoryObject = 'JeanForteroche\Models\Category';
 
     /* =================================================================================================================================
         REQUESTS SETTERS

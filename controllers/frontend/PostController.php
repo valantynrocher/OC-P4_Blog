@@ -1,7 +1,12 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
-require_once 'services/Login.php';
+<?php
+namespace JeanForteroche\Controllers\Frontend;
+
+use JeanForteroche\Views\View;
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Services\Login;
+use JeanForteroche\Models\PostsManager;
+use JeanForteroche\Models\CommentsManager;
+use \Exception;
 
 class PostController extends Controller
 {
@@ -38,7 +43,7 @@ class PostController extends Controller
                 }
     
                 if (empty($post)) {
-                    throw new \Exception("Cet article n'est pas public");
+                    throw new Exception("Cet article n'est pas public");
                 }
         
                 $comments = $this->commentsManager->getCommentsByPost($postId);

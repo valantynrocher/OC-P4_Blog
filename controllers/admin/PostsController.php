@@ -1,6 +1,10 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
+<?php
+namespace JeanForteroche\Controllers\Admin;
+
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Views\View;
+use JeanForteroche\Models\PostsManager;
+use \Exception;
 
 class PostsController extends Controller
 {
@@ -63,10 +67,10 @@ class PostsController extends Controller
                     'postToRead' => $postToRead
                 ));
             } else {
-                throw new \Exception($this->datasError);
+                throw new Exception($this->datasError);
             }
         } else {
-            throw new \Exception($this->datasError);
+            throw new Exception($this->datasError);
         }
     }
 
@@ -88,10 +92,10 @@ class PostsController extends Controller
                     'postToUpdate' => $postToUpdate
                 ));
             } else {
-                throw new \Exception($this->datasError);
+                throw new Exception($this->datasError);
             }
         } else {
-            throw new \Exception($this->datasError);
+            throw new Exception($this->datasError);
         }
     }
 
@@ -112,16 +116,16 @@ class PostsController extends Controller
                 $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent, $postStatus);
     
                 if($newPost === false) {
-                    throw new \Exception("Impossible d'ajouter l\'article !");
+                    throw new Exception("Impossible d'ajouter l\'article !");
                 } else {
                     header('Location: admin.php?url=posts');
                     exit();
                 }
             } else {
-                throw new \Exception($this->datasError);
+                throw new Exception($this->datasError);
             }
         } else {
-            throw new \Exception($this->datasError);
+            throw new Exception($this->datasError);
         }
     }
 
@@ -149,7 +153,7 @@ class PostsController extends Controller
                 exit();
             }
         } else {
-            throw new \Exception($this->datasError);
+            throw new Exception($this->datasError);
         }
     }
 
@@ -167,16 +171,16 @@ class PostsController extends Controller
                 $trashedPost = $this->postsManager->setTrashedPost($postId);
 
                 if($trashedPost === false) {
-                    throw new \Exception("Impossible de mettre l\'article à la corbeille !");
+                    throw new Exception("Impossible de mettre l\'article à la corbeille !");
                 } else {
                     header('Location: admin.php?url=posts');
                     exit();
                 }
             } else {
-                throw new \Exception($this->datasError);
+                throw new Exception($this->datasError);
             }
         } else {
-            throw new \Exception($this->datasError);
+            throw new Exception($this->datasError);
         }
     }
 
@@ -194,16 +198,16 @@ class PostsController extends Controller
                 $deletedPost = $this->postsManager->setPostDeleted($postId);
 
                 if($deletedPost === false) {
-                    throw new \Exception("Impossible de supprimer l\'article !");
+                    throw new Exception("Impossible de supprimer l\'article !");
                 } else {
                     header('Location: admin.php?url=posts');
                     exit();
                 }
             } else {
-                throw new \Exception($this->datasError);
+                throw new Exception($this->datasError);
             }
         } else {
-            throw new \Exception($this->datasError);
+            throw new Exception($this->datasError);
         }
     }
 

@@ -104,59 +104,7 @@
 				<!-- End  Post Area -->
 			</div>
 
-			<div class="col-lg-4 sidebar">
-				<div class="single-widget protfolio-widget">
-					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="">
-					<a href="#">
-						<h4>Jean Forteroche</h4>
-					</a>
-					<div class="desigmation">
-						<p>Écrivain aventurier</p>
-					</div>
-					<p>
-						Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-						bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-						bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-					</p>
-					<ul>
-						<li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-						<li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-						<li><a href="#"><i class="fab fa-instagram-square"></i></a></li>
-					</ul>
-				</div>
-				<div class="single-widget category-widget">
-					<h4 class="title">Les chapitres</h4>
-					<ul>
-						<?php foreach ($categories as $category): ?>
-						<li>
-							<a href="<?= 'category&categoryId=' . $category->categoryId() ?>" class="justify-content-between align-items-center d-flex">
-								<p><?= $category->categoryTitle() ?></p>
-							</a>
-						</li>
-						<?php endforeach ?>
-					</ul>
-				</div>
-				<div class="single-widget newsletter-widget">
-					<h4 class="title">Newsletter</h4>
-					<div>
-						<form target="_blank" action="comment&id=<?=$_GET['id']?>"
-						method="get" class="">
-							<div class="form-group" style="width: 100%">
-								<input name="EMAIL" placeholder="Votre e-mail" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail '"
-								required="" type="email">
-								<div style="position: absolute; left: -5000px;">
-									<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-								</div>
-								<button class="primary-btn text-uppercase">
-									Je m'abonne
-									<span class="lnr lnr-arrow-right"></span>
-								</button>
-							</div>
-							<div class="info"></div>
-						</form>
-					</div>
-				</div>
-			</div>
+			<?php include 'views/frontend/layout/sidebar.php' ?>
 		</div>
 	</div>
 </div>

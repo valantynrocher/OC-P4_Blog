@@ -1,4 +1,5 @@
 <?php
+namespace JeanForteroche\Models;
 
 class User
 {

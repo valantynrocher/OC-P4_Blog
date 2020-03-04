@@ -1,7 +1,11 @@
-<?php 
-require_once 'views/View.php';
-require_once 'controllers/Controller.php';
-require_once 'services/Login.php';
+<?php
+namespace JeanForteroche\Controllers\Frontend;
+
+use JeanForteroche\Views\View;
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Services\Login;
+use JeanForteroche\Models\UsersManager;
+use \Exception;
 
 class AuthController extends Controller
 {

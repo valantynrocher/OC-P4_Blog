@@ -1,7 +1,10 @@
 <?php
-require_once 'services/Request.php';
-require_once 'views/View.php';
-require_once 'services/Login.php';
+namespace JeanForteroche\Services;
+
+use JeanForteroche\Services\Request;
+use JeanForteroche\Views\View;
+use JeanForteroche\Services\Login;
+use \Exception;
 
 class Router
 {
@@ -26,11 +29,11 @@ class Router
     {
         $phpSelf = $_SERVER['PHP_SELF'];
         if (stristr($phpSelf, 'index.php')) {
-            $side = 'frontend';
+            $side = 'Frontend';
         } else if (stristr($phpSelf, 'admin.php')) {
-            $side = 'admin';
+            $side = 'Admin';
         } else {
-            throw new \Exception('Erreur du serveur (refer to PHP_SELF) !');
+            throw new Exception('Erreur du serveur (refer to PHP_SELF) !');
         }
         return $side;
     }
@@ -43,10 +46,6 @@ class Router
     public function routeReq()
     {
         try {
-            spl_autoload_register(function($class) {
-                require_once 'models/' . $class . '.php';
-            });
-
             $request = new Request(array_merge($_GET, $_POST));
             
             $controller = $this->createController($request);
@@ -57,7 +56,7 @@ class Router
             
             $controller->startAction($action);
             
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->getError($e);
         }
     }
@@ -69,7 +68,7 @@ class Router
      */
     private function createController(Request $req)
     {
-        $controller = 'Home'; // Default controller
+        $controller = 'home'; // Default controller
         if ($req->issetSettings('url')) {
             $controller = $req->getSettings('url');
             $controller = ucfirst(strtolower($controller));
@@ -77,17 +76,17 @@ class Router
 
         $controllerClass = $controller . 'Controller';
 
-        if ($this->side === 'frontend') {
-            return $this->callController('frontend', $controllerClass, $req);
-        } else if ($this->side === 'admin') {
+        if ($this->side === 'Frontend') {
+            return $this->callController('Frontend', $controllerClass, $req);
+        } else if ($this->side === 'Admin') {
             if (Login::isAdmin()) {
-                return $this->callController('admin', $controllerClass, $req);
+                return $this->callController('Admin', $controllerClass, $req);
             } else {
                 header('Location: home');
                 exit();
             }
         } else {
-            throw new \Exception('Une erreur est survenue (cf PHP_SELF).');
+            throw new Exception('Une erreur est survenue (cf PHP_SELF).');
         }
     }
 
@@ -100,15 +99,15 @@ class Router
      */
     private function callController($controllerSide, $controllerClass, Request $req)
     {
-        $controllerFile = 'controllers/'.$controllerSide.'/'.$controllerClass.'.php';
+        $controllerFile = 'Controllers/'.$controllerSide.'/'.$controllerClass.'.php';
+        $classWithNamespace = 'JeanForteroche\Controllers\\'.$controllerSide.'\\'.$controllerClass;
         
         if (file_exists($controllerFile)) {
-            require($controllerFile);
-            $controller = new $controllerClass();
+            $controller = new $classWithNamespace();
             $controller->setRequest($req);            
             return $controller;
         } else {
-            throw new \Exception("Le fichier $controllerFile est introuvable", 1);
+            throw new Exception("Le fichier $controllerFile est introuvable", 1);
         }
     }
 

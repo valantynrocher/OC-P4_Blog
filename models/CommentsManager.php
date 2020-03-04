@@ -1,9 +1,13 @@
 <?php
+namespace JeanForteroche\Models;
+
+use JeanForteroche\Models\Manager;
+use \PDO;
 
 class CommentsManager extends Manager
 {
 
-    private $commentObject = 'Comment';
+    private $commentObject = 'JeanForteroche\Models\Comment';
 
     /* =================================================================================================================================
         REQUESTS SETTERS
