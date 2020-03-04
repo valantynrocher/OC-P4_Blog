@@ -26,12 +26,16 @@
                                     <div class="card-body">
                                         <form action="admin.php?url=posts&action=insert" method="POST">
                                             <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="postTitle">Titre</label>
+                                                <div class="form-group col-md-2">
+                                                    <label>Rang</label>
+                                                    <input type="number" class="form-control" name="postRank" id="postRank" required>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>Titre</label>
                                                     <input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Titre de l'article" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
-                                                    <label for="postCategory">Catégorie</label>
+                                                    <label>Catégorie</label>
                                                     <select name="categoryId" class="form-control" id="postCategory" required>
                                                         <?php foreach ($categories as $category): ?>
                                                             <option value="<?= $category->categoryId()?>"> <?= $category->categoryTitle()?> </option>
@@ -39,7 +43,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-3">
-                                                    <label for="postStatus">État</label>
+                                                    <label>État</label>
                                                     <select name="postStatus" class="form-control" id="postStatus" required>
                                                         <option value="progress" selected>Brouillon</option>
                                                         <option value="public">Publié</option>
@@ -49,11 +53,11 @@
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col">
-                                                    <label for="postContent">Contenu de l'article</label>
+                                                    <label>Contenu de l'article</label>
                                                     <textarea class="form-control" name="postContent" id="postContent" rows="19" required></textarea>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Publier</button>
+                                            <button type="submit" name="submit" class="btn btn-primary">Publier</button>
                                         </form>
                                     </div>
                                 </div>

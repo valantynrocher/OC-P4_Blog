@@ -27,7 +27,7 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Id</th>
+                                                    <th scope="col">Rang</th>
                                                     <th scope="col">État</th>
                                                     <th scope="col">Titre</th>
                                                     <th scope="col">Catégorie</th>
@@ -37,7 +37,7 @@
                                             <tbody>
                                                 <?php foreach ($posts as $post): ?>
                                                     <tr>
-                                                        <td><?= $post->postId() ?></td>
+                                                        <td><?= $post->postRank() ?></td>
                                                         <?php if($post->postStatus() === 'progress'): ?>
                                                             <td><span class="badge badge-warning">Brouillon</span></td>
                                                         <?php elseif($post->postStatus() === 'public'): ?>

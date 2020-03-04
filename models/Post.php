@@ -5,6 +5,7 @@ class Post
 {
     // from post table
     private $post_id;
+    private $post_rank;
     private $post_title;
     private $category_id;
     private $post_content;
@@ -37,6 +38,14 @@ class Post
         $post_id = (int) $post_id;
         if ($post_id > 0) {
             $this->post_id = $post_id;
+        }
+    }
+
+    public function setPost_rank($post_rank)
+    {
+        $post_rank = (int) $post_rank;
+        if ($post_rank > 0) {
+            $this->post_rank = $post_rank;
         }
     }
 
@@ -90,6 +99,11 @@ class Post
     public function postId()
     {
         return $this->post_id;
+    }
+
+    public function postRank()
+    {
+        return $this->post_rank;
     }
 
     public function postTitle()

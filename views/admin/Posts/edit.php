@@ -27,15 +27,15 @@
                     <form action="admin.php?url=posts&action=update&postId=<?= $postToUpdate[0]->postId()?>" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-2">
-                                <label for="postId">Id</label>
-                                <input class="form-control" name="postId" type="text" placeholder="<?= $postToUpdate[0]->postId()?>" id="postId" readonly>
+                                <label>Rang</label>
+                                <input type="number" class="form-control" name="postRank" id="postRank" value="<?= $postToUpdate[0]->postRank()?>" required>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="postTitle">Titre</label>
+                                <label>Titre</label>
                                 <input type="text" class="form-control" name="postTitle" id="postTitle" value="<?= $postToUpdate[0]->postTitle()?>" required>
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="postCategory">Catégorie</label>
+                                <label>Catégorie</label>
                                 <select name="categoryId" class="form-control" id="postCategory" required>
                                     <?php foreach ($categories as $category): ?>
                                         <option value="<?= $category->categoryId()?>" <?php if ($postToUpdate[0]->categoryTitle() === $category->categoryTitle()): echo 'selected' ?><?php endif ?> > <?= $category->categoryTitle()?> </option>
@@ -43,7 +43,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="postStatus">État</label>
+                                <label>État</label>
                                 <select name="postStatus" class="form-control" id="postStatus" required>
                                     <option value="progress" <?php if ($postToUpdate[0]->postStatus() === 'progress'): echo 'selected' ?><?php endif ?>>Brouillon</option>
                                     <option value="public" <?php if ($postToUpdate[0]->postStatus() === 'public'): echo 'selected' ?><?php endif ?>>Publié</option>
@@ -53,11 +53,11 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col">
-                                <label for="postContent">Contenu de l'article</label>
+                                <label>Contenu de l'article</label>
                                 <textarea class="form-control" name="postContent" id="postContent" rows="19" required><?= $postToUpdate[0]->postContent()?></textarea>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Enregistrer</button>
                     </form>
                 </div>
             </div>

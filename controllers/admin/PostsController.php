@@ -106,14 +106,15 @@ class PostsController extends Controller
      */
     public function insert()
     {
-        if (isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) ) {
+        if (isset($_POST['submit']) ) {
+            $postRank = htmlspecialchars(strip_tags((int)$_POST['postRank']));
             $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
             $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
             $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
             $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));
 
             if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
-                $newPost = $this->postsManager->setNewPost($postTitle, $categoryId, $postContent, $postStatus);
+                $newPost = $this->postsManager->setNewPost($postRank, $postTitle, $categoryId, $postContent, $postStatus);
     
                 if($newPost === false) {
                     throw new Exception("Impossible d'ajouter l\'article !");
@@ -136,15 +137,16 @@ class PostsController extends Controller
      */
     public function update() 
     {
-        if (isset($_GET['postId']) && isset($_POST['postTitle']) && isset($_POST['categoryId']) && isset($_POST['postContent']) && isset($_POST['postStatus'])) {
+        if (isset($_POST['submit'])) {
             $postId = htmlspecialchars(strip_tags((int)$_GET['postId']));
+            $postRank = htmlspecialchars(strip_tags((int)$_POST['postRank']));
             $categoryId = htmlspecialchars(strip_tags((int)$_POST['categoryId']));
             $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
             $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
             $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));
 
             if (filter_var($postId, FILTER_VALIDATE_INT))
-            $affectedPost = $this->postsManager->setChangedPost($postId, $postTitle, $categoryId, $postContent, $postStatus);
+            $affectedPost = $this->postsManager->setChangedPost($postId, $postRank, $postTitle, $categoryId, $postContent, $postStatus);
 
             if($affectedPost === false) {
                 throw new Exception("Impossible de mettre à jour l\'article !");

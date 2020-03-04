@@ -17,7 +17,7 @@ class PostsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content,
+            "SELECT $postTable.post_id, post_rank, post_title, $postTable.category_id, post_content,
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             $categoryTable.category_title
@@ -25,7 +25,7 @@ class PostsManager extends Manager
             LEFT JOIN $categoryTable
             ON $postTable.category_id = $categoryTable.category_id
             WHERE post_status = ?
-            ORDER BY $postTable.post_id 
+            ORDER BY post_rank 
             DESC
             LIMIT $postPerPage
             OFFSET $offset"
@@ -44,7 +44,7 @@ class PostsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content, 
+            "SELECT $postTable.post_id, post_rank, post_title, $postTable.category_id, post_content, 
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             post_status,
@@ -69,14 +69,14 @@ class PostsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content, 
+            "SELECT $postTable.post_id, post_rank, post_title, $postTable.category_id, post_content, 
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr
             FROM $postTable 
             LEFT JOIN $categoryTable
             ON $postTable.category_id = $categoryTable.category_id 
             WHERE $categoryTable.category_id = ? AND post_status = ?
-            ORDER BY $postTable.post_id 
+            ORDER BY post_rank
             DESC"
         );
         $req->execute(array(
@@ -107,14 +107,14 @@ class PostsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content,
+            "SELECT $postTable.post_id, post_rank, post_title, $postTable.category_id, post_content,
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             post_status, $categoryTable.category_title
             FROM $postTable
             LEFT JOIN $categoryTable
             ON $postTable.category_id = $categoryTable.category_id
-            ORDER BY $postTable.post_id 
+            ORDER BY post_rank
             DESC"
         );
         $req->execute(array('public'));
@@ -132,7 +132,7 @@ class PostsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT $postTable.post_id, post_title, $postTable.category_id, post_content, 
+            "SELECT $postTable.post_id, post_rank, post_title, $postTable.category_id, post_content, 
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             post_status, $categoryTable.category_title
@@ -151,14 +151,15 @@ class PostsManager extends Manager
         $req->closeCursor();
     }
 
-    protected function insertNewPost($postTable, $postTitle, $categoryId, $postContent, $postStatus)
+    protected function insertNewPost($postTable, $postRank, $postTitle, $categoryId, $postContent, $postStatus)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
-            "INSERT INTO $postTable(post_title, $postTable.category_id, post_content, post_creation_date, post_status) 
+            "INSERT INTO $postTable(post_rank, post_title, $postTable.category_id, post_content, post_creation_date, post_status) 
             VALUES(?, ?, ?, NOW(), ?)"
         );
         $affectedPost = $req->execute(array(
+            $postRank,
             $postTitle,
             $categoryId,
             $postContent,
@@ -169,15 +170,16 @@ class PostsManager extends Manager
         $req->closeCursor();
     }
 
-    protected function updateChangedPost($postTable, $postId, $postTitle, $categoryId, $postContent, $postStatus)
+    protected function updateChangedPost($postTable, $postId, $postRank, $postTitle, $categoryId, $postContent, $postStatus)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
             "UPDATE $postTable
-            SET post_title = :new_post_title, category_id = :new_category_id, post_content = :new_post_content, post_update_date = NOW(), post_status = :new_post_status
+            SET post_rank = :new_post_rank, post_title = :new_post_title, category_id = :new_category_id, post_content = :new_post_content, post_update_date = NOW(), post_status = :new_post_status
             WHERE post_id = :postId"
         );
         $affectedPost = $req->execute(array(
+            'new_post_rank' => $postRank,
             'new_post_title' => $postTitle,
             'new_category_id' => $categoryId,
             'new_post_content' => $postContent,
@@ -222,7 +224,7 @@ class PostsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT post_title, $postTable.category_id,
+            "SELECT post_rank, post_title, $postTable.category_id,
             DATE_FORMAT(post_creation_date, 'le %d/%m/%Y à %Hh%i') AS post_creation_date_fr,
             DATE_FORMAT(post_update_date, 'le %d/%m/%Y à %Hh%i') AS post_update_date_fr,
             $categoryTable.category_title
@@ -230,7 +232,7 @@ class PostsManager extends Manager
             LEFT JOIN $categoryTable 
             ON $postTable.category_id = $categoryTable.category_id
             WHERE post_status = ?
-            ORDER BY $postTable.post_id
+            ORDER BY post_rank
             DESC
             LIMIT 0, 5"
         );
@@ -292,14 +294,14 @@ class PostsManager extends Manager
         return $this->selectOnePost($this->postTable, $this->categoryTable, $this->postObject, $postId);
     }
 
-    public function setNewPost($postTitle, $categoryId, $postContent, $postStatus)
+    public function setNewPost($postRank, $postTitle, $categoryId, $postContent, $postStatus)
     {
-        return $this->insertNewPost($this->postTable, $postTitle, $categoryId, $postContent, $postStatus);
+        return $this->insertNewPost($this->postTable, $postRank, $postTitle, $categoryId, $postContent, $postStatus);
     }
 
-    public function setChangedPost($postId, $postTitle, $categoryId, $postContent, $postStatus)
+    public function setChangedPost($postId, $postRank, $postTitle, $categoryId, $postContent, $postStatus)
     {
-        return $this->updateChangedPost($this->postTable, $postId, $postTitle, $categoryId, $postContent, $postStatus);
+        return $this->updateChangedPost($this->postTable, $postId, $postRank, $postTitle, $categoryId, $postContent, $postStatus);
     }
 
     public function setTrashedPost($postId)
