@@ -28,6 +28,7 @@
 												<table class="table table-hover">
 													<thead>
 														<tr>
+															<th scope="col">Rang</th>
 															<th scope="col">Titre</th>
 															<th scope="col">Catégorie</th>
 															<th scope="col">Dernière modification</th>
@@ -36,6 +37,7 @@
 													<tbody>
 														<?php foreach ($lastFivesPublicsPosts as $post): ?>
 															<tr>
+																<td><?= $post->postRank() ?></td>
 																<td><?= $post->postTitle() ?></td>
 																<td><?= $post->categoryTitle() ?></td>
 																<?php if($post->postUpdateDateFr() === null): ?>

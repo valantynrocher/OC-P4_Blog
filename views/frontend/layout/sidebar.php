@@ -1,4 +1,10 @@
             <div class="col-lg-4 sidebar">
+				<div class="single-widget search-widget">
+					<form class="example" action="#" style="margin:auto;max-width:300px">
+						<input type="text" placeholder="Rechercher..." name="search2">
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
 				<div class="single-widget protfolio-widget">
 					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="About" title="About">
 					<a href="#">

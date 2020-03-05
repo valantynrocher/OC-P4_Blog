@@ -51,6 +51,7 @@
 						<ul class="nav-menu">
 							<li class="menu-active"><a href="home">Accueil</a></li>
 							<?php if (!empty($categories)): ?>
+								<li><a href="static&action=about">Qui suis-je</a></li>
 								<li class="menu-has-children"><a href="#">Chapitres</a>
 									<ul>
 										<?php foreach ($categories as $category): ?>
@@ -59,18 +60,10 @@
 									</ul>
 								</li>
 							<?php endif ?>
-							<li><a href="static&action=about">Qui suis-je</a></li>
 							<li><a href="static&action=contact">Contact</a></li>
-							<li class="btn btn-warning" ><a href="auth"><i class="fas fa-user"></i> Mon compte</a></li>
+							<li class="btn btn-warning" ><a href="auth"><i class="fas fa-user"></i> Espace personnel</a></li>
 						</ul>
 					</nav>
-					
-					<!-- <div class="search-widget">
-						<form class="example" action="#">
-							<input type="text" placeholder="Rechercher un article" name="search2">
-							<button type="submit"><i class="fa fa-search"></i></button>
-						</form>
-					</div> -->
 				</div>
 			</div>
 		</header>
