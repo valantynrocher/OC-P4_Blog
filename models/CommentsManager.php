@@ -20,13 +20,13 @@ class CommentsManager extends Manager
         $this->getBdd();
         $var = [];
         $req = self::$bdd->prepare(
-            "SELECT comment_id, $commentTable.post_id, comment_author, comment_content, 
+            "SELECT c.comment_id, post_id, comment_author, comment_content, 
             DATE_FORMAT(comment_creation_date, 'le %d/%m/%Y à %Hh%i') AS comment_creation_date_fr,
             comment_status, comment_start_id,
-                (SELECT comment_id FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_id,
-                (SELECT comment_content FROM $commentTable WHERE comment_start_id = comment_id) AS comment_answer_content
-            FROM $commentTable
-            WHERE $commentTable.post_id = ? AND comment_start_id = ?
+                (SELECT comment_id FROM $commentTable WHERE comment_start_id = c.comment_id) AS comment_answer_id,
+                (SELECT comment_content FROM $commentTable WHERE comment_start_id = c.comment_id) AS comment_answer_content
+            FROM $commentTable as c
+            WHERE post_id = ? AND comment_start_id = ?
             ORDER BY comment_id
             DESC"
         );

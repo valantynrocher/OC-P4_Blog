@@ -70,6 +70,11 @@
 												<p class="comment">
 													<?= $comment->commentContent()?>
 												</p>
+												<?php if ($comment->commentAnswerContent() !== null): ?>
+													<br>
+													<i>Réponse de Jean Forteroche :</i>
+													<p><?= $comment->commentAnswerContent()?></p>
+												<?php endif ?>
 											</div>
 										</div>
 										<?php if ($comment->commentStatus() === 'waiting' || $comment->commentStatus() === 'public'): ?>
@@ -96,24 +101,27 @@
                 <div class="comment-form">
 					<h4>Poster un commentaire</h4>
 					<?php if (isset($_SESSION['connected']) && $_SESSION['connected'] === 1): ?>
-                    <form action="post&action=newComment&postId=<?=$post[0]->postId() ?>" method="POST">
-                        <div class="form-group ">
-                            <div class="form-group">
-                                <input type="text" name="author" class="form-control" id="author" placeholder="Votre nom ou pseudo" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Votre nom ou pseudo'" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control mb-10" name="comment" rows="5" name="message" placeholder="Votre message"
-                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre message'" required=""></textarea>
-                        </div>
-                        <button type="submit" class="primary-btn submit_btn text-uppercase">Envoyer</button>
-					</form>
+						<form action="post&action=newComment&postId=<?=$post[0]->postId() ?>" method="POST">
+							<div class="form-group ">
+								<div class="form-group">
+									<input type="text" name="author" class="form-control" id="author" placeholder="Votre nom ou pseudo" onfocus="this.placeholder = ''"
+										onblur="this.placeholder = 'Votre nom ou pseudo'" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<textarea class="form-control mb-10" name="comment" rows="5" name="message" placeholder="Votre message"
+									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre message'" required=""></textarea>
+							</div>
+							<button type="submit" class="primary-btn submit_btn text-uppercase">Envoyer</button>
+						</form>
 					<?php else: ?>
-						<div class="card">
-							Pour publier des commentaires, vous devez être connecté.
-							Pas encore inscrit ? Crééez votre compte ici !
-							Déjà lecteur fidèle ? Connectez-vous ici !
+						<div class="card text-center">
+							<div class="card-header">
+								Vous devez être connecté pour pouvoir publier un nouveau commentaire.
+							</div>
+							<div class="card-body">
+								<a href="auth" class="btn btn-warning" target="_blank">Inscription/Connexion</a>
+							</div>
 						</div>
 					<?php endif ?>
                 </div>
