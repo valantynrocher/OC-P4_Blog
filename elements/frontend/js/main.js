@@ -73,50 +73,6 @@ $(document).ready(function() {
     $("#mobile-nav, #mobile-nav-toggle").hide();
   }
 
-  // Smooth scroll for the menu and links with .scrollto classes
-  $(".nav-menu a, #mobile-nav a, .scrollto").on("click", function() {
-    if (
-      location.pathname.replace(/^\//, "") ==
-        this.pathname.replace(/^\//, "") &&
-      location.hostname == this.hostname
-    ) {
-      var target = $(this.hash);
-      if (target.length) {
-        var top_space = 0;
-
-        if ($("#header").length) {
-          top_space = $("#header").outerHeight();
-
-          if (!$("#header").hasClass("header-fixed")) {
-            top_space = top_space;
-          }
-        }
-
-        $("html, body").animate(
-          {
-            scrollTop: target.offset().top - top_space
-          },
-          1500,
-          "easeInOutExpo"
-        );
-
-        if ($(this).parents(".nav-menu").length) {
-          $(".nav-menu .menu-active").removeClass("menu-active");
-          $(this)
-            .closest("li")
-            .addClass("menu-active");
-        }
-
-        if ($("body").hasClass("mobile-nav-active")) {
-          $("body").removeClass("mobile-nav-active");
-          $("#mobile-nav-toggle i").toggleClass("lnr-times lnr-bars");
-          $("#mobile-body-overly").fadeOut();
-        }
-        return false;
-      }
-    }
-  });
-
   $(document).ready(function() {
     $("html, body").hide();
     if (window.location.hash) {
@@ -145,19 +101,6 @@ $(document).ready(function() {
     }
   });
 
-  $(".active-post-carusel").owlCarousel({
-    items: 1,
-    loop: true,
-    margin: 0,
-    dots: false,
-    nav: true,
-    // autoplay: 2500,
-    navText: [
-      "<span class='lnr lnr-arrow-up'></span>",
-      "<span class='lnr lnr-arrow-down'></span>"
-    ]
-  });
-
   //  Start Google map
 
   // When the window has finished loading create our google map below
@@ -169,9 +112,9 @@ $(document).ready(function() {
       // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
       var mapOptions = {
         // How zoomed in you want the map to start at (always required)
-        zoom: 11,
+        zoom: 13,
         // The latitude and longitude to center the map (always required)
-        center: new google.maps.LatLng(40.67, -73.94), // New York
+        center: new google.maps.LatLng(47.215397, -1.559075), // Nantes
         // How you would like to style the map.
         // This is where you would paste any style found on Snazzy Maps.
         styles: [
@@ -231,7 +174,12 @@ $(document).ready(function() {
               { lightness: 40 }
             ]
           },
-          { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+          { 
+            elementType: "labels.icon",
+            stylers: [
+              { visibility: "off" }
+            ]
+          },
           {
             featureType: "transit",
             elementType: "geometry",
@@ -259,7 +207,7 @@ $(document).ready(function() {
 
       // Let's also add a marker while we're at it
       var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(40.67, -73.94),
+        position: new google.maps.LatLng(47.215397, -1.559075),
         map: map,
         title: "Snazzy!"
       });
