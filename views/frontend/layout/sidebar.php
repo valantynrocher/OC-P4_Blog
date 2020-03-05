@@ -1,6 +1,6 @@
             <div class="col-lg-4 sidebar">
 				<div class="single-widget protfolio-widget">
-					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="">
+					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="About" title="About">
 					<a href="#">
 						<h4>Jean Forteroche</h4>
 					</a>

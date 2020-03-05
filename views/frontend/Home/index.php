@@ -24,7 +24,7 @@
 					<!-- Start Single post -->
 					<div class="single-post-item">
 						<figure>
-							<img class="post-img img-fluid" src="elements/frontend/img/posts/p1.jpg" alt="">
+							<img class="post-img img-fluid" src="elements/frontend/img/posts/p1.jpg" alt="Article" title="Article">
 						</figure>
 						<h3>
 							<a href="post&postId=<?=$post->postId()?>"><?= $post->postTitle() ?></a>
@@ -35,7 +35,7 @@
 							<div class="d-flex">
 								<div>
 									<a href="about">
-										<img src="elements/frontend/img/author/a1.png" alt="">
+										<img src="elements/frontend/img/author/a1.png" alt="About" title="About">
 									</a>
 								</div>
 								<div class="post-meta">

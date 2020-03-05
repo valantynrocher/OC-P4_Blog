@@ -34,7 +34,7 @@
                                     <p><?= $post[0]->postCreationDateFr() ?></p>
                                 </div>
                                 <div class="d-flex">
-                                    <img src="elements/frontend/img/author/a1.png" alt="">
+                                    <img src="elements/frontend/img/author/a1.png" alt="Article" title="Article">
                                 </div>
                             </div>
                         </div>

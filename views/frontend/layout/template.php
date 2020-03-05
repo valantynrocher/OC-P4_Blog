@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="no-js">
+<html lang="fr">
 
 <head>
 	<!-- Mobile Specific Meta -->
@@ -7,16 +7,20 @@
 	<!-- Favicon-->
 	<link rel="shortcut icon" href="elements/frontend/img/fav.png">
 	<!-- Author Meta -->
-	<meta name="author" content="codepixer">
+	<meta name="author" content="Valentin Rocher">
 	<!-- Meta Description -->
-	<meta name="description" content="">
+	<meta name="description" content="Bienvenue sur le blog de Jean Forteroche,
+	écrivain et aventurier pour découvrir son dernier roman 'Billet simple pour l'Alaska'
+	au fil de son écriture !">
 	<!-- Meta Keyword -->
-	<meta name="keywords" content="">
+	<meta name="keywords" content="blog, auteur, écrivain, Alaska, roman, édition,
+	Jean, Forteroche, Jean Forteroche">
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
 	<title><?= $title ?></title>
 
+	<!-- GOOGLE FONTS ==================================== -->
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700|Roboto:400,500" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
 	
@@ -30,7 +34,7 @@
 	<link rel="stylesheet" href="elements/frontend/css/owl.carousel.css">
 	<link rel="stylesheet" href="elements/frontend/css/main.css">
 
-	<!-- KIT FONT AWESOME ============================================= -->
+	<!-- KIT FONT AWESOME ================================= -->
 	<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
 </head>
 
@@ -41,13 +45,13 @@
 			<div class="container box_1170 main-menu">
 				<div class="row align-items-center justify-content-between d-flex">
 					<div id="logo">
-						<a href="home"><img src="elements/frontend/img/logo.png" alt="" title="" /></a>
+						<a href="home"><img src="elements/frontend/img/logo.png" alt="Logo" title="Logo"/></a>
 					</div>
 					<nav id="nav-menu-container">
 						<ul class="nav-menu">
 							<li class="menu-active"><a href="home">Accueil</a></li>
 							<?php if (!empty($categories)): ?>
-								<li class="menu-has-children"><a href="">Chapitres</a>
+								<li class="menu-has-children"><a href="#">Chapitres</a>
 									<ul>
 										<?php foreach ($categories as $category): ?>
 											<li><a href="category&categoryId=<?=$category->categoryId()?>"><?= $category->categoryTitle() ?></a></li>
@@ -61,12 +65,12 @@
 						</ul>
 					</nav>
 					
-					<div class="search-widget">
+					<!-- <div class="search-widget">
 						<form class="example" action="#">
 							<input type="text" placeholder="Rechercher un article" name="search2">
 							<button type="submit"><i class="fa fa-search"></i></button>
 						</form>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</header>
@@ -146,20 +150,14 @@
 		</footer>
 		<!-- End footer Area -->
 
-		<script src="elements/frontend/js/vendor/jquery-2.2.4.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
-		<script src="elements/frontend/js/vendor/bootstrap.min.js"></script>
+		<!-- SCRIPTS LOADING -->
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-		<script src="elements/frontend/js/easing.min.js"></script>
-		<script src="elements/frontend/js/hoverIntent.js"></script>
+		
+		<script src="elements/frontend/js/vendor/jquery-2.2.4.min.js"></script>
+		<script src="elements/frontend/js/vendor/bootstrap.min.js"></script>
+
 		<script src="elements/frontend/js/superfish.min.js"></script>
-		<script src="elements/frontend/js/jquery.ajaxchimp.min.js"></script>
-		<script src="elements/frontend/js/jquery.magnific-popup.min.js"></script>
 		<script src="elements/frontend/js/owl.carousel.min.js"></script>
-		<script src="elements/frontend/js/jquery.nice-select.min.js"></script>
-		<script src="elements/frontend/js/waypoints.min.js"></script>
-		<script src="elements/frontend/js/mail-script.js"></script>
 		<script src="elements/frontend/js/main.js"></script>
 	</body>
 

@@ -34,7 +34,7 @@
 							<div class="col-lg-6 col-md-6">
 								<div class="single-post-item short">
 									<figure>
-										<img class="post-img img-fluid" src="elements/frontend/img/category/c1.jpg" alt="">
+										<img class="post-img img-fluid" src="elements/frontend/img/category/c1.jpg" alt="Category" title="Category">
 									</figure>
 									<h3>
 										<a href="<?= 'post&postId=' . $post->postId() ?>"><?= $post->postTitle() ?></a>
@@ -45,7 +45,7 @@
 										<div class="d-flex">
 											<div>
 												<a href="#">
-													<img src="elements/frontend/img/author/a1.png" alt="">
+													<img src="elements/frontend/img/author/a1.png" alt="Auteur" title="Auteur">
 												</a>
 											</div>
 											<div class="post-meta">

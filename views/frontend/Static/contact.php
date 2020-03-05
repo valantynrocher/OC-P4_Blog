@@ -49,7 +49,7 @@
 							<span class="lnr lnr-phone-handset"></span>
 						</div>
 						<div class="contact-details">
-							<h5>00 00 00 00 00</h5>
+							<h5>06 95 53 86 73</h5>
 							<p>Joignable à tout moment</p>
 						</div>
 					</div>
