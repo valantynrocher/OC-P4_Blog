@@ -108,7 +108,7 @@ class PostsController extends Controller
     {
         if (isset($_POST['submit']) ) {
             $postRank = htmlspecialchars(strip_tags((int)$_POST['postRank']));
-            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
+            $categoryId = htmlspecialchars(strip_tags((int)$_POST['categoryId']));
             $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
             $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
             $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));

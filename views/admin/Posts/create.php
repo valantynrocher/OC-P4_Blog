@@ -54,14 +54,14 @@
                                             <div class="form-row">
                                                 <div class="form-group col">
                                                     <label>Contenu de l'article</label>
-                                                    <textarea class="form-control" name="postContent" id="postContent" rows="19" required></textarea>
+                                                    <textarea class="form-control" name="postContent" id="postContent" rows="19"></textarea>
                                                 </div>
                                             </div>
-                                            <button type="submit" name="submit" class="btn btn-primary">Publier</button>
+                                            <input type="submit" name="submit" class="btn btn-primary" value="Publier"></input>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-    
+
 					</div>

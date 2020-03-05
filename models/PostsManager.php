@@ -156,7 +156,7 @@ class PostsManager extends Manager
         $this->getBdd();
         $req = self::$bdd->prepare(
             "INSERT INTO $postTable(post_rank, post_title, $postTable.category_id, post_content, post_creation_date, post_status) 
-            VALUES(?, ?, ?, NOW(), ?)"
+            VALUES(?, ?, ?, ?, NOW(), ?)"
         );
         $affectedPost = $req->execute(array(
             $postRank,

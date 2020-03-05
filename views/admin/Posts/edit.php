@@ -54,7 +54,7 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label>Contenu de l'article</label>
-                                <textarea class="form-control" name="postContent" id="postContent" rows="19" required><?= $postToUpdate[0]->postContent()?></textarea>
+                                <textarea class="form-control" name="postContent" id="postContent" rows="19"><?= $postToUpdate[0]->postContent()?></textarea>
                             </div>
                         </div>
                         <button type="submit" name="submit" class="btn btn-primary">Enregistrer</button>
