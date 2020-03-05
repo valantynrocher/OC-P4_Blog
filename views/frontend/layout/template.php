@@ -36,6 +36,10 @@
 
 	<!-- KIT FONT AWESOME ================================= -->
 	<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
+
+	<!-- COOKIES PRIVACY -->
+	<link rel="stylesheet" type="text/css" href="//wpcc.io/lib/1.0.2/cookieconsent.min.css"/>
+	<script src="//wpcc.io/lib/1.0.2/cookieconsent.min.js"></script>
 </head>
 
 	<body>
@@ -128,7 +132,9 @@
 				</div>
 				<div class="row footer-bottom d-flex justify-content-between align-items-center">
 					<div class="col-lg-4 footer-text text-center">
-						 <a href="static&action=legals">Mentions légales</a>					
+						 <a href="static&action=legals">Mentions légales</a>
+						 |
+						 <a href="static&action=cookies">Cookies</a>
 					</div>
 					<p class="col-lg-8 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						<a href="http://valantyn.fr" target=_blank>Valentin Rocher, www.valantyn.fr </a>

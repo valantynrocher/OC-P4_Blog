@@ -219,4 +219,39 @@ $(document).ready(function() {
       .find("form")
       .ajaxChimp();
   });
+
+  // Cookie Consent Banner
+  window.addEventListener("load", function(){
+    window.wpcc.init(
+      {
+        "colors":
+        {
+          "popup":
+          {
+            "background":"#fff0ca",
+            "text":"#000000",
+            "border":"#e0bc57"
+          },
+          "button":
+          {
+            "background":"#ffc107",
+            "text":"#000000"
+          }
+        },
+        "position":"bottom-right",
+        "corners":"normal",
+        "margin":"small",
+        "transparency":"10",
+        "content":
+        {
+          "href":"static&action=cookies",
+          "link":"En savoir plus",
+          "button":"J'ai compris",
+          "message":"Ce blog utilise des cookies pour \
+          l'accès aux fonctionnalités de l'espace \
+          personnel et pour vous garantir une meilleure \
+          expérience de navigation."
+        }
+      })
+    });
 });

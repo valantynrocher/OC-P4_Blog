@@ -37,4 +37,13 @@ class StaticController extends Controller
     {
         $this->generateView(array());
     }
+
+    /**
+     * Action 'cookies'
+     * Generates view for cookies policy page
+     */
+    public function cookies()
+    {
+        $this->generateView(array());
+    }
 }
