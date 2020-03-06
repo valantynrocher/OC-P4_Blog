@@ -68,7 +68,7 @@ class Router
      */
     private function createController(Request $req)
     {
-        $controller = 'home'; // Default controller
+        $controller = 'Home'; // Default controller
         if ($req->issetSettings('url')) {
             $controller = $req->getSettings('url');
             $controller = ucfirst(strtolower($controller));
@@ -133,6 +133,9 @@ class Router
      */
     private function getError(Exception $exception)
     {
+        if (!isset($this->side)) {
+            $this->side = 'Frontend';
+        }
         $this->view = new View('404', $this->side);
         $this->view->generate(array('errorMsg' => $exception->getMessage()), '');
     }

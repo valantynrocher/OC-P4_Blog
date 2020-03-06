@@ -5,7 +5,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="elements/frontend/img/fav.png">
+	<link rel="shortcut icon" href="Elements/Frontend/img/fav.png">
 	<!-- Author Meta -->
 	<meta name="author" content="Valentin Rocher">
 	<!-- Meta Description -->
@@ -25,14 +25,14 @@
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
 	
 	<!-- CSS ============================================= -->
-	<link rel="stylesheet" href="elements/frontend/css/linearicons.css">
-	<link rel="stylesheet" href="elements/frontend/css/font-awesome.min.css">
-	<link rel="stylesheet" href="elements/frontend/css/bootstrap.css">
-	<link rel="stylesheet" href="elements/frontend/css/magnific-popup.css">
-	<link rel="stylesheet" href="elements/frontend/css/nice-select.css">
-	<link rel="stylesheet" href="elements/frontend/css/animate.min.css">
-	<link rel="stylesheet" href="elements/frontend/css/owl.carousel.css">
-	<link rel="stylesheet" href="elements/frontend/css/main.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/linearicons.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/font-awesome.min.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/bootstrap.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/magnific-popup.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/nice-select.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/animate.min.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/owl.carousel.css">
+	<link rel="stylesheet" href="Elements/Frontend/css/main.css">
 
 	<!-- KIT FONT AWESOME ================================= -->
 	<script src="https://kit.fontawesome.com/a7e4cf03d5.js" crossorigin="anonymous"></script>
@@ -49,7 +49,7 @@
 			<div class="container box_1170 main-menu">
 				<div class="row align-items-center justify-content-between d-flex">
 					<div id="logo">
-						<a href="home"><img src="elements/frontend/img/logo.png" alt="Logo" title="Logo"/></a>
+						<a href="home"><img src="Elements/Frontend/img/logo.png" alt="Logo" title="Logo"/></a>
 					</div>
 					<nav id="nav-menu-container">
 						<ul class="nav-menu">
@@ -152,12 +152,12 @@
 		<!-- SCRIPTS LOADING -->
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
 		
-		<script src="elements/frontend/js/vendor/jquery-2.2.4.min.js"></script>
-		<script src="elements/frontend/js/vendor/bootstrap.min.js"></script>
+		<script src="Elements/Frontend/js/vendor/jquery-2.2.4.min.js"></script>
+		<script src="Elements/Frontend/js/vendor/bootstrap.min.js"></script>
 
-		<script src="elements/frontend/js/superfish.min.js"></script>
-		<script src="elements/frontend/js/owl.carousel.min.js"></script>
-		<script src="elements/frontend/js/main.js"></script>
+		<script src="Elements/Frontend/js/superfish.min.js"></script>
+		<script src="Elements/Frontend/js/owl.carousel.min.js"></script>
+		<script src="Elements/Frontend/js/main.js"></script>
 	</body>
 
 </html>

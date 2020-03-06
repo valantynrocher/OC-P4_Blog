@@ -34,7 +34,7 @@
                                     <p><?= $post[0]->postCreationDateFr() ?></p>
                                 </div>
                                 <div class="d-flex">
-                                    <img src="elements/frontend/img/author/a1.png" alt="Article" title="Article">
+                                    <img src="Elements/Frontend/img/author/a1.png" alt="Article" title="Article">
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                 </div>
 			</div>
 
-			<?php include 'views/frontend/layout/sidebar.php' ?>
+			<?php include 'Views/Frontend/layout/sidebar.php' ?>
 		</div>
 	</div>
 </section>

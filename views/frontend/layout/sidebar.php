@@ -6,7 +6,7 @@
 					</form>
 				</div>
 				<div class="single-widget protfolio-widget">
-					<img class="img-fluid" src="elements/frontend/img/jean-forterouche-about.jpg" alt="About" title="About">
+					<img class="img-fluid" src="Elements/Frontend/img/jean-forterouche-about.jpg" alt="About" title="About">
 					<a href="#">
 						<h4>Jean Forteroche</h4>
 					</a>
