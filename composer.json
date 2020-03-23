@@ -1,0 +1,16 @@
+{
+    "name": "valantyn/jeanforteroche",
+    "description": "P4 Openclassrooms - Blog de Jean Forteroche",
+    "authors": [
+        {
+            "name": "Valentin Rocher",
+            "email": "valentinrocher@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JeanForteroche\\": "\\"
+        }
+    },
+    "require": {}
+}

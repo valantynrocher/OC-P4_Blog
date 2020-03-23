@@ -1,28 +1,77 @@
-<?php 
-require_once 'views/admin/View.php';
+<?php
+namespace JeanForteroche\Controllers\Admin;
 
-class DashboardController
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Views\View;
+use JeanForteroche\Models\PostsManager;
+use JeanForteroche\Models\CommentsManager;
+use JeanForteroche\Models\UsersManager;
+
+class DashboardController extends Controller
 {
-
+    /**
+     * Manager for posts
+     */
     private $postsManager;
+
+    /**
+     * Manager for comments
+     */
     private $commentsManager;
-    private $categoriesManager;
+
+    /**
+     * Manager for users
+     */
     private $usersManager;
-    private $view;
 
     public function __construct()
     {
-        if (isset($url) && count($url) < 1) {
-            throw new \Exception('Page introuvable');
-        } else {
-            $this->dashboard();
-        }
+        $this->postsManager = new PostsManager();
+        $this->commentsManager = new CommentsManager();
+        $this->usersManager = new UsersManager();
     }
 
-    private function dashboard()
+    /**
+     * Action 'index' (default)
+     * Generates view for dashboard page
+     */
+    public function index()
     {
+        // POSTS
+        $lastFivesPublicsPosts = $this->postsManager->getLastFivePublicsPosts();
+        $publicPostsNumber = $this->postsManager->getPublicPostsNumber();
+        $progressPostsNumber = $this->postsManager->getProgressPostsNumber();
 
-        $this->view = new View('dashboard');
-        $this->view->generate(array());
+        // COMMENTS
+        $lastFivePublicsComments = $this->commentsManager->getLastFivePublicsComments();
+        $reportCommentsNumber = $this->commentsManager->getReportCommentsNumber();
+        $waitingCommentsNumber = $this->commentsManager->getWaitingCommentsNumber();
+
+        // CATEGORIES
+        $lastFiveCategories = $this->getCategoryManager()->getLastFiveCategories();
+        $categoriesNumber = $this->getCategoryManager()->getCategoriesNumber();
+
+        // USERS
+        $lastFiveUsers = $this->usersManager->getLastFiveUsers();
+        $adminUsersNumber = $this->usersManager->getAdminUsersNumber();
+        $readerUsersNumber = $this->usersManager->getReaderUsersNumber();
+
+        // VIEW
+        $this->generateView(array(
+            'lastFivesPublicsPosts' => $lastFivesPublicsPosts,
+            'publicPostsNumber' => $publicPostsNumber,
+            'progressPostsNumber' => $progressPostsNumber,
+
+            'lastFivePublicsComments' => $lastFivePublicsComments,
+            'reportCommentsNumber' => $reportCommentsNumber,
+            'waitingCommentsNumber' => $waitingCommentsNumber,
+
+            'lastFiveCategories' => $lastFiveCategories,
+            'categoriesNumber' => $categoriesNumber,
+
+            'lastFiveUsers' => $lastFiveUsers,
+            'adminUsersNumber' => $adminUsersNumber,
+            'readerUsersNumber' => $readerUsersNumber
+        ));
     }
 }

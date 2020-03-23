@@ -1,35 +1,46 @@
 <?php
-require_once 'views/frontend/View.php';
+namespace JeanForteroche\Controllers\Frontend;
 
-class CategoryController
+use JeanForteroche\Views\View;
+use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Models\PostsManager;
+use \Exception;
+
+class CategoryController extends Controller
 {
-
+    /**
+     * Manager for posts
+     */
     private $postsManager;
-    private $categoryManager;
-    private $view;
 
     public function __construct()
     {
-        if (isset($url) && count($url) > 1) {
-            throw new \Exception('Page introuvable', 1);
-        } else {
-            $this->postsCategory();
-        }
+        $this->postsManager = new PostsManager();
     }
 
-    private function postsCategory()
+    /**
+     * Action 'index' (default)
+     * Generates view to show one category with related posts
+     */
+    public function index()
     {
-        if (isset($_GET['cat_id'])) {
-            $this->postsManager = new PostsManager();
-            $postsCategory = $this->postsManager->getCategoryPosts($_GET['cat_id']);
+        if (isset($_GET['categoryId'])) {
+            $categoryId = htmlspecialchars(strip_tags((int)$_GET['categoryId']));
 
-            $this->categoryManager = new CategoryManager();
-            $category = $this->categoryManager->getCategory($_GET['cat_id']);
-            $categories = $this->categoryManager->getCategories();
-
-
-            $this->view = new View('category');
-            $this->view->generate(array('postsCategory' => $postsCategory, 'category' => $category, 'categories' => $categories));
+            if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
+                $posts = $this->postsManager->getPublicPostsByCategory($categoryId);
+                $category = $this->getCategoryManager()->getOneCategory($categoryId);
+        
+                $this->generateView(array(
+                    'posts' => $posts,
+                    'category' => $category,
+                    'categories' => $this->getCategories()
+                ));
+            } else {
+                throw new Exception($this->datasError);
+            }
+        } else {
+            throw new Exception($this->datasError);
         }
     }
 }

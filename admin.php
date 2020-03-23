@@ -1,8 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require 'vendor/autoload.php';
 
-require_once ('controllers/admin/Router.php');
-
-session_start();
-
-$router = new Router();
+$router = new JeanForteroche\Services\Router();
 $router->routeReq();

@@ -1,14 +1,20 @@
 <?php
+namespace JeanForteroche\Models;
 
 class Comment
 {
-
-    private $id;
+    // from comment table
+    private $comment_id;
     private $post_id;
-    private $author;
-    private $comment;
-    private $creation_date_fr;
-    private $report;
+    private $comment_author;
+    private $comment_content;
+    private $comment_creation_date_fr;
+    private $comment_status;
+    private $comment_start_id;
+    private $comment_answer_id;
+    private $comment_answer_content;
+    // from post table
+    private $post_title;
 
     public function __construct(array $data)
     {
@@ -28,15 +34,15 @@ class Comment
     }
 
     // setters
-    public function setId($id)
+    public function setComment_id($comment_id)
     {
-        $id = (int) $id;
-        if ($id > 0) {
-            $this->id = $id;
+        $comment_id = (int) $comment_id;
+        if ($comment_id > 0) {
+            $this->comment_id = $comment_id;
         }
     }
 
-    public function setPostid($post_id)
+    public function setPost_id($post_id)
     {
         $post_id = (int) $post_id;
         if ($post_id > 0) {
@@ -44,37 +50,66 @@ class Comment
         }
     }
 
-    public function setAuthor($author)
+    public function setComment_author($comment_author)
     {
-        if (is_string($author)){
-            $this->author = $author;
+        if (is_string($comment_author)){
+            $this->comment_author = $comment_author;
         }
     }
 
-    public function setComment($comment)
+    public function setComment_content($comment_content)
     {
-        if (is_string($comment)) {
-            $this->comment = $comment;
+        if (is_string($comment_content)) {
+            $this->comment_content = $comment_content;
         }
     }
 
-    public function setCreation_date_fr($creation_date_fr)
+    public function setComment_creation_date_fr($comment_creation_date_fr)
     {
-        $this->creation_date_fr = $creation_date_fr;
+        $this->comment_creation_date_fr = $comment_creation_date_fr;
     }
 
-    public function setReport($report)
+    public function setComment_status($comment_status) {
+        if (is_string($comment_status)) {
+            if ($comment_status === 'report' || $comment_status === 'waiting' || $comment_status === 'public')
+            $this->comment_status = $comment_status;
+        }
+    }
+
+    public function setComment_start_id($comment_start_id)
     {
-        $report = (int) $report;
-        if ($report === 0 || $report === 1) {
-            $this->report = $report;
+        $comment_start_id = (int) $comment_start_id;
+        if ($comment_start_id >= 0) {
+            $this->comment_start_id = $comment_start_id;
+        }
+    }
+
+    public function setComment_answer_id($comment_answer_id)
+    {
+        $comment_answer_id = (int) $comment_answer_id;
+        if ($comment_answer_id > 0) {
+            $this->comment_answer_id = $comment_answer_id;
+        }
+    }
+
+    public function setComment_answer_content($comment_answer_content)
+    {
+        if (is_string($comment_answer_content)) {
+            $this->comment_answer_content = $comment_answer_content;
+        }
+    }
+
+    public function setPost_title($post_title)
+    {
+        if (is_string($post_title)){
+            $this->post_title = $post_title;
         }
     }
 
     // getters
-    public function id()
+    public function commentId()
     {
-        return $this->id;
+        return $this->comment_id;
     }
 
     public function postId()
@@ -82,23 +117,43 @@ class Comment
         return $this->post_id;
     }
 
-    public function author()
+    public function commentAuthor()
     {
-        return $this->author;
+        return $this->comment_author;
     }
 
-    public function comment()
+    public function commentContent()
     {
-        return $this->comment;
+        return $this->comment_content;
     }
 
-    public function creationDateFr()
+    public function commentCreationDateFr()
     {
-        return $this->creation_date_fr;
+        return $this->comment_creation_date_fr;
     }
 
-    public function report()
+    public function commentStatus()
     {
-        return $this->report;
+        return $this->comment_status;
+    }
+
+    public function commentStartId()
+    {
+        return $this->comment_start_id;
+    }
+
+    public function commentAnswerId()
+    {
+        return $this->comment_answer_id;
+    }
+
+    public function commentAnswerContent()
+    {
+        return $this->comment_answer_content;
+    }
+
+    public function postTitle()
+    {
+        return $this->post_title;
     }
 }
