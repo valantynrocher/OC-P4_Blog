@@ -38,12 +38,15 @@ class StaticController extends Controller
     public function email()
     {
         if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
-            Email::contactEmail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
+            $name = stripcslashes(htmlentities($_POST['name']));
+            $email = stripcslashes(htmlentities($_POST['email']));
+            $subject = stripcslashes(htmlentities($_POST['subject']));
+            $message = stripcslashes(htmlentities($_POST['message']));
+            Email::contactEmail($name, $email, $subject, $message);
         } else {
             throw new Exception($this->datasError);
         }
     }
-
 
 
     /**
