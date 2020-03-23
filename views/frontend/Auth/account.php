@@ -27,8 +27,19 @@
  				</div>
 				<div class="card-body row text-center">
 					<div class="col-md-8">
-						<form action="" method="POST" class="form-signin">
+						<form action="auth&action=updateAccount&userId=<?=$_SESSION['user']['id']?>" method="POST" class="form-signin">
 							<h2 class="h3 mb-3 font-weight-normal">Mes informations personnelles</h2>
+
+							<?php if (isset($errorUpdate) && $errorUpdate !== null): ?>
+								<div class="alert alert-danger">
+									<?= $errorUpdate ?>
+								</div>
+							<?php elseif(isset($successUpdate) && $successUpdate !== null): ?>
+								<div class="alert alert-success">
+									<?= $successUpdate ?>
+								</div>
+							<?php endif ?>
+
 							<div class="form-group">
 								<label for="userLastName" class="sr-only">Nom</label>
 								<input type="text" name="lastName" id="userLastName" class="form-control" value="<?= $_SESSION['user']['lastName'] ?>" required autofocus>
@@ -49,8 +60,19 @@
 						</form>
 					</div>
 					<div class="col-md-4">
-						<form action="" method="POST" class="form-signin">
-							<h2 class="h3 mb-3 font-weight-normal">Mon mot de passe</h2>
+						<form action="auth&action=updatePass&userId=<?=$_SESSION['user']['id']?>" method="POST" class="form-signin">
+							<h2 class="h3 mb-3 font-weight-normal">Modifier mon mot de passe</h2>
+
+							<?php if (isset($errorPassMsg) && $errorPassMsg !== null): ?>
+								<div class="alert alert-danger">
+									<?= $errorPassMsg ?>
+								</div>
+							<?php elseif(isset($successPassMsg) && $successPassMsg !== null): ?>
+								<div class="alert alert-success">
+									<?= $successPassMsg ?>
+								</div>
+							<?php endif ?>
+
 							<div class="form-group">
 								<label for="userPassword" class="sr-only">Mot de passe</label>
 								<input type="password" name="password" id="userPassword" class="form-control" placeholder="Votre nouveau mot de passe" required>
@@ -62,9 +84,6 @@
 							<button class="btn btn-warning" type="submit">Enregistrer</button>
 						</form>
 					</div>
-				</div>
-				<div>
-					Dernière connexion : <?= $_SESSION['user']['lastConnexion'] ?>
 				</div>
 			</div>
 		</div>

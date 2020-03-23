@@ -64,26 +64,26 @@
 					</div>
 				</div>
 				<div class="col-lg-8">
-					<form class="form-area " id="contact" action="index.php?url=mail" method="post" class="contact-form text-right">
+					<form class="form-area " id="contact" action="static&action=email" method="post" class="contact-form text-right">
 						<div class="row">
 							<div class="col-lg-6 form-group">
 								<input name="name" placeholder="Votre nom" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre nom'"
-								 class="common-input mb-20 form-control" required="" type="text">
+								 class="common-input mb-20 form-control" required type="text">
 
 								<input name="email" placeholder="Votre e-mail" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
 								 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre e-mail'" class="common-input mb-20 form-control"
 								 required="" type="email">
 
 								<input name="subject" placeholder="Objet" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Objet'"
-								 class="common-input mb-20 form-control" required="" type="text">
+								 class="common-input mb-20 form-control" required type="text">
 							</div>
 							<div class="col-lg-6 form-group">
 								<textarea class="common-textarea form-control" name="message" placeholder="Message" onfocus="this.placeholder = ''"
-								 onblur="this.placeholder = 'Message'" required=""></textarea>
+								 onblur="this.placeholder = 'Message'" required></textarea>
 							</div>
 							<div class="col-lg-12 d-flex justify-content-between">
 								<div class="alert-msg" style="text-align: left;"></div>
-								<button class="genric-btn primary circle text-uppercase" style="float: right;">Envoyer</button>
+								<button class="genric-btn primary circle text-uppercase" style="float: right;" type="submit">Envoyer</button>
 							</div>
 						</div>
 					</form>

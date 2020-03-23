@@ -1,8 +1,8 @@
 <?php
 namespace JeanForteroche\Controllers\Frontend;
 
-use JeanForteroche\Views\View;
 use JeanForteroche\Controllers\Controller;
+use JeanForteroche\Services\Email;
 
 class StaticController extends Controller
 {
@@ -17,8 +17,34 @@ class StaticController extends Controller
      */
     public function contact()
     {
+        // Init alert params
+        $alert = null;
+
+        if (isset($_GET['alert'])) {
+            $alert = htmlspecialchars(strip_tags($_GET['alert']));
+            switch($alert) {
+                
+            }
+        }
+
         $this->generateView(array());
     }
+
+
+    /**
+     * Action 'email'
+     * Send email from contact form
+     */
+    public function email()
+    {
+        if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
+            Email::contactEmail($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message']);
+        } else {
+            throw new Exception($this->datasError);
+        }
+    }
+
+
 
     /**
      * Action 'about'

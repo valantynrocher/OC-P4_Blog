@@ -88,6 +88,7 @@ abstract class Controller {
     return $this->categoryManager;
   }
 
+
   /**
    * Function to get all categories
    */
@@ -96,6 +97,24 @@ abstract class Controller {
     $this->categories = $this->getCategoryManager()->getAllCategories();
     return $this->categories;
   }
+
+  /**
+  * Private function to update datas for Session
+  * when user update his informations
+  */
+  protected function updateSession($user) {
+      $_SESSION['user'] = array(
+          'id' => $user->userId(),
+          'firstName' => $user->userFirstName(),
+          'lastName' => $user->userLastName(),
+          'login' => $user->userLogin(),
+          'email' => $user->userEmail(),
+          'role' => $user->userRole(),
+          'creationDate' => $user->userCreationDateFr(),
+          'lastConnexion' => $user->userLastConnexionDateFr()
+      );
+  }
+
 
   /**
    * Generates the view according to current controller

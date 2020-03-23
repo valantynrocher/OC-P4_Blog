@@ -115,7 +115,7 @@ class UsersManager extends Manager
         $req->closeCursor();
     }
 
-    protected function updateChangedUser($userTable, $userId, $userFirstName, $userLastName, $userLogin, $userEmail, $userRole)
+    protected function updateChangedUser($userTable, $userId, $userFirstName, $userLastName, $userLogin, $userEmail)
     {
         $this->getBdd();
         $req = self::$bdd->prepare(
@@ -123,16 +123,14 @@ class UsersManager extends Manager
             SET user_first_name = :new_user_first_name,
                 user_last_name = :new_user_last_name,
                 user_login = :new_user_login,
-                user_email = :new_user_email,
-                user_role = :new_user_role
+                user_email = :new_user_email
             WHERE user_id = $userId"
         );
         $affectedUser = $req->execute(array(
             'new_user_first_name' => $userFirstName,
             'new_user_last_name' => $userLastName,
             'new_user_login' => $userLogin,
-            'new_user_email' => $userEmail,
-            'new_user_role' => $userRole
+            'new_user_email' => $userEmail
         ));
 
         return $affectedUser;
@@ -289,9 +287,9 @@ class UsersManager extends Manager
         return $this->selectOneUser($this->userTable, $this->userObject, $userId);
     }
 
-    public function setChangedUser($userId, $userFirstName, $userLastName, $userLogin, $userEmail, $userRole)
+    public function setChangedUser($userId, $userFirstName, $userLastName, $userLogin, $userEmail)
     {
-        return $this->updateChangedUser($this->userTable, $userId, $userFirstName, $userLastName, $userLogin, $userEmail, $userRole);
+        return $this->updateChangedUser($this->userTable, $userId, $userFirstName, $userLastName, $userLogin, $userEmail);
     }
 
     public function setUserDeleted($userId)

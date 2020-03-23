@@ -110,7 +110,7 @@ class PostsController extends Controller
             $postRank = htmlspecialchars(strip_tags((int)$_POST['postRank']));
             $categoryId = htmlspecialchars(strip_tags((int)$_POST['categoryId']));
             $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
-            $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
+            $postContent = $_POST['postContent'];
             $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));
 
             if (filter_var($categoryId, FILTER_VALIDATE_INT)) {
@@ -142,7 +142,7 @@ class PostsController extends Controller
             $postRank = htmlspecialchars(strip_tags((int)$_POST['postRank']));
             $categoryId = htmlspecialchars(strip_tags((int)$_POST['categoryId']));
             $postTitle = htmlspecialchars(strip_tags($_POST['postTitle']));
-            $postContent = htmlspecialchars(strip_tags($_POST['postContent']));
+            $postContent = $_POST['postContent'];
             $postStatus = htmlspecialchars(strip_tags($_POST['postStatus']));
 
             if (filter_var($postId, FILTER_VALIDATE_INT))

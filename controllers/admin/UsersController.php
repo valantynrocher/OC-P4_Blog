@@ -116,15 +116,15 @@ class UsersController extends Controller
         }
         $this->generateView(array(
             'errorInfosMsg' => $errorInfosMsg,
-            'errorPassMsg' => $errorPassMsg,
             'successInfosMsg' => $successInfosMsg,
+            'errorPassMsg' => $errorPassMsg,
             'successPassMsg' => $successPassMsg
         ));
     }
 
     /**
-     * Action 'account'
-     * Generates the view for user's connected account edition
+     * Action 'updateAccount'
+     * Update account informations for connected user
      */
     public function updateAccount()
     {
@@ -134,10 +134,9 @@ class UsersController extends Controller
             $lastName = htmlspecialchars(strip_tags($_POST['lastName']));
             $login = htmlspecialchars(strip_tags($_POST['login']));
             $email = htmlspecialchars(strip_tags($_POST['email']));
-            $role = htmlspecialchars(strip_tags($_POST['role']));
 
             if (filter_var($userId, FILTER_VALIDATE_INT)) {
-                $affectedUser = $this->usersManager->setChangedUser($userId, $firstName, $lastName, $login, $email, $role);
+                $affectedUser = $this->usersManager->setChangedUser($userId, $firstName, $lastName, $login, $email);
                 $updatedAccount = $this->usersManager->getOneUser($userId);
                 $this->updateSession($updatedAccount[0]);
 
@@ -156,23 +155,6 @@ class UsersController extends Controller
         }
     }
 
-
-    /**
-     * Private function to update datas for Session
-     * when user update his informations
-     */
-    private function updateSession($user) {
-        $_SESSION['user'] = array(
-            'id' => $user->userId(),
-            'firstName' => $user->userFirstName(),
-            'lastName' => $user->userLastName(),
-            'login' => $user->userLogin(),
-            'email' => $user->userEmail(),
-            'role' => $user->userRole(),
-            'creationDate' => $user->userCreationDateFr(),
-            'lastConnexion' => $user->userLastConnexionDateFr()
-        );
-    }
 
     /**
      * Action 'insert'
@@ -276,10 +258,10 @@ class UsersController extends Controller
         }
     }
 
+    
     /**
      * Action 'updatePass'
      * Call Users Manager to change password of connected user
-     * Redirect on 
      */
     public function updatePass()
     {
@@ -310,6 +292,7 @@ class UsersController extends Controller
             throw new Exception($this->datasError);
         }
     }
+
 
     /**
      * Check if user already exist

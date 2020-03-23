@@ -120,7 +120,7 @@ class AuthController extends Controller
     /**
      * Redirect user according to the role
      */
-    public function redirectConnectedUser($userRole)
+    private function redirectConnectedUser($userRole)
     {
         if ($userRole === 'admin') {
             header('Location: admin.php?url=dashboard');
@@ -176,6 +176,7 @@ class AuthController extends Controller
 
     }
 
+
     /**
      * Action 'account'
      * If user already connected, generates view for user account
@@ -183,13 +184,114 @@ class AuthController extends Controller
      */
     public function account()
     {
+        // Init alert params
+        $alert = null;
+        $errorUpdate = null;
+        $successUpdate = null;
+        $errorPassMsg = null;
+        $passSuccess = null;
+
         if (Login::isConnected()) {
-            $this->generateView(array());
+            if (isset($_GET['alert'])) {
+                $alert = htmlspecialchars(strip_tags($_GET['alert']));
+                switch($alert) {
+                    case 'errorUpdate':
+                        $errorUpdate = 'Impossible de mettre à jour l\'utilisateur';
+                        break;
+                    case 'successUpdate':
+                        $successUpdate = 'Vos informations ont bien été mises à jour.';
+                        break;
+                    case 'passUpdateError':
+                        $errorPassMsg = 'Impossible de mettre à jour votre mot de passe.';
+                        break;
+                    case 'passSuccess':
+                        $passSuccess = 'Votre mot de passe a bien été modifié.';
+                        break;
+                    case 'passError':
+                        $errorPassMsg = 'Les mots de passe saisis ne sont pas identiques.';
+                        break;
+                }
+            }
+            $this->generateView(array(
+                'errorUpdate' => $errorUpdate,
+                'successUpdate' => $successUpdate,
+                'errorPassMsg' => $errorPassMsg,
+                'passSuccess' => $passSuccess
+            ));
         } else {
             $this->index();
         }
-
     }
+
+
+    /**
+     * Action 'updateAccount'
+     * Update account informations for connected user
+     */
+    public function updateAccount()
+    {
+        if (isset($_GET['userId']) && isset($_POST['login']) && isset($_POST['email'])) { 
+            $userId = htmlspecialchars(strip_tags((int)$_GET['userId']));
+            $firstName = htmlspecialchars(strip_tags($_POST['firstName']));
+            $lastName = htmlspecialchars(strip_tags($_POST['lastName']));
+            $login = htmlspecialchars(strip_tags($_POST['login']));
+            $email = htmlspecialchars(strip_tags($_POST['email']));
+
+            if (filter_var($userId, FILTER_VALIDATE_INT)) {
+                $affectedUser = $this->usersManager->setChangedUser($userId, $firstName, $lastName, $login, $email);
+                $updatedAccount = $this->usersManager->getOneUser($userId);
+                $this->updateSession($updatedAccount[0]);
+
+                if($affectedUser === false) {
+                    header('Location: auth&action=account&alert=errorUpdate');
+                    exit();
+                } else  {
+                    header('Location: auth&action=account&alert=successUpdate');
+                    exit();
+                }
+            } else {
+                throw new Exception($this->datasError);
+            }
+        } else {
+            throw new Exception($this->datasError);
+        }
+    }
+
+
+    /**
+     * Action 'updatePass'
+     * Call Users Manager to change password of connected user
+     */
+    public function updatePass()
+    {
+        if (isset($_GET['userId']) && isset($_POST['password']) && isset($_POST['passwordConfirm'])) {
+            $userId = htmlspecialchars(strip_tags((int)$_GET['userId']));
+            $userPassword = htmlspecialchars(strip_tags($_POST['password']));
+
+            if (filter_var($userId, FILTER_VALIDATE_INT)) {
+                if ($userPassword === $_POST['passwordConfirm']) {
+                    $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
+                    $affectedUser = $this->usersManager->setNewPasswordUser($_GET['userId'], $hashPassword);
+        
+                    if($affectedUser === false) {
+                        header('Location: auth&action=account&alert=passUpdateError');
+                        exit();
+                    } else  {
+                        header('Location: auth&action=account&alert=passSuccess');
+                        exit();
+                    }
+                } else {
+                    header('Location: auth&action=account&alert=passError');
+                    exit();
+                }
+            } else {
+                throw new Exception($this->datasError);
+            }
+        } else {
+            throw new Exception($this->datasError);
+        }
+    }
+
 
     /**
      * Action 'logout'
@@ -205,6 +307,7 @@ class AuthController extends Controller
         exit();
     }
 
+    
     /**
      * Check if user already exist
      * Useful when a user try to login or
